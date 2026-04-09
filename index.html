@@ -694,6 +694,173 @@
     .level-tabs { margin-bottom: 16px; }
     .ltab-btn { display: inline-flex; align-items: center; gap: 5px; }
 
+    /* ═══════════════════════════════════════
+       MULTI-VIEW NAVIGATION SYSTEM
+    ═══════════════════════════════════════ */
+    .view { display: none; }
+    .view.active { display: block; animation: fadeInUp .28s ease; }
+
+    /* ── HOME: Level card grid ── */
+    .lvl-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+    .lvl-grid.cols3 { grid-template-columns: repeat(3, 1fr); }
+    .lvl-card {
+      position: relative; border-radius: var(--radius); overflow: hidden;
+      cursor: pointer; aspect-ratio: 2/3; background: var(--bg3);
+      transition: transform .2s cubic-bezier(0.34,1.56,0.64,1), box-shadow .2s;
+    }
+    .lvl-card:hover { transform: scale(1.03); box-shadow: 0 14px 36px rgba(0,0,0,0.6); }
+    .lvl-card img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .lvl-card-ov {
+      position: absolute; inset: 0;
+      background: linear-gradient(0deg, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.15) 55%, transparent 100%);
+      display: flex; flex-direction: column; justify-content: flex-end; padding: 12px;
+    }
+    .lvl-card-cat {
+      font-size: 8px; font-weight: 700; color: rgba(255,255,255,0.5);
+      text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 3px;
+      font-family: 'Montserrat', sans-serif;
+    }
+    .lvl-card-name {
+      font-size: 16px; font-weight: 900; color: var(--primary);
+      text-transform: uppercase; letter-spacing: .5px; line-height: 1.1;
+      font-family: 'Montserrat', sans-serif;
+      text-shadow: 0 0 20px rgba(184,208,0,0.4);
+    }
+    .lvl-dots { display: flex; gap: 4px; margin-top: 8px; }
+    .lvl-dot { width: 16px; height: 4px; border-radius: 2px; background: rgba(255,255,255,0.18); }
+    .lvl-dot.on { background: var(--primary); }
+
+    /* ── COURSE / LEVEL PAGE ── */
+    .course-page { min-height: 100vh; padding-bottom: 60px; }
+    .course-hero { position: relative; height: 300px; overflow: hidden; }
+    .course-hero img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .course-hero-ov {
+      position: absolute; inset: 0;
+      background: linear-gradient(0deg, var(--bg) 0%, rgba(12,12,12,.1) 60%, transparent 100%);
+    }
+    .course-back {
+      position: absolute; top: 16px; left: 16px; z-index: 2;
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(0,0,0,0.65); backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.12); border-radius: 24px;
+      padding: 9px 18px; color: #fff; font-size: 13px; font-weight: 700;
+      cursor: pointer; font-family: 'Montserrat', sans-serif; transition: background .2s;
+      text-decoration: none;
+    }
+    .course-back:hover { background: rgba(255,255,255,0.16); }
+    .course-body { padding: 4px 20px 0; position: relative; }
+    .course-badge-pill {
+      display: inline-block; background: linear-gradient(135deg,#b8d000,#96aa00);
+      color: #000; font-size: 10px; font-weight: 800; padding: 4px 14px;
+      border-radius: 5px; text-transform: uppercase; letter-spacing: .8px;
+      margin-bottom: 12px; font-family: 'Montserrat', sans-serif;
+    }
+    .course-ttl {
+      font-size: 26px; font-weight: 900; line-height: 1.18; margin-bottom: 10px;
+      font-family: 'Montserrat', sans-serif;
+    }
+    .course-dsc {
+      font-size: 13px; color: rgba(255,255,255,0.58); line-height: 1.65;
+      margin-bottom: 28px; font-family: 'Inter', sans-serif;
+    }
+    .playlist-hd {
+      font-size: 16px; font-weight: 800; margin-bottom: 14px;
+      font-family: 'Montserrat', sans-serif;
+      border-left: 3px solid var(--primary); padding-left: 12px;
+    }
+    .wk-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .wk-card {
+      position: relative; border-radius: var(--radius); overflow: hidden;
+      cursor: pointer; aspect-ratio: 1; background: var(--bg3);
+      transition: transform .22s cubic-bezier(0.34,1.56,0.64,1), box-shadow .22s;
+    }
+    .wk-card:hover { transform: scale(1.04); box-shadow: 0 14px 36px rgba(0,0,0,0.55); }
+    .wk-card img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .wk-card-ov {
+      position: absolute; inset: 0;
+      background: linear-gradient(0deg, rgba(0,0,0,0.9) 0%, transparent 55%);
+      display: flex; flex-direction: column; justify-content: flex-end; padding: 12px;
+    }
+    .wk-play { width: 34px; height: 34px; border-radius: 50%; flex-shrink: 0; margin-bottom: 6px;
+      background: linear-gradient(135deg,#b8d000,#96aa00); display: flex; align-items: center;
+      justify-content: center; color: #000; font-size: 12px; box-shadow: 0 4px 14px rgba(184,208,0,.35); }
+    .wk-tag { font-size: 9px; color: rgba(255,255,255,0.45); text-transform: uppercase;
+      letter-spacing: .8px; font-family: 'Inter', sans-serif; }
+    .wk-ttl { font-size: 13px; font-weight: 800; color: #fff; line-height: 1.2; margin-top: 2px;
+      font-family: 'Montserrat', sans-serif; }
+    .wk-intro-badge {
+      position: absolute; top: 10px; left: 10px;
+      background: rgba(0,0,0,0.75); border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 6px; padding: 4px 10px; font-size: 9px; font-weight: 700;
+      color: rgba(255,255,255,0.75); text-transform: uppercase; letter-spacing: .8px;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    /* ── EXERCISE LIST PAGE ── */
+    .ex-page { min-height: 100vh; padding-bottom: 60px; }
+    .ex-page-hd {
+      background: var(--bg2); padding: 20px 20px 24px;
+      border-bottom: 1px solid var(--border);
+    }
+    .ex-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      color: rgba(255,255,255,0.65); font-size: 13px; font-weight: 700;
+      cursor: pointer; margin-bottom: 16px;
+      font-family: 'Montserrat', sans-serif; transition: color .2s;
+    }
+    .ex-back:hover { color: var(--primary); }
+    .ex-badge {
+      display: inline-block; background: linear-gradient(135deg,#b8d000,#96aa00);
+      color: #000; font-size: 9px; font-weight: 800; padding: 3px 10px;
+      border-radius: 4px; text-transform: uppercase; letter-spacing: .8px;
+      margin-bottom: 8px; font-family: 'Montserrat', sans-serif;
+    }
+    .ex-hd-title { font-size: 20px; font-weight: 900; font-family: 'Montserrat', sans-serif; }
+    .ex-list-wrap { padding: 20px 20px 10px; }
+    .ex-sub { font-size: 11px; color: rgba(255,255,255,0.35); text-transform: uppercase;
+      letter-spacing: 1px; margin-bottom: 4px; font-family: 'Inter', sans-serif; }
+    .ex-playlist-name { font-size: 13px; font-weight: 700; color: rgba(255,255,255,0.7);
+      margin-bottom: 20px; font-family: 'Montserrat', sans-serif; }
+    .ex-item {
+      display: flex; gap: 14px; align-items: center; padding: 10px 8px;
+      border-radius: 10px; cursor: pointer; transition: background .15s;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    .ex-item:hover { background: rgba(255,255,255,0.04); }
+    .ex-item:last-child { border-bottom: none; }
+    .ex-thumb {
+      width: 110px; flex-shrink: 0; aspect-ratio: 16/9;
+      border-radius: 8px; overflow: hidden; background: var(--bg3);
+    }
+    .ex-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .ex-info { flex: 1; min-width: 0; }
+    .ex-num { font-size: 10px; color: var(--primary); font-weight: 700;
+      margin-bottom: 4px; font-family: 'Inter', sans-serif; }
+    .ex-name { font-size: 14px; font-weight: 700; color: #f0f0f0; line-height: 1.3;
+      font-family: 'Montserrat', sans-serif; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .ex-sets { font-size: 11px; color: rgba(255,255,255,0.38); margin-top: 4px;
+      font-family: 'Inter', sans-serif; }
+    .ex-play-btn {
+      width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0;
+      background: rgba(184,208,0,0.1); border: 1px solid rgba(184,208,0,0.22);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--primary); font-size: 11px; cursor: pointer; transition: background .18s;
+    }
+    .ex-play-btn:hover { background: rgba(184,208,0,0.25); }
+
+    @media(max-width:480px){
+      .lvl-card-name { font-size: 13px; }
+      .course-ttl { font-size: 21px; }
+      .ex-thumb { width: 88px; }
+      .ex-name { font-size: 13px; }
+      .wk-ttl { font-size: 12px; }
+    }
+
     /* VIDEO CARD */
     .vc {
       flex: 0 0 clamp(175px, 22vw, 250px);
@@ -1202,351 +1369,237 @@
   </section>
 
   <!-- ═══ CONTEÚDO ═══ -->
-  <main class="content">
+  <main>
 
-    <!-- Continuar assistindo -->
-    <section class="section">
-      <div class="sec-head"><div><div class="sec-title-wrap"><span class="sec-icon">▶</span><h2 class="sec-title">Continuar assistindo</h2></div></div></div>
-      <div class="row-wrap">
-        <button class="sbtn sp" onclick="scrollR('rca',-1)">‹</button>
-        <div class="row" id="rca">
-          <div class="vc" onclick="openModal('https://images.unsplash.com/photo-1599058945522-28d584b6f0ff?w=800&q=80','Treinos em Casa','Full Body sem Equipamento','28 min · Iniciante')">
-            <div class="cth"><img src="https://images.unsplash.com/photo-1599058945522-28d584b6f0ff?w=480&q=75" alt="" loading="lazy"/><div class="cov"><div class="pcircle">▶</div></div><span class="cdur">28:00</span><div class="cprog"><div class="cprogbar" style="width:40%"></div></div></div>
-            <div class="cinfo"><div class="cseries">Treinos em Casa</div><div class="ctitle">Full Body sem Equipamento</div><div class="cmeta">28 min · Iniciante</div></div>
-          </div>
-          <div class="vc" onclick="openModal('https://images.unsplash.com/photo-1549060279-7e168fcee0c2?w=800&q=80','Treino na Academia','Ficha Iniciante – Pernas','45 min · Academia')">
-            <div class="cth"><img src="https://images.unsplash.com/photo-1549060279-7e168fcee0c2?w=480&q=75" alt="" loading="lazy"/><div class="cov"><div class="pcircle">▶</div></div><span class="cdur">45:00</span><div class="cprog"><div class="cprogbar" style="width:70%"></div></div></div>
-            <div class="cinfo"><div class="cseries">Treino na Academia</div><div class="ctitle">Ficha Iniciante – Pernas</div><div class="cmeta">45 min · Academia</div></div>
-          </div>
-          <div class="vc" onclick="openModal('https://images.unsplash.com/photo-1552674605-db6ffd4facb5?w=800&q=80','Aeróbico / Cardio','Corrida Intervalada 5km','30 min · Médio')">
-            <div class="cth"><img src="https://images.unsplash.com/photo-1552674605-db6ffd4facb5?w=480&q=75" alt="" loading="lazy"/><div class="cov"><div class="pcircle">▶</div></div><span class="cdur">30:00</span><div class="cprog"><div class="cprogbar" style="width:55%"></div></div></div>
-            <div class="cinfo"><div class="cseries">Aeróbico / Cardio</div><div class="ctitle">Corrida Intervalada 5km</div><div class="cmeta">30 min · Médio</div></div>
-          </div>
-          <div class="vc" onclick="openModal('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800&q=80','Treinos em Casa','Glúteos Tonificados','35 min · Iniciante')">
-            <div class="cth"><img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=480&q=75" alt="" loading="lazy"/><div class="cov"><div class="pcircle">▶</div></div><span class="cdur">35:00</span><div class="cprog"><div class="cprogbar" style="width:80%"></div></div></div>
-            <div class="cinfo"><div class="cseries">Treinos em Casa</div><div class="ctitle">Glúteos Tonificados</div><div class="cmeta">35 min · Iniciante</div></div>
-          </div>
-          <div class="vc" onclick="openModal('https://images.unsplash.com/photo-1498837167922-ddd27525d352?w=800&q=80','Receitas pra Secar','Bowl Proteico Detox','10 min · Iniciante')">
-            <div class="cth"><img src="https://images.unsplash.com/photo-1498837167922-ddd27525d352?w=480&q=75" alt="" loading="lazy"/><div class="cov"><div class="pcircle">▶</div></div><span class="cdur">10:00</span><div class="cprog"><div class="cprogbar" style="width:20%"></div></div></div>
-            <div class="cinfo"><div class="cseries">Receitas pra Secar</div><div class="ctitle">Bowl Proteico Detox</div><div class="cmeta">10 min · Iniciante</div></div>
-          </div>
-          <div class="vc" onclick="openModal('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&q=80','Treinos em Casa','Core e Abdômen','30 min · Intermediário')">
-            <div class="cth"><img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=480&q=75" alt="" loading="lazy"/><div class="cov"><div class="pcircle">▶</div></div><span class="cdur">30:00</span><div class="cprog"><div class="cprogbar" style="width:60%"></div></div></div>
-            <div class="cinfo"><div class="cseries">Treinos em Casa</div><div class="ctitle">Core e Abdômen</div><div class="cmeta">30 min · Intermediário</div></div>
-          </div>
-        </div>
-        <button class="sbtn sn" onclick="scrollR('rca',1)">›</button>
-      </div>
-    </section>
+  <!-- ═══ VIEW: HOME ═══ -->
+  <div id="view-home" class="view active">
+    <div class="content">
 
-    <!-- ══════════════════════════════════════
-         🏠 TREINOS EM CASA
-         IDs dos cards: data-level="iniciante|intermediario|avancado"
-         Filtro: filterSection('sec-casa', level, btn)
-    ═══════════════════════════════════════ -->
-    <section class="section" id="sec-casa">
-      <div class="sec-head">
-        <div>
-          <div class="sec-title-wrap"><span class="sec-icon">🏠</span><h2 class="sec-title">Treinos em Casa</h2></div>
-          <p class="sec-sub">Do iniciante ao avançado — sem academia, sem desculpas!</p>
+      <!-- Continuar assistindo -->
+      <section class="section">
+        <div class="sec-head"><div><div class="sec-title-wrap"><span class="sec-icon">▶</span><h2 class="sec-title">Continuar assistindo</h2></div></div></div>
+        <div class="row-wrap">
+          <button class="sbtn sp" onclick="scrollR('rca',-1)">‹</button>
+          <div class="row" id="rca">
+            <div class="vc" onclick="openModal('https://images.unsplash.com/photo-1599058945522-28d584b6f0ff?w=800&q=80','Treinos em Casa','Full Body sem Equipamento','28 min · Iniciante')">
+              <div class="cth"><img src="https://images.unsplash.com/photo-1599058945522-28d584b6f0ff?w=480&q=75" alt="" loading="lazy"/><div class="cov"><div class="pcircle">▶</div></div><span class="cdur">28:00</span><div class="cprog"><div class="cprogbar" style="width:40%"></div></div></div>
+              <div class="cinfo"><div class="cseries">Treinos em Casa</div><div class="ctitle">Full Body sem Equipamento</div><div class="cmeta">28 min · Iniciante</div></div>
+            </div>
+            <div class="vc" onclick="openModal('https://images.unsplash.com/photo-1549060279-7e168fcee0c2?w=800&q=80','Treino na Academia','Ficha Iniciante – Pernas','45 min · Academia')">
+              <div class="cth"><img src="https://images.unsplash.com/photo-1549060279-7e168fcee0c2?w=480&q=75" alt="" loading="lazy"/><div class="cov"><div class="pcircle">▶</div></div><span class="cdur">45:00</span><div class="cprog"><div class="cprogbar" style="width:70%"></div></div></div>
+              <div class="cinfo"><div class="cseries">Treino na Academia</div><div class="ctitle">Ficha Iniciante – Pernas</div><div class="cmeta">45 min · Academia</div></div>
+            </div>
+            <div class="vc" onclick="openModal('https://images.unsplash.com/photo-1552674605-db6ffd4facb5?w=800&q=80','Aeróbico / Cardio','Corrida Intervalada 5km','30 min · Médio')">
+              <div class="cth"><img src="https://images.unsplash.com/photo-1552674605-db6ffd4facb5?w=480&q=75" alt="" loading="lazy"/><div class="cov"><div class="pcircle">▶</div></div><span class="cdur">30:00</span><div class="cprog"><div class="cprogbar" style="width:55%"></div></div></div>
+              <div class="cinfo"><div class="cseries">Aeróbico / Cardio</div><div class="ctitle">Corrida Intervalada 5km</div><div class="cmeta">30 min · Médio</div></div>
+            </div>
+            <div class="vc" onclick="openModal('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800&q=80','Treinos em Casa','Glúteos Tonificados','35 min · Iniciante')">
+              <div class="cth"><img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=480&q=75" alt="" loading="lazy"/><div class="cov"><div class="pcircle">▶</div></div><span class="cdur">35:00</span><div class="cprog"><div class="cprogbar" style="width:80%"></div></div></div>
+              <div class="cinfo"><div class="cseries">Treinos em Casa</div><div class="ctitle">Glúteos Tonificados</div><div class="cmeta">35 min · Iniciante</div></div>
+            </div>
+            <div class="vc" onclick="openModal('https://images.unsplash.com/photo-1498837167922-ddd27525d352?w=800&q=80','Receitas pra Secar','Bowl Proteico Detox','10 min · Iniciante')">
+              <div class="cth"><img src="https://images.unsplash.com/photo-1498837167922-ddd27525d352?w=480&q=75" alt="" loading="lazy"/><div class="cov"><div class="pcircle">▶</div></div><span class="cdur">10:00</span><div class="cprog"><div class="cprogbar" style="width:20%"></div></div></div>
+              <div class="cinfo"><div class="cseries">Receitas pra Secar</div><div class="ctitle">Bowl Proteico Detox</div><div class="cmeta">10 min · Iniciante</div></div>
+            </div>
+          </div>
+          <button class="sbtn sn" onclick="scrollR('rca',1)">›</button>
         </div>
-        <a class="sec-link" href="#" onclick="showToast('📺 Vendo todos os treinos em casa!');return false;">Ver tudo →</a>
-      </div>
-      <div class="level-tabs">
-        <button class="ltab-btn active" onclick="filterSection('sec-casa','all',this)">🔁 Todos</button>
-        <button class="ltab-btn" onclick="filterSection('sec-casa','iniciante',this)">🌱 Iniciante</button>
-        <button class="ltab-btn" onclick="filterSection('sec-casa','intermediario',this)">🔥 Intermediário</button>
-        <button class="ltab-btn" onclick="filterSection('sec-casa','avancado',this)">⚡ Avançado</button>
-      </div>
-      <div class="row-wrap">
-        <button class="sbtn sp" onclick="scrollR('rch',-1)">‹</button>
-        <div class="row" id="rch">
-          <div class="vc" data-level="iniciante" onclick="openModal('https://images.unsplash.com/photo-1599058945522-28d584b6f0ff?w=800&q=80','Treinos em Casa','Full Body sem Equipamento','28 min · Iniciante')">
-            <div class="cth"><img src="https://images.unsplash.com/photo-1599058945522-28d584b6f0ff?w=480&q=75" alt="" loading="lazy"/><div class="cov"><div class="pcircle">▶</div></div><span class="cbadge">Iniciante</span><div class="cprog"><div class="cprogbar" style="width:0%"></div></div></div>
-            <div class="cinfo"><div class="cseries">Treinos em Casa</div><div class="ctitle">Full Body sem Equipamento</div><div class="cmeta">28 min</div></div>
-          </div>
-          <div class="vc" data-level="iniciante" onclick="openModal('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800&q=80','Treinos em Casa','Glúteos Tonificados','35 min · Iniciante')">
-            <div class="cth"><img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=480&q=75" alt="" loading="lazy"/><div class="cov"><div class="pcircle">▶</div></div><span class="cbadge">Iniciante</span><div class="cprog"><div class="cprogbar" style="width:0%"></div></div></div>
-            <div class="cinfo"><div class="cseries">Treinos em Casa</div><div class="ctitle">Glúteos Tonificados</div><div class="cmeta">35 min</div></div>
-          </div>
-          <div class="vc" data-level="iniciante" onclick="openModal('https://images.unsplash.com/photo-1605296867304-46d5465a13f1?w=800&q=80','Treinos em Casa','Mobilidade Articular','20 min · Iniciante')">
-            <div class="cth"><img src="https://images.unsplash.com/photo-1605296867304-46d5465a13f1?w=480&q=75" alt="" loading="lazy"/><div class="cov"><div class="pcircle">▶</div></div><span class="cbadge">Iniciante</span><div class="cprog"><div class="cprogbar" style="width:0%"></div></div></div>
-            <div class="cinfo"><div class="cseries">Treinos em Casa</div><div class="ctitle">Mobilidade Articular</div><div class="cmeta">20 min</div></div>
-          </div>
-          <div class="vc" data-level="intermediario" onclick="openModal('https://images.unsplash.com/photo-1518611012118-696072aa579a?w=800&q=80','Treinos em Casa','Força com Halteres','42 min · Intermediário')">
-            <div class="cth"><img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?w=480&q=75" alt="" loading="lazy"/><div class="cov"><div class="pcircle">▶</div></div><span class="cbadge">Intermediário</span><div class="cprog"><div class="cprogbar" style="width:0%"></div></div></div>
-            <div class="cinfo"><div class="cseries">Treinos em Casa</div><div class="ctitle">Força com Halteres</div><div class="cmeta">42 min</div></div>
-          </div>
-          <div class="vc" data-level="intermediario" onclick="openModal('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&q=80','Treinos em Casa','Core e Abdômen','30 min · Intermediário')">
-            <div class="cth"><img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=480&q=75" alt="" loading="lazy"/><div class="cov"><div class="pcircle">▶</div></div><span class="cbadge">Intermediário</span><div class="cprog"><div class="cprogbar" style="width:0%"></div></div></div>
-            <div class="cinfo"><div class="cseries">Treinos em Casa</div><div class="ctitle">Core e Abdômen</div><div class="cmeta">30 min</div></div>
-          </div>
-          <div class="vc" data-level="intermediario" onclick="openModal('https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?w=800&q=80','Treinos em Casa','Prancha com Rotação','25 min · Intermediário')">
-            <div class="cth"><img src="https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?w=480&q=75" alt="" loading="lazy"/><div class="cov"><div class="pcircle">▶</div></div><span class="cbadge">Intermediário</span><div class="cprog"><div class="cprogbar" style="width:0%"></div></div></div>
-            <div class="cinfo"><div class="cseries">Treinos em Casa</div><div class="ctitle">Prancha com Rotação</div><div class="cmeta">25 min</div></div>
-          </div>
-          <div class="vc" data-level="avancado" onclick="openModal('https://images.unsplash.com/photo-1552674605-db6ffd4facb5?w=800&q=80','Treinos em Casa','HIIT Queima Total','25 min · Avançado')">
-            <div class="cth"><img src="https://images.unsplash.com/photo-1552674605-db6ffd4facb5?w=480&q=75" alt="" loading="lazy"/><div class="cov"><div class="pcircle">▶</div></div><span class="cbadge">Avançado</span><div class="cprog"><div class="cprogbar" style="width:0%"></div></div></div>
-            <div class="cinfo"><div class="cseries">Treinos em Casa</div><div class="ctitle">HIIT Queima Total</div><div class="cmeta">25 min</div></div>
-          </div>
-          <div class="vc" data-level="avancado" onclick="openModal('https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=800&q=80','Treinos em Casa','Circuito Explosivo','40 min · Avançado')">
-            <div class="cth"><img src="https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=480&q=75" alt="" loading="lazy"/><div class="cov"><div class="pcircle">▶</div></div><span class="cbadge">Avançado</span><div class="cprog"><div class="cprogbar" style="width:0%"></div></div></div>
-            <div class="cinfo"><div class="cseries">Treinos em Casa</div><div class="ctitle">Circuito Explosivo</div><div class="cmeta">40 min</div></div>
-          </div>
-          <div class="vc" data-level="avancado" onclick="openModal('https://images.unsplash.com/photo-1607962837359-5e7e89f86776?w=800&q=80','Treinos em Casa','Treino Metabólico Intenso','35 min · Avançado')">
-            <div class="cth"><img src="https://images.unsplash.com/photo-1607962837359-5e7e89f86776?w=480&q=75" alt="" loading="lazy"/><div class="cov"><div class="pcircle">▶</div></div><span class="cbadge">Avançado</span><div class="cprog"><div class="cprogbar" style="width:0%"></div></div></div>
-            <div class="cinfo"><div class="cseries">Treinos em Casa</div><div class="ctitle">Treino Metabólico Intenso</div><div class="cmeta">35 min</div></div>
-          </div>
-        </div>
-        <button class="sbtn sn" onclick="scrollR('rch',1)">›</button>
-      </div>
-    </section>
+      </section>
 
-    <!-- ══════════════════════════════════════
-         💪 TREINO NA ACADEMIA
-    ═══════════════════════════════════════ -->
-    <section class="section" id="sec-acad">
-      <div class="sec-head">
-        <div>
-          <div class="sec-title-wrap"><span class="sec-icon">💪</span><h2 class="sec-title">Treino na Academia</h2></div>
-          <p class="sec-sub">Fichas completas para cada grupo muscular e objetivo</p>
-        </div>
-        <a class="sec-link" href="#" onclick="showToast('📺 Vendo todos os treinos!');return false;">Ver tudo →</a>
-      </div>
-      <div class="level-tabs">
-        <button class="ltab-btn active" onclick="filterSection('sec-acad','all',this)">🔁 Todos</button>
-        <button class="ltab-btn" onclick="filterSection('sec-acad','iniciante',this)">🌱 Iniciante</button>
-        <button class="ltab-btn" onclick="filterSection('sec-acad','intermediario',this)">🔥 Intermediário</button>
-        <button class="ltab-btn" onclick="filterSection('sec-acad','avancado',this)">⚡ Avançado</button>
-      </div>
-      <div class="row-wrap">
-        <button class="sbtn sp" onclick="scrollR('rac',-1)">‹</button>
-        <div class="row" id="rac">
-          <div class="vc" data-level="iniciante" onclick="openModal('https://images.unsplash.com/photo-1549060279-7e168fcee0c2?w=800&q=80','Treino na Academia','Ficha Full Body – Iniciante','45 min · Iniciante')">
-            <div class="cth"><img src="https://images.unsplash.com/photo-1549060279-7e168fcee0c2?w=480&q=75" alt="" loading="lazy"/><div class="cov"><div class="pcircle">▶</div></div><span class="cbadge">Iniciante</span><div class="cprog"><div class="cprogbar" style="width:0%"></div></div></div>
-            <div class="cinfo"><div class="cseries">Treino na Academia</div><div class="ctitle">Ficha Full Body – Iniciante</div><div class="cmeta">45 min</div></div>
-          </div>
-          <div class="vc" data-level="iniciante" onclick="openModal('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&q=80','Treino na Academia','Braços: Bíceps & Tríceps','40 min · Iniciante')">
-            <div class="cth"><img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=480&q=75" alt="" loading="lazy"/><div class="cov"><div class="pcircle">▶</div></div><span class="cbadge">Iniciante</span><div class="cprog"><div class="cprogbar" style="width:0%"></div></div></div>
-            <div class="cinfo"><div class="cseries">Treino na Academia</div><div class="ctitle">Braços: Bíceps & Tríceps</div><div class="cmeta">40 min</div></div>
-          </div>
-          <div class="vc" data-level="iniciante" onclick="openModal('https://images.unsplash.com/photo-1616279969862-a463f5d9b8a7?w=800&q=80','Treino na Academia','Ombros: Introdução','38 min · Iniciante')">
-            <div class="cth"><img src="https://images.unsplash.com/photo-1616279969862-a463f5d9b8a7?w=480&q=75" alt="" loading="lazy"/><div class="cov"><div class="pcircle">▶</div></div><span class="cbadge">Iniciante</span><div class="cprog"><div class="cprogbar" style="width:0%"></div></div></div>
-            <div class="cinfo"><div class="cseries">Treino na Academia</div><div class="ctitle">Ombros: Introdução</div><div class="cmeta">38 min</div></div>
-          </div>
-          <div class="vc" data-level="intermediario" onclick="openModal('https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=800&q=80','Treino na Academia','Perna: Quadríceps & Posterior','50 min · Intermediário')">
-            <div class="cth"><img src="https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=480&q=75" alt="" loading="lazy"/><div class="cov"><div class="pcircle">▶</div></div><span class="cbadge">Intermediário</span><div class="cprog"><div class="cprogbar" style="width:0%"></div></div></div>
-            <div class="cinfo"><div class="cseries">Treino na Academia</div><div class="ctitle">Perna: Quadríceps & Posterior</div><div class="cmeta">50 min</div></div>
-          </div>
-          <div class="vc" data-level="intermediario" onclick="openModal('https://images.unsplash.com/photo-1605296867304-46d5465a13f1?w=800&q=80','Treino na Academia','Peito: Hipertrofia','48 min · Intermediário')">
-            <div class="cth"><img src="https://images.unsplash.com/photo-1605296867304-46d5465a13f1?w=480&q=75" alt="" loading="lazy"/><div class="cov"><div class="pcircle">▶</div></div><span class="cbadge">Intermediário</span><div class="cprog"><div class="cprogbar" style="width:0%"></div></div></div>
-            <div class="cinfo"><div class="cseries">Treino na Academia</div><div class="ctitle">Peito: Hipertrofia</div><div class="cmeta">48 min</div></div>
-          </div>
-          <div class="vc" data-level="intermediario" onclick="openModal('https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?w=800&q=80','Treino na Academia','Glúteo e Abdução','45 min · Intermediário')">
-            <div class="cth"><img src="https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?w=480&q=75" alt="" loading="lazy"/><div class="cov"><div class="pcircle">▶</div></div><span class="cbadge">Intermediário</span><div class="cprog"><div class="cprogbar" style="width:0%"></div></div></div>
-            <div class="cinfo"><div class="cseries">Treino na Academia</div><div class="ctitle">Glúteo e Abdução</div><div class="cmeta">45 min</div></div>
-          </div>
-          <div class="vc" data-level="avancado" onclick="openModal('https://images.unsplash.com/photo-1607962837359-5e7e89f86776?w=800&q=80','Treino na Academia','Costas: Força Total','55 min · Avançado')">
-            <div class="cth"><img src="https://images.unsplash.com/photo-1607962837359-5e7e89f86776?w=480&q=75" alt="" loading="lazy"/><div class="cov"><div class="pcircle">▶</div></div><span class="cbadge">Avançado</span><div class="cprog"><div class="cprogbar" style="width:0%"></div></div></div>
-            <div class="cinfo"><div class="cseries">Treino na Academia</div><div class="ctitle">Costas: Força Total</div><div class="cmeta">55 min</div></div>
-          </div>
-          <div class="vc" data-level="avancado" onclick="openModal('https://images.unsplash.com/photo-1518611012118-696072aa579a?w=800&q=80','Treino na Academia','Perna Avançado: Drop Sets','60 min · Avançado')">
-            <div class="cth"><img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?w=480&q=75" alt="" loading="lazy"/><div class="cov"><div class="pcircle">▶</div></div><span class="cbadge">Avançado</span><div class="cprog"><div class="cprogbar" style="width:0%"></div></div></div>
-            <div class="cinfo"><div class="cseries">Treino na Academia</div><div class="ctitle">Perna Avançado: Drop Sets</div><div class="cmeta">60 min</div></div>
-          </div>
-          <div class="vc" data-level="avancado" onclick="openModal('https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=800&q=80','Treino na Academia','Full Body Power','65 min · Avançado')">
-            <div class="cth"><img src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=480&q=75" alt="" loading="lazy"/><div class="cov"><div class="pcircle">▶</div></div><span class="cbadge">Avançado</span><div class="cprog"><div class="cprogbar" style="width:0%"></div></div></div>
-            <div class="cinfo"><div class="cseries">Treino na Academia</div><div class="ctitle">Full Body Power</div><div class="cmeta">65 min</div></div>
+      <!-- 🏠 TREINOS EM CASA -->
+      <section class="section">
+        <div class="sec-head">
+          <div>
+            <div class="sec-title-wrap"><span class="sec-icon">🏠</span><h2 class="sec-title">Treinos em Casa</h2></div>
+            <p class="sec-sub">Do iniciante ao avançado — sem academia, sem desculpas!</p>
           </div>
         </div>
-        <button class="sbtn sn" onclick="scrollR('rac',1)">›</button>
-      </div>
-    </section>
+        <div class="lvl-grid cols3">
+          <div class="lvl-card" onclick="showLevelView('casa','iniciante')">
+            <img src="https://images.unsplash.com/photo-1599058945522-28d584b6f0ff?w=600&q=80" alt="Iniciante" loading="lazy"/>
+            <div class="lvl-card-ov">
+              <div class="lvl-card-cat">Treinos em Casa</div>
+              <div class="lvl-card-name">🌱 Iniciante</div>
+              <div class="lvl-dots"><div class="lvl-dot on"></div><div class="lvl-dot"></div><div class="lvl-dot"></div></div>
+            </div>
+          </div>
+          <div class="lvl-card" onclick="showLevelView('casa','intermediario')">
+            <img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?w=600&q=80" alt="Intermediário" loading="lazy"/>
+            <div class="lvl-card-ov">
+              <div class="lvl-card-cat">Treinos em Casa</div>
+              <div class="lvl-card-name">🔥 Intermediário</div>
+              <div class="lvl-dots"><div class="lvl-dot on"></div><div class="lvl-dot on"></div><div class="lvl-dot"></div></div>
+            </div>
+          </div>
+          <div class="lvl-card" onclick="showLevelView('casa','avancado')">
+            <img src="https://images.unsplash.com/photo-1552674605-db6ffd4facb5?w=600&q=80" alt="Avançado" loading="lazy"/>
+            <div class="lvl-card-ov">
+              <div class="lvl-card-cat">Treinos em Casa</div>
+              <div class="lvl-card-name">⚡ Avançado</div>
+              <div class="lvl-dots"><div class="lvl-dot on"></div><div class="lvl-dot on"></div><div class="lvl-dot on"></div></div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-    <!-- ══════════════════════════════════════
-         🏃 AERÓBICO / CARDIO
-    ═══════════════════════════════════════ -->
-    <section class="section" id="sec-cardio">
-      <div class="sec-head">
-        <div>
-          <div class="sec-title-wrap"><span class="sec-icon">🏃</span><h2 class="sec-title">Aeróbico / Cardio</h2></div>
-          <p class="sec-sub">Queime calorias, melhore o fôlego e acelere o metabolismo</p>
-        </div>
-        <a class="sec-link" href="#" onclick="showToast('📺 Vendo todo o cardio!');return false;">Ver tudo →</a>
-      </div>
-      <div class="level-tabs">
-        <button class="ltab-btn active" onclick="filterSection('sec-cardio','all',this)">🔁 Todos</button>
-        <button class="ltab-btn" onclick="filterSection('sec-cardio','iniciante',this)">🌱 Iniciante</button>
-        <button class="ltab-btn" onclick="filterSection('sec-cardio','intermediario',this)">🔥 Intermediário</button>
-        <button class="ltab-btn" onclick="filterSection('sec-cardio','avancado',this)">⚡ Avançado</button>
-      </div>
-      <div class="row-wrap">
-        <button class="sbtn sp" onclick="scrollR('rcd',-1)">‹</button>
-        <div class="row" id="rcd">
-          <div class="vc" data-level="iniciante" onclick="openModal('https://images.unsplash.com/photo-1552674605-db6ffd4facb5?w=800&q=80','Aeróbico / Cardio','Caminhada Ativa 30min','30 min · Iniciante')">
-            <div class="cth"><img src="https://images.unsplash.com/photo-1552674605-db6ffd4facb5?w=480&q=75" alt="" loading="lazy"/><div class="cov"><div class="pcircle">▶</div></div><span class="cbadge">Iniciante</span><div class="cprog"><div class="cprogbar" style="width:0%"></div></div></div>
-            <div class="cinfo"><div class="cseries">Aeróbico / Cardio</div><div class="ctitle">Caminhada Ativa 30min</div><div class="cmeta">30 min</div></div>
-          </div>
-          <div class="vc" data-level="iniciante" onclick="openModal('https://images.unsplash.com/photo-1599058945522-28d584b6f0ff?w=800&q=80','Aeróbico / Cardio','Jump Suave para Iniciantes','20 min · Iniciante')">
-            <div class="cth"><img src="https://images.unsplash.com/photo-1599058945522-28d584b6f0ff?w=480&q=75" alt="" loading="lazy"/><div class="cov"><div class="pcircle">▶</div></div><span class="cbadge">Iniciante</span><div class="cprog"><div class="cprogbar" style="width:0%"></div></div></div>
-            <div class="cinfo"><div class="cseries">Aeróbico / Cardio</div><div class="ctitle">Jump Suave para Iniciantes</div><div class="cmeta">20 min</div></div>
-          </div>
-          <div class="vc" data-level="iniciante" onclick="openModal('https://images.unsplash.com/photo-1605296867304-46d5465a13f1?w=800&q=80','Aeróbico / Cardio','Cardio Low Impact','25 min · Iniciante')">
-            <div class="cth"><img src="https://images.unsplash.com/photo-1605296867304-46d5465a13f1?w=480&q=75" alt="" loading="lazy"/><div class="cov"><div class="pcircle">▶</div></div><span class="cbadge">Iniciante</span><div class="cprog"><div class="cprogbar" style="width:0%"></div></div></div>
-            <div class="cinfo"><div class="cseries">Aeróbico / Cardio</div><div class="ctitle">Cardio Low Impact</div><div class="cmeta">25 min</div></div>
-          </div>
-          <div class="vc" data-level="intermediario" onclick="openModal('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&q=80','Aeróbico / Cardio','Corrida Intervalada 5km','30 min · Intermediário')">
-            <div class="cth"><img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=480&q=75" alt="" loading="lazy"/><div class="cov"><div class="pcircle">▶</div></div><span class="cbadge">Intermediário</span><div class="cprog"><div class="cprogbar" style="width:0%"></div></div></div>
-            <div class="cinfo"><div class="cseries">Aeróbico / Cardio</div><div class="ctitle">Corrida Intervalada 5km</div><div class="cmeta">30 min</div></div>
-          </div>
-          <div class="vc" data-level="intermediario" onclick="openModal('https://images.unsplash.com/photo-1518611012118-696072aa579a?w=800&q=80','Aeróbico / Cardio','Bike + Jump 40min','40 min · Intermediário')">
-            <div class="cth"><img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?w=480&q=75" alt="" loading="lazy"/><div class="cov"><div class="pcircle">▶</div></div><span class="cbadge">Intermediário</span><div class="cprog"><div class="cprogbar" style="width:0%"></div></div></div>
-            <div class="cinfo"><div class="cseries">Aeróbico / Cardio</div><div class="ctitle">Bike + Jump 40min</div><div class="cmeta">40 min</div></div>
-          </div>
-          <div class="vc" data-level="intermediario" onclick="openModal('https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?w=800&q=80','Aeróbico / Cardio','Dança Cardio Funcional','35 min · Intermediário')">
-            <div class="cth"><img src="https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?w=480&q=75" alt="" loading="lazy"/><div class="cov"><div class="pcircle">▶</div></div><span class="cbadge">Intermediário</span><div class="cprog"><div class="cprogbar" style="width:0%"></div></div></div>
-            <div class="cinfo"><div class="cseries">Aeróbico / Cardio</div><div class="ctitle">Dança Cardio Funcional</div><div class="cmeta">35 min</div></div>
-          </div>
-          <div class="vc" data-level="avancado" onclick="openModal('https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=800&q=80','Aeróbico / Cardio','HIIT 20min Maximal','20 min · Avançado')">
-            <div class="cth"><img src="https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=480&q=75" alt="" loading="lazy"/><div class="cov"><div class="pcircle">▶</div></div><span class="cbadge">Avançado</span><div class="cprog"><div class="cprogbar" style="width:0%"></div></div></div>
-            <div class="cinfo"><div class="cseries">Aeróbico / Cardio</div><div class="ctitle">HIIT 20min Maximal</div><div class="cmeta">20 min</div></div>
-          </div>
-          <div class="vc" data-level="avancado" onclick="openModal('https://images.unsplash.com/photo-1607962837359-5e7e89f86776?w=800&q=80','Aeróbico / Cardio','Circuito Cardio Explosivo','45 min · Avançado')">
-            <div class="cth"><img src="https://images.unsplash.com/photo-1607962837359-5e7e89f86776?w=480&q=75" alt="" loading="lazy"/><div class="cov"><div class="pcircle">▶</div></div><span class="cbadge">Avançado</span><div class="cprog"><div class="cprogbar" style="width:0%"></div></div></div>
-            <div class="cinfo"><div class="cseries">Aeróbico / Cardio</div><div class="ctitle">Circuito Cardio Explosivo</div><div class="cmeta">45 min</div></div>
-          </div>
-          <div class="vc" data-level="avancado" onclick="openModal('https://images.unsplash.com/photo-1549060279-7e168fcee0c2?w=800&q=80','Aeróbico / Cardio','Treino de Alta Intensidade','30 min · Avançado')">
-            <div class="cth"><img src="https://images.unsplash.com/photo-1549060279-7e168fcee0c2?w=480&q=75" alt="" loading="lazy"/><div class="cov"><div class="pcircle">▶</div></div><span class="cbadge">Avançado</span><div class="cprog"><div class="cprogbar" style="width:0%"></div></div></div>
-            <div class="cinfo"><div class="cseries">Aeróbico / Cardio</div><div class="ctitle">Treino de Alta Intensidade</div><div class="cmeta">30 min</div></div>
+      <!-- 💪 TREINO NA ACADEMIA -->
+      <section class="section">
+        <div class="sec-head">
+          <div>
+            <div class="sec-title-wrap"><span class="sec-icon">💪</span><h2 class="sec-title">Treino na Academia</h2></div>
+            <p class="sec-sub">Fichas completas para cada grupo muscular e objetivo</p>
           </div>
         </div>
-        <button class="sbtn sn" onclick="scrollR('rcd',1)">›</button>
-      </div>
-    </section>
+        <div class="lvl-grid cols3">
+          <div class="lvl-card" onclick="showLevelView('acad','iniciante')">
+            <img src="https://images.unsplash.com/photo-1549060279-7e168fcee0c2?w=600&q=80" alt="Iniciante" loading="lazy"/>
+            <div class="lvl-card-ov">
+              <div class="lvl-card-cat">Treino na Academia</div>
+              <div class="lvl-card-name">🌱 Iniciante</div>
+              <div class="lvl-dots"><div class="lvl-dot on"></div><div class="lvl-dot"></div><div class="lvl-dot"></div></div>
+            </div>
+          </div>
+          <div class="lvl-card" onclick="showLevelView('acad','intermediario')">
+            <img src="https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=600&q=80" alt="Intermediário" loading="lazy"/>
+            <div class="lvl-card-ov">
+              <div class="lvl-card-cat">Treino na Academia</div>
+              <div class="lvl-card-name">🔥 Intermediário</div>
+              <div class="lvl-dots"><div class="lvl-dot on"></div><div class="lvl-dot on"></div><div class="lvl-dot"></div></div>
+            </div>
+          </div>
+          <div class="lvl-card" onclick="showLevelView('acad','avancado')">
+            <img src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=600&q=80" alt="Avançado" loading="lazy"/>
+            <div class="lvl-card-ov">
+              <div class="lvl-card-cat">Treino na Academia</div>
+              <div class="lvl-card-name">⚡ Avançado</div>
+              <div class="lvl-dots"><div class="lvl-dot on"></div><div class="lvl-dot on"></div><div class="lvl-dot on"></div></div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-    <!-- ══════════════════════════════════════
-         🥗 RECEITAS PRA SECAR
-    ═══════════════════════════════════════ -->
-    <section class="section" id="sec-secar">
-      <div class="sec-head">
-        <div>
-          <div class="sec-title-wrap"><span class="sec-icon">🥗</span><h2 class="sec-title">Receitas pra Secar</h2></div>
-          <p class="sec-sub">Alimentação inteligente para emagrecer com saúde e sem sofrer</p>
-        </div>
-        <a class="sec-link" href="#" onclick="showToast('📺 Vendo todas as receitas!');return false;">Ver tudo →</a>
-      </div>
-      <div class="level-tabs">
-        <button class="ltab-btn active" onclick="filterSection('sec-secar','all',this)">🔁 Todos</button>
-        <button class="ltab-btn" onclick="filterSection('sec-secar','iniciante',this)">🌱 Iniciante</button>
-        <button class="ltab-btn" onclick="filterSection('sec-secar','intermediario',this)">🔥 Intermediário</button>
-        <button class="ltab-btn" onclick="filterSection('sec-secar','avancado',this)">⚡ Avançado</button>
-      </div>
-      <div class="row-wrap">
-        <button class="sbtn sp" onclick="scrollR('rse',-1)">‹</button>
-        <div class="row" id="rse">
-          <div class="vc" data-level="iniciante" onclick="openModal('https://images.unsplash.com/photo-1498837167922-ddd27525d352?w=800&q=80','Receitas pra Secar','Bowl Proteico Detox','10 min · Iniciante')">
-            <div class="cth"><img src="https://images.unsplash.com/photo-1498837167922-ddd27525d352?w=480&q=75" alt="" loading="lazy"/><div class="cov"><div class="pcircle">▶</div></div><span class="cbadge">Iniciante</span><div class="cprog"><div class="cprogbar" style="width:0%"></div></div></div>
-            <div class="cinfo"><div class="cseries">Receitas pra Secar</div><div class="ctitle">Bowl Proteico Detox</div><div class="cmeta">10 min</div></div>
-          </div>
-          <div class="vc" data-level="iniciante" onclick="openModal('https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800&q=80','Receitas pra Secar','Salada Completa Fit','8 min · Iniciante')">
-            <div class="cth"><img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=480&q=75" alt="" loading="lazy"/><div class="cov"><div class="pcircle">▶</div></div><span class="cbadge">Iniciante</span><div class="cprog"><div class="cprogbar" style="width:0%"></div></div></div>
-            <div class="cinfo"><div class="cseries">Receitas pra Secar</div><div class="ctitle">Salada Completa Fit</div><div class="cmeta">8 min</div></div>
-          </div>
-          <div class="vc" data-level="iniciante" onclick="openModal('https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=800&q=80','Receitas pra Secar','Omelete de Espinafre','12 min · Iniciante')">
-            <div class="cth"><img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=480&q=75" alt="" loading="lazy"/><div class="cov"><div class="pcircle">▶</div></div><span class="cbadge">Iniciante</span><div class="cprog"><div class="cprogbar" style="width:0%"></div></div></div>
-            <div class="cinfo"><div class="cseries">Receitas pra Secar</div><div class="ctitle">Omelete de Espinafre</div><div class="cmeta">12 min</div></div>
-          </div>
-          <div class="vc" data-level="intermediario" onclick="openModal('https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&q=80','Receitas pra Secar','Frango ao Molho Limão','25 min · Intermediário')">
-            <div class="cth"><img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=480&q=75" alt="" loading="lazy"/><div class="cov"><div class="pcircle">▶</div></div><span class="cbadge">Intermediário</span><div class="cprog"><div class="cprogbar" style="width:0%"></div></div></div>
-            <div class="cinfo"><div class="cseries">Receitas pra Secar</div><div class="ctitle">Frango ao Molho Limão</div><div class="cmeta">25 min</div></div>
-          </div>
-          <div class="vc" data-level="intermediario" onclick="openModal('https://images.unsplash.com/photo-1547592180-85f173990554?w=800&q=80','Receitas pra Secar','Sopa Termogênica','30 min · Intermediário')">
-            <div class="cth"><img src="https://images.unsplash.com/photo-1547592180-85f173990554?w=480&q=75" alt="" loading="lazy"/><div class="cov"><div class="pcircle">▶</div></div><span class="cbadge">Intermediário</span><div class="cprog"><div class="cprogbar" style="width:0%"></div></div></div>
-            <div class="cinfo"><div class="cseries">Receitas pra Secar</div><div class="ctitle">Sopa Termogênica</div><div class="cmeta">30 min</div></div>
-          </div>
-          <div class="vc" data-level="intermediario" onclick="openModal('https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=800&q=80','Receitas pra Secar','Marmita Semaneira Low Carb','45 min · Intermediário')">
-            <div class="cth"><img src="https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=480&q=75" alt="" loading="lazy"/><div class="cov"><div class="pcircle">▶</div></div><span class="cbadge">Intermediário</span><div class="cprog"><div class="cprogbar" style="width:0%"></div></div></div>
-            <div class="cinfo"><div class="cseries">Receitas pra Secar</div><div class="ctitle">Marmita Semaneira Low Carb</div><div class="cmeta">45 min</div></div>
-          </div>
-          <div class="vc" data-level="avancado" onclick="openModal('https://images.unsplash.com/photo-1498837167922-ddd27525d352?w=800&q=80','Receitas pra Secar','Plano Detox 7 Dias','60 min · Avançado')">
-            <div class="cth"><img src="https://images.unsplash.com/photo-1498837167922-ddd27525d352?w=480&q=75" alt="" loading="lazy"/><div class="cov"><div class="pcircle">▶</div></div><span class="cbadge">Avançado</span><div class="cprog"><div class="cprogbar" style="width:0%"></div></div></div>
-            <div class="cinfo"><div class="cseries">Receitas pra Secar</div><div class="ctitle">Plano Detox 7 Dias</div><div class="cmeta">60 min</div></div>
-          </div>
-          <div class="vc" data-level="avancado" onclick="openModal('https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800&q=80','Receitas pra Secar','Cutting Culinário Pro','55 min · Avançado')">
-            <div class="cth"><img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=480&q=75" alt="" loading="lazy"/><div class="cov"><div class="pcircle">▶</div></div><span class="cbadge">Avançado</span><div class="cprog"><div class="cprogbar" style="width:0%"></div></div></div>
-            <div class="cinfo"><div class="cseries">Receitas pra Secar</div><div class="ctitle">Cutting Culinário Pro</div><div class="cmeta">55 min</div></div>
-          </div>
-          <div class="vc" data-level="avancado" onclick="openModal('https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=800&q=80','Receitas pra Secar','Jejum Intermitente na Prática','40 min · Avançado')">
-            <div class="cth"><img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=480&q=75" alt="" loading="lazy"/><div class="cov"><div class="pcircle">▶</div></div><span class="cbadge">Avançado</span><div class="cprog"><div class="cprogbar" style="width:0%"></div></div></div>
-            <div class="cinfo"><div class="cseries">Receitas pra Secar</div><div class="ctitle">Jejum Intermitente na Prática</div><div class="cmeta">40 min</div></div>
+      <!-- 🏃 AERÓBICO / CARDIO -->
+      <section class="section">
+        <div class="sec-head">
+          <div>
+            <div class="sec-title-wrap"><span class="sec-icon">🏃</span><h2 class="sec-title">Aeróbico / Cardio</h2></div>
+            <p class="sec-sub">Queime calorias, melhore o fôlego e acelere o metabolismo</p>
           </div>
         </div>
-        <button class="sbtn sn" onclick="scrollR('rse',1)">›</button>
-      </div>
-    </section>
+        <div class="lvl-grid cols3">
+          <div class="lvl-card" onclick="showLevelView('cardio','iniciante')">
+            <img src="https://images.unsplash.com/photo-1552674605-db6ffd4facb5?w=600&q=80" alt="Iniciante" loading="lazy"/>
+            <div class="lvl-card-ov">
+              <div class="lvl-card-cat">Aeróbico / Cardio</div>
+              <div class="lvl-card-name">🌱 Iniciante</div>
+              <div class="lvl-dots"><div class="lvl-dot on"></div><div class="lvl-dot"></div><div class="lvl-dot"></div></div>
+            </div>
+          </div>
+          <div class="lvl-card" onclick="showLevelView('cardio','intermediario')">
+            <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600&q=80" alt="Intermediário" loading="lazy"/>
+            <div class="lvl-card-ov">
+              <div class="lvl-card-cat">Aeróbico / Cardio</div>
+              <div class="lvl-card-name">🔥 Intermediário</div>
+              <div class="lvl-dots"><div class="lvl-dot on"></div><div class="lvl-dot on"></div><div class="lvl-dot"></div></div>
+            </div>
+          </div>
+          <div class="lvl-card" onclick="showLevelView('cardio','avancado')">
+            <img src="https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=600&q=80" alt="Avançado" loading="lazy"/>
+            <div class="lvl-card-ov">
+              <div class="lvl-card-cat">Aeróbico / Cardio</div>
+              <div class="lvl-card-name">⚡ Avançado</div>
+              <div class="lvl-dots"><div class="lvl-dot on"></div><div class="lvl-dot on"></div><div class="lvl-dot on"></div></div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-    <!-- ══════════════════════════════════════
-         💪🍗 RECEITAS PRA GANHAR MASSA
-    ═══════════════════════════════════════ -->
-    <section class="section" id="sec-massa">
-      <div class="sec-head">
-        <div>
-          <div class="sec-title-wrap"><span class="sec-icon">🍗</span><h2 class="sec-title">Receitas pra Ganhar Massa</h2></div>
-          <p class="sec-sub">Nutrição de alto desempenho para construir músculo de verdade</p>
-        </div>
-        <a class="sec-link" href="#" onclick="showToast('📺 Vendo todas as receitas!');return false;">Ver tudo →</a>
-      </div>
-      <div class="level-tabs">
-        <button class="ltab-btn active" onclick="filterSection('sec-massa','all',this)">🔁 Todos</button>
-        <button class="ltab-btn" onclick="filterSection('sec-massa','iniciante',this)">🌱 Iniciante</button>
-        <button class="ltab-btn" onclick="filterSection('sec-massa','intermediario',this)">🔥 Intermediário</button>
-        <button class="ltab-btn" onclick="filterSection('sec-massa','avancado',this)">⚡ Avançado</button>
-      </div>
-      <div class="row-wrap">
-        <button class="sbtn sp" onclick="scrollR('rma',-1)">‹</button>
-        <div class="row" id="rma">
-          <div class="vc" data-level="iniciante" onclick="openModal('https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&q=80','Receitas pra Ganhar Massa','Shake de Proteína Caseiro','5 min · Iniciante')">
-            <div class="cth"><img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=480&q=75" alt="" loading="lazy"/><div class="cov"><div class="pcircle">▶</div></div><span class="cbadge">Iniciante</span><div class="cprog"><div class="cprogbar" style="width:0%"></div></div></div>
-            <div class="cinfo"><div class="cseries">Receitas Ganhar Massa</div><div class="ctitle">Shake de Proteína Caseiro</div><div class="cmeta">5 min</div></div>
-          </div>
-          <div class="vc" data-level="iniciante" onclick="openModal('https://images.unsplash.com/photo-1547592180-85f173990554?w=800&q=80','Receitas pra Ganhar Massa','Frango Grelhado + Batata Doce','20 min · Iniciante')">
-            <div class="cth"><img src="https://images.unsplash.com/photo-1547592180-85f173990554?w=480&q=75" alt="" loading="lazy"/><div class="cov"><div class="pcircle">▶</div></div><span class="cbadge">Iniciante</span><div class="cprog"><div class="cprogbar" style="width:0%"></div></div></div>
-            <div class="cinfo"><div class="cseries">Receitas Ganhar Massa</div><div class="ctitle">Frango + Batata Doce</div><div class="cmeta">20 min</div></div>
-          </div>
-          <div class="vc" data-level="iniciante" onclick="openModal('https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=800&q=80','Receitas pra Ganhar Massa','Omelete Hipercalórica','15 min · Iniciante')">
-            <div class="cth"><img src="https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=480&q=75" alt="" loading="lazy"/><div class="cov"><div class="pcircle">▶</div></div><span class="cbadge">Iniciante</span><div class="cprog"><div class="cprogbar" style="width:0%"></div></div></div>
-            <div class="cinfo"><div class="cseries">Receitas Ganhar Massa</div><div class="ctitle">Omelete Hipercalórica</div><div class="cmeta">15 min</div></div>
-          </div>
-          <div class="vc" data-level="intermediario" onclick="openModal('https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=800&q=80','Receitas pra Ganhar Massa','Bowl de Arroz + Carne','30 min · Intermediário')">
-            <div class="cth"><img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=480&q=75" alt="" loading="lazy"/><div class="cov"><div class="pcircle">▶</div></div><span class="cbadge">Intermediário</span><div class="cprog"><div class="cprogbar" style="width:0%"></div></div></div>
-            <div class="cinfo"><div class="cseries">Receitas Ganhar Massa</div><div class="ctitle">Bowl de Arroz + Carne</div><div class="cmeta">30 min</div></div>
-          </div>
-          <div class="vc" data-level="intermediario" onclick="openModal('https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800&q=80','Receitas pra Ganhar Massa','Pasta Integral com Atum','25 min · Intermediário')">
-            <div class="cth"><img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=480&q=75" alt="" loading="lazy"/><div class="cov"><div class="pcircle">▶</div></div><span class="cbadge">Intermediário</span><div class="cprog"><div class="cprogbar" style="width:0%"></div></div></div>
-            <div class="cinfo"><div class="cseries">Receitas Ganhar Massa</div><div class="ctitle">Pasta Integral com Atum</div><div class="cmeta">25 min</div></div>
-          </div>
-          <div class="vc" data-level="intermediario" onclick="openModal('https://images.unsplash.com/photo-1498837167922-ddd27525d352?w=800&q=80','Receitas pra Ganhar Massa','Marmita Bulking Semanal','50 min · Intermediário')">
-            <div class="cth"><img src="https://images.unsplash.com/photo-1498837167922-ddd27525d352?w=480&q=75" alt="" loading="lazy"/><div class="cov"><div class="pcircle">▶</div></div><span class="cbadge">Intermediário</span><div class="cprog"><div class="cprogbar" style="width:0%"></div></div></div>
-            <div class="cinfo"><div class="cseries">Receitas Ganhar Massa</div><div class="ctitle">Marmita Bulking Semanal</div><div class="cmeta">50 min</div></div>
-          </div>
-          <div class="vc" data-level="avancado" onclick="openModal('https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&q=80','Receitas pra Ganhar Massa','Plano Anabólico 4000kcal','60 min · Avançado')">
-            <div class="cth"><img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=480&q=75" alt="" loading="lazy"/><div class="cov"><div class="pcircle">▶</div></div><span class="cbadge">Avançado</span><div class="cprog"><div class="cprogbar" style="width:0%"></div></div></div>
-            <div class="cinfo"><div class="cseries">Receitas Ganhar Massa</div><div class="ctitle">Plano Anabólico 4000kcal</div><div class="cmeta">60 min</div></div>
-          </div>
-          <div class="vc" data-level="avancado" onclick="openModal('https://images.unsplash.com/photo-1547592180-85f173990554?w=800&q=80','Receitas pra Ganhar Massa','Dieta de Força: Volume Max','55 min · Avançado')">
-            <div class="cth"><img src="https://images.unsplash.com/photo-1547592180-85f173990554?w=480&q=75" alt="" loading="lazy"/><div class="cov"><div class="pcircle">▶</div></div><span class="cbadge">Avançado</span><div class="cprog"><div class="cprogbar" style="width:0%"></div></div></div>
-            <div class="cinfo"><div class="cseries">Receitas Ganhar Massa</div><div class="ctitle">Dieta de Força: Volume Max</div><div class="cmeta">55 min</div></div>
-          </div>
-          <div class="vc" data-level="avancado" onclick="openModal('https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=800&q=80','Receitas pra Ganhar Massa','Nutrição de Competição','65 min · Avançado')">
-            <div class="cth"><img src="https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=480&q=75" alt="" loading="lazy"/><div class="cov"><div class="pcircle">▶</div></div><span class="cbadge">Avançado</span><div class="cprog"><div class="cprogbar" style="width:0%"></div></div></div>
-            <div class="cinfo"><div class="cseries">Receitas Ganhar Massa</div><div class="ctitle">Nutrição de Competição</div><div class="cmeta">65 min</div></div>
+      <!-- 🥗 RECEITAS PRA SECAR -->
+      <section class="section">
+        <div class="sec-head">
+          <div>
+            <div class="sec-title-wrap"><span class="sec-icon">🥗</span><h2 class="sec-title">Receitas pra Secar</h2></div>
+            <p class="sec-sub">Alimentação inteligente para emagrecer com saúde</p>
           </div>
         </div>
-        <button class="sbtn sn" onclick="scrollR('rma',1)">›</button>
-      </div>
-    </section>
+        <div class="lvl-grid cols3">
+          <div class="lvl-card" onclick="showLevelView('secar','iniciante')">
+            <img src="https://images.unsplash.com/photo-1498837167922-ddd27525d352?w=600&q=80" alt="Iniciante" loading="lazy"/>
+            <div class="lvl-card-ov">
+              <div class="lvl-card-cat">Receitas pra Secar</div>
+              <div class="lvl-card-name">🌱 Iniciante</div>
+              <div class="lvl-dots"><div class="lvl-dot on"></div><div class="lvl-dot"></div><div class="lvl-dot"></div></div>
+            </div>
+          </div>
+          <div class="lvl-card" onclick="showLevelView('secar','intermediario')">
+            <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600&q=80" alt="Intermediário" loading="lazy"/>
+            <div class="lvl-card-ov">
+              <div class="lvl-card-cat">Receitas pra Secar</div>
+              <div class="lvl-card-name">🔥 Intermediário</div>
+              <div class="lvl-dots"><div class="lvl-dot on"></div><div class="lvl-dot on"></div><div class="lvl-dot"></div></div>
+            </div>
+          </div>
+          <div class="lvl-card" onclick="showLevelView('secar','avancado')">
+            <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=600&q=80" alt="Avançado" loading="lazy"/>
+            <div class="lvl-card-ov">
+              <div class="lvl-card-cat">Receitas pra Secar</div>
+              <div class="lvl-card-name">⚡ Avançado</div>
+              <div class="lvl-dots"><div class="lvl-dot on"></div><div class="lvl-dot on"></div><div class="lvl-dot on"></div></div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-  </main>
+      <!-- 🍗 RECEITAS PRA GANHAR MASSA -->
+      <section class="section">
+        <div class="sec-head">
+          <div>
+            <div class="sec-title-wrap"><span class="sec-icon">🍗</span><h2 class="sec-title">Receitas pra Ganhar Massa</h2></div>
+            <p class="sec-sub">Nutrição de alto desempenho para construir músculo de verdade</p>
+          </div>
+        </div>
+        <div class="lvl-grid cols3">
+          <div class="lvl-card" onclick="showLevelView('massa','iniciante')">
+            <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600&q=80" alt="Iniciante" loading="lazy"/>
+            <div class="lvl-card-ov">
+              <div class="lvl-card-cat">Receitas pra Ganhar Massa</div>
+              <div class="lvl-card-name">🌱 Iniciante</div>
+              <div class="lvl-dots"><div class="lvl-dot on"></div><div class="lvl-dot"></div><div class="lvl-dot"></div></div>
+            </div>
+          </div>
+          <div class="lvl-card" onclick="showLevelView('massa','intermediario')">
+            <img src="https://images.unsplash.com/photo-1547592180-85f173990554?w=600&q=80" alt="Intermediário" loading="lazy"/>
+            <div class="lvl-card-ov">
+              <div class="lvl-card-cat">Receitas pra Ganhar Massa</div>
+              <div class="lvl-card-name">🔥 Intermediário</div>
+              <div class="lvl-dots"><div class="lvl-dot on"></div><div class="lvl-dot on"></div><div class="lvl-dot"></div></div>
+            </div>
+          </div>
+          <div class="lvl-card" onclick="showLevelView('massa','avancado')">
+            <img src="https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=600&q=80" alt="Avançado" loading="lazy"/>
+            <div class="lvl-card-ov">
+              <div class="lvl-card-cat">Receitas pra Ganhar Massa</div>
+              <div class="lvl-card-name">⚡ Avançado</div>
+              <div class="lvl-dots"><div class="lvl-dot on"></div><div class="lvl-dot on"></div><div class="lvl-dot on"></div></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div><!-- /content -->
+  </div><!-- /view-home -->
+
+  <!-- ═══ VIEW: LEVEL/COURSE PAGE ═══ -->
+  <div id="view-level" class="view">
+    <div class="course-page" id="course-page"></div>
+  </div>
+
+  <!-- ═══ VIEW: WORKOUT / EXERCISE LIST ═══ -->
+  <div id="view-workout" class="view">
+    <div class="ex-page" id="exercise-page"></div>
+  </div>
+
+</main>
 
 </div>
 
@@ -1733,6 +1786,662 @@ function filterSection(secId, level, btn) {
     const visible = (level === 'all' || cardLevel === level);
     card.classList.toggle('hidden', !visible);
   });
+}
+
+
+/* ════════════════════════════════════════════════════════
+   CATALOG — dados de categorias, níveis, fichas e exercícios
+   ════════════════════════════════════════════════════════ */
+const CATALOG = {
+  casa: {
+    label: 'Treinos em Casa', icon: '🏠',
+    levels: {
+      iniciante: {
+        label: 'Iniciante',
+        img: 'https://images.unsplash.com/photo-1599058945522-28d584b6f0ff?w=800&q=80',
+        desc: 'Comece sua jornada fitness em casa, com treinos progressivos acessíveis para quem está dando os primeiros passos.',
+        workouts: [
+          {
+            title: 'Full Body – Ficha #1', tag: '28 min · Iniciante',
+            img: 'https://images.unsplash.com/photo-1599058945522-28d584b6f0ff?w=600&q=80',
+            exercises: [
+              { name: 'Agachamento Livre', sets: '4x15 reps', thumb: 'https://images.unsplash.com/photo-1434682881908-b43d0467b798?w=300&q=70' },
+              { name: 'Flexão de Braço', sets: '3x12 reps', thumb: 'https://images.unsplash.com/photo-1598971639058-fab3c3109a69?w=300&q=70' },
+              { name: 'Afundo Estático', sets: '3x12 reps cada', thumb: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=300&q=70' },
+              { name: 'Prancha Isométrica', sets: '3x30 seg', thumb: 'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=300&q=70' },
+              { name: 'Elevação de Quadril', sets: '4x20 reps', thumb: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=300&q=70' },
+              { name: 'Polichinelo', sets: '3x45 seg', thumb: 'https://images.unsplash.com/photo-1552674605-db6ffd4facb5?w=300&q=70' },
+            ]
+          },
+          {
+            title: 'Glúteos – Ficha #2', tag: '35 min · Iniciante',
+            img: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=600&q=80',
+            exercises: [
+              { name: 'Glúteo 4 Apoios', sets: '4x20 reps', thumb: 'https://images.unsplash.com/photo-1605296867304-46d5465a13f1?w=300&q=70' },
+              { name: 'Elevação Pélvica', sets: '4x15 reps', thumb: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=300&q=70' },
+              { name: 'Agachamento Sumô', sets: '3x15 reps', thumb: 'https://images.unsplash.com/photo-1518611012118-696072aa579a?w=300&q=70' },
+              { name: 'Abdução de Perna Deitada', sets: '3x20 reps', thumb: 'https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?w=300&q=70' },
+              { name: 'Afundo com Passada', sets: '3x12 reps cada', thumb: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=300&q=70' },
+            ]
+          },
+          {
+            title: 'Mobilidade – Ficha #3', tag: '20 min · Iniciante',
+            img: 'https://images.unsplash.com/photo-1605296867304-46d5465a13f1?w=600&q=80',
+            exercises: [
+              { name: 'Mobilidade de Quadril', sets: '2x60 seg cada lado', thumb: 'https://images.unsplash.com/photo-1607962837359-5e7e89f86776?w=300&q=70' },
+              { name: 'Rotação de Ombros', sets: '2x30 seg', thumb: 'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=300&q=70' },
+              { name: 'Alongamento de Coluna', sets: '3x30 seg', thumb: 'https://images.unsplash.com/photo-1599058945522-28d584b6f0ff?w=300&q=70' },
+              { name: 'Cat-Cow', sets: '3x10 reps', thumb: 'https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=300&q=70' },
+            ]
+          },
+        ]
+      },
+      intermediario: {
+        label: 'Intermediário',
+        img: 'https://images.unsplash.com/photo-1518611012118-696072aa579a?w=800&q=80',
+        desc: 'Intensifique seus treinos em casa com cargas, tempo sob tensão e combinações mais desafiadoras.',
+        workouts: [
+          {
+            title: 'Força com Halteres – Ficha #1', tag: '42 min · Intermediário',
+            img: 'https://images.unsplash.com/photo-1518611012118-696072aa579a?w=600&q=80',
+            exercises: [
+              { name: 'Desenvolvimento com Halteres', sets: '4x12 reps', thumb: 'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=300&q=70' },
+              { name: 'Remada Curvada com Halter', sets: '4x10 reps', thumb: 'https://images.unsplash.com/photo-1605296867304-46d5465a13f1?w=300&q=70' },
+              { name: 'Agachamento com Halteres', sets: '4x12 reps', thumb: 'https://images.unsplash.com/photo-1434682881908-b43d0467b798?w=300&q=70' },
+              { name: 'Flexão Diamante', sets: '3x10 reps', thumb: 'https://images.unsplash.com/photo-1598971639058-fab3c3109a69?w=300&q=70' },
+              { name: 'Elevação Lateral com Halter', sets: '3x15 reps', thumb: 'https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?w=300&q=70' },
+            ]
+          },
+          {
+            title: 'Core e Abdômen – Ficha #2', tag: '30 min · Intermediário',
+            img: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600&q=80',
+            exercises: [
+              { name: 'Prancha com Rotação', sets: '3x10 reps cada lado', thumb: 'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=300&q=70' },
+              { name: 'Abdominal Bicicleta', sets: '3x20 reps', thumb: 'https://images.unsplash.com/photo-1599058945522-28d584b6f0ff?w=300&q=70' },
+              { name: 'Mountain Climber', sets: '3x45 seg', thumb: 'https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=300&q=70' },
+              { name: 'Prancha Lateral', sets: '3x30 seg cada lado', thumb: 'https://images.unsplash.com/photo-1607962837359-5e7e89f86776?w=300&q=70' },
+              { name: 'Dead Bug', sets: '3x10 reps', thumb: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=300&q=70' },
+            ]
+          },
+          {
+            title: 'HIIT em Casa – Ficha #3', tag: '25 min · Intermediário',
+            img: 'https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?w=600&q=80',
+            exercises: [
+              { name: 'Burpee', sets: '4x10 reps', thumb: 'https://images.unsplash.com/photo-1552674605-db6ffd4facb5?w=300&q=70' },
+              { name: 'Jump Squat', sets: '3x12 reps', thumb: 'https://images.unsplash.com/photo-1434682881908-b43d0467b798?w=300&q=70' },
+              { name: 'Flexão Explosiva', sets: '3x8 reps', thumb: 'https://images.unsplash.com/photo-1598971639058-fab3c3109a69?w=300&q=70' },
+              { name: 'Corrida Estacionária', sets: '4x30 seg', thumb: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=300&q=70' },
+            ]
+          },
+        ]
+      },
+      avancado: {
+        label: 'Avançado',
+        img: 'https://images.unsplash.com/photo-1552674605-db6ffd4facb5?w=800&q=80',
+        desc: 'Protocolos de alta intensidade para quem já domina os fundamentos e quer romper limites.',
+        workouts: [
+          {
+            title: 'HIIT Queima Total – Ficha #1', tag: '25 min · Avançado',
+            img: 'https://images.unsplash.com/photo-1552674605-db6ffd4facb5?w=600&q=80',
+            exercises: [
+              { name: 'Burpee com Salto', sets: '5x10 reps', thumb: 'https://images.unsplash.com/photo-1552674605-db6ffd4facb5?w=300&q=70' },
+              { name: 'Pistol Squat Assistido', sets: '4x8 reps cada', thumb: 'https://images.unsplash.com/photo-1434682881908-b43d0467b798?w=300&q=70' },
+              { name: 'Pike Push-Up', sets: '4x10 reps', thumb: 'https://images.unsplash.com/photo-1598971639058-fab3c3109a69?w=300&q=70' },
+              { name: 'Sprint no Lugar', sets: '5x20 seg', thumb: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=300&q=70' },
+              { name: 'Bear Crawl', sets: '4x20 metros', thumb: 'https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=300&q=70' },
+            ]
+          },
+          {
+            title: 'Circuito Explosivo – Ficha #2', tag: '40 min · Avançado',
+            img: 'https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=600&q=80',
+            exercises: [
+              { name: 'Flexão Arqueiro', sets: '4x8 reps cada lado', thumb: 'https://images.unsplash.com/photo-1598971639058-fab3c3109a69?w=300&q=70' },
+              { name: 'Jump Lunge', sets: '4x12 reps', thumb: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=300&q=70' },
+              { name: 'Handstand Walk (Apoio)', sets: '3x30 seg', thumb: 'https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?w=300&q=70' },
+              { name: 'L-Sit', sets: '3x20 seg', thumb: 'https://images.unsplash.com/photo-1607962837359-5e7e89f86776?w=300&q=70' },
+            ]
+          },
+          {
+            title: 'Metabólico Intenso – Ficha #3', tag: '35 min · Avançado',
+            img: 'https://images.unsplash.com/photo-1607962837359-5e7e89f86776?w=600&q=80',
+            exercises: [
+              { name: 'Tabata Agachamento', sets: '8x20 seg / 10 seg descanso', thumb: 'https://images.unsplash.com/photo-1434682881908-b43d0467b798?w=300&q=70' },
+              { name: 'Tabata Flexão', sets: '8x20 seg / 10 seg descanso', thumb: 'https://images.unsplash.com/photo-1598971639058-fab3c3109a69?w=300&q=70' },
+              { name: 'Tabata Mountain Climber', sets: '8x20 seg / 10 seg descanso', thumb: 'https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=300&q=70' },
+            ]
+          },
+        ]
+      }
+    }
+  },
+
+  acad: {
+    label: 'Treino na Academia', icon: '💪',
+    levels: {
+      iniciante: {
+        label: 'Iniciante',
+        img: 'https://images.unsplash.com/photo-1549060279-7e168fcee0c2?w=800&q=80',
+        desc: 'Fichas completas para quem está começando na academia, com foco em aprendizado de movimento e adaptação muscular.',
+        workouts: [
+          {
+            title: 'Full Body – Ficha #1', tag: '45 min · Iniciante',
+            img: 'https://images.unsplash.com/photo-1549060279-7e168fcee0c2?w=600&q=80',
+            exercises: [
+              { name: 'Cadeira Extensora', sets: '3x15 reps', thumb: 'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=300&q=70' },
+              { name: 'Leg Press 45°', sets: '4x12 reps', thumb: 'https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=300&q=70' },
+              { name: 'Agachamento Unilateral', sets: '3x12 reps cada', thumb: 'https://images.unsplash.com/photo-1434682881908-b43d0467b798?w=300&q=70' },
+              { name: 'Agachamento Tradicional', sets: '4x12 reps', thumb: 'https://images.unsplash.com/photo-1605296867304-46d5465a13f1?w=300&q=70' },
+              { name: 'Cadeira Adutora', sets: '3x15 reps', thumb: 'https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?w=300&q=70' },
+              { name: 'Supino Inclinado com Halteres', sets: '3x12 reps', thumb: 'https://images.unsplash.com/photo-1598971639058-fab3c3109a69?w=300&q=70' },
+              { name: 'Desenvolvimento de Ombros', sets: '3x12 reps', thumb: 'https://images.unsplash.com/photo-1607962837359-5e7e89f86776?w=300&q=70' },
+              { name: 'Tríceps na Polia', sets: '3x15 reps', thumb: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=300&q=70' },
+              { name: 'Elevação Pélvica', sets: '4x15 reps', thumb: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=300&q=70' },
+              { name: 'Cadeira Abdutora', sets: '3x15 reps', thumb: 'https://images.unsplash.com/photo-1518611012118-696072aa579a?w=300&q=70' },
+              { name: 'Mesa Flexora', sets: '3x12 reps', thumb: 'https://images.unsplash.com/photo-1552674605-db6ffd4facb5?w=300&q=70' },
+              { name: 'Remada Baixa com Triângulo', sets: '3x12 reps', thumb: 'https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=300&q=70' },
+              { name: 'Rosca Bíceps', sets: '3x12 reps', thumb: 'https://images.unsplash.com/photo-1599058945522-28d584b6f0ff?w=300&q=70' },
+              { name: 'Elevação Lateral', sets: '3x15 reps', thumb: 'https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?w=300&q=70' },
+              { name: 'Panturrilha', sets: '4x20 reps', thumb: 'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=300&q=70' },
+            ]
+          },
+          {
+            title: 'Braços: Bíceps & Tríceps – Ficha #2', tag: '40 min · Iniciante',
+            img: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600&q=80',
+            exercises: [
+              { name: 'Rosca Direta na Polia', sets: '4x15 reps', thumb: 'https://images.unsplash.com/photo-1599058945522-28d584b6f0ff?w=300&q=70' },
+              { name: 'Rosca Martelo', sets: '3x12 reps', thumb: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=300&q=70' },
+              { name: 'Tríceps Testa', sets: '3x12 reps', thumb: 'https://images.unsplash.com/photo-1605296867304-46d5465a13f1?w=300&q=70' },
+              { name: 'Tríceps na Polia Alta', sets: '4x15 reps', thumb: 'https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?w=300&q=70' },
+              { name: 'Rosca Concentrada', sets: '3x12 reps', thumb: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=300&q=70' },
+            ]
+          },
+          {
+            title: 'Ombros: Introdução – Ficha #3', tag: '38 min · Iniciante',
+            img: 'https://images.unsplash.com/photo-1616279969862-a463f5d9b8a7?w=600&q=80',
+            exercises: [
+              { name: 'Desenvolvimento com Halteres', sets: '4x12 reps', thumb: 'https://images.unsplash.com/photo-1607962837359-5e7e89f86776?w=300&q=70' },
+              { name: 'Elevação Lateral', sets: '4x15 reps', thumb: 'https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?w=300&q=70' },
+              { name: 'Elevação Frontal', sets: '3x12 reps', thumb: 'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=300&q=70' },
+              { name: 'Face Pull', sets: '3x15 reps', thumb: 'https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=300&q=70' },
+            ]
+          },
+        ]
+      },
+      intermediario: {
+        label: 'Intermediário',
+        img: 'https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=800&q=80',
+        desc: 'Fichas de hipertrofia com divisão de grupos musculares, volume progressivo e técnicas avançadas.',
+        workouts: [
+          {
+            title: 'Perna: Quadríceps & Posterior – Ficha #1', tag: '50 min · Intermediário',
+            img: 'https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=600&q=80',
+            exercises: [
+              { name: 'Agachamento Livre', sets: '5x8 reps', thumb: 'https://images.unsplash.com/photo-1434682881908-b43d0467b798?w=300&q=70' },
+              { name: 'Leg Press 45°', sets: '4x12 reps', thumb: 'https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=300&q=70' },
+              { name: 'Cadeira Extensora Drop Set', sets: '3x(15+10+8) reps', thumb: 'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=300&q=70' },
+              { name: 'Mesa Flexora', sets: '4x12 reps', thumb: 'https://images.unsplash.com/photo-1552674605-db6ffd4facb5?w=300&q=70' },
+              { name: 'Stiff com Halteres', sets: '3x12 reps', thumb: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=300&q=70' },
+              { name: 'Panturrilha em Pé', sets: '5x20 reps', thumb: 'https://images.unsplash.com/photo-1605296867304-46d5465a13f1?w=300&q=70' },
+            ]
+          },
+          {
+            title: 'Peito: Hipertrofia – Ficha #2', tag: '48 min · Intermediário',
+            img: 'https://images.unsplash.com/photo-1605296867304-46d5465a13f1?w=600&q=80',
+            exercises: [
+              { name: 'Supino Reto com Barra', sets: '4x8 reps', thumb: 'https://images.unsplash.com/photo-1598971639058-fab3c3109a69?w=300&q=70' },
+              { name: 'Supino Inclinado com Halteres', sets: '4x10 reps', thumb: 'https://images.unsplash.com/photo-1605296867304-46d5465a13f1?w=300&q=70' },
+              { name: 'Crucifixo na Polia', sets: '3x15 reps', thumb: 'https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?w=300&q=70' },
+              { name: 'Mergulho em Paralelas', sets: '3x10 reps', thumb: 'https://images.unsplash.com/photo-1599058945522-28d584b6f0ff?w=300&q=70' },
+            ]
+          },
+          {
+            title: 'Glúteo e Abdução – Ficha #3', tag: '45 min · Intermediário',
+            img: 'https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?w=600&q=80',
+            exercises: [
+              { name: 'Agachamento Sumô com Halter', sets: '4x15 reps', thumb: 'https://images.unsplash.com/photo-1518611012118-696072aa579a?w=300&q=70' },
+              { name: 'Cadeira Abdutora', sets: '4x20 reps', thumb: 'https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?w=300&q=70' },
+              { name: 'Elevação Pélvica com Peso', sets: '4x12 reps', thumb: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=300&q=70' },
+              { name: 'Glúteo no Cabo 4 Apoios', sets: '3x20 reps', thumb: 'https://images.unsplash.com/photo-1607962837359-5e7e89f86776?w=300&q=70' },
+            ]
+          },
+        ]
+      },
+      avancado: {
+        label: 'Avançado',
+        img: 'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=800&q=80',
+        desc: 'Treinamento de alta performance com técnicas de intensidade máxima para atletas experientes.',
+        workouts: [
+          {
+            title: 'Costas: Força Total – Ficha #1', tag: '55 min · Avançado',
+            img: 'https://images.unsplash.com/photo-1607962837359-5e7e89f86776?w=600&q=80',
+            exercises: [
+              { name: 'Barra Fixa Pronada', sets: '5x8 reps', thumb: 'https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=300&q=70' },
+              { name: 'Remada Curvada com Barra', sets: '5x8 reps', thumb: 'https://images.unsplash.com/photo-1605296867304-46d5465a13f1?w=300&q=70' },
+              { name: 'Remada Unilateral com Halter', sets: '4x10 reps', thumb: 'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=300&q=70' },
+              { name: 'Puxada Frontal na Polia', sets: '4x12 reps', thumb: 'https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?w=300&q=70' },
+              { name: 'Levantamento Terra', sets: '4x6 reps', thumb: 'https://images.unsplash.com/photo-1549060279-7e168fcee0c2?w=300&q=70' },
+            ]
+          },
+          {
+            title: 'Perna: Drop Sets – Ficha #2', tag: '60 min · Avançado',
+            img: 'https://images.unsplash.com/photo-1518611012118-696072aa579a?w=600&q=80',
+            exercises: [
+              { name: 'Agachamento com Correntes', sets: '5x5 reps', thumb: 'https://images.unsplash.com/photo-1434682881908-b43d0467b798?w=300&q=70' },
+              { name: 'Hack Squat', sets: '4x10 reps', thumb: 'https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=300&q=70' },
+              { name: 'Leg Press Unilateral', sets: '3x12 reps cada', thumb: 'https://images.unsplash.com/photo-1605296867304-46d5465a13f1?w=300&q=70' },
+              { name: 'Cadeira Extensora Parcial', sets: '4x(12+12) reps', thumb: 'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=300&q=70' },
+            ]
+          },
+          {
+            title: 'Full Body Power – Ficha #3', tag: '65 min · Avançado',
+            img: 'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=600&q=80',
+            exercises: [
+              { name: 'Agachamento Frontal', sets: '5x5 reps', thumb: 'https://images.unsplash.com/photo-1434682881908-b43d0467b798?w=300&q=70' },
+              { name: 'Supino com Pausa', sets: '5x5 reps', thumb: 'https://images.unsplash.com/photo-1598971639058-fab3c3109a69?w=300&q=70' },
+              { name: 'Levantamento Terra Romeno', sets: '4x8 reps', thumb: 'https://images.unsplash.com/photo-1549060279-7e168fcee0c2?w=300&q=70' },
+              { name: 'Barra Fixa com Peso', sets: '4x6 reps', thumb: 'https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=300&q=70' },
+            ]
+          },
+        ]
+      }
+    }
+  },
+
+  cardio: {
+    label: 'Aeróbico / Cardio', icon: '🏃',
+    levels: {
+      iniciante: {
+        label: 'Iniciante',
+        img: 'https://images.unsplash.com/photo-1552674605-db6ffd4facb5?w=800&q=80',
+        desc: 'Treinos aeróbicos de baixo impacto para desenvolver o fôlego e queimar calorias de forma progressiva.',
+        workouts: [
+          {
+            title: 'Caminhada Ativa – Ficha #1', tag: '30 min · Iniciante',
+            img: 'https://images.unsplash.com/photo-1552674605-db6ffd4facb5?w=600&q=80',
+            exercises: [
+              { name: 'Aquecimento: Caminhada Leve', sets: '5 min', thumb: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=300&q=70' },
+              { name: 'Caminhada Moderada', sets: '20 min', thumb: 'https://images.unsplash.com/photo-1552674605-db6ffd4facb5?w=300&q=70' },
+              { name: 'Desaceleração', sets: '5 min', thumb: 'https://images.unsplash.com/photo-1605296867304-46d5465a13f1?w=300&q=70' },
+            ]
+          },
+          {
+            title: 'Jump Suave – Ficha #2', tag: '20 min · Iniciante',
+            img: 'https://images.unsplash.com/photo-1599058945522-28d584b6f0ff?w=600&q=80',
+            exercises: [
+              { name: 'Polichinelo', sets: '3x60 seg', thumb: 'https://images.unsplash.com/photo-1552674605-db6ffd4facb5?w=300&q=70' },
+              { name: 'Corrida Estacionária Leve', sets: '3x60 seg', thumb: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=300&q=70' },
+              { name: 'Pular Corda Simulado', sets: '3x45 seg', thumb: 'https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=300&q=70' },
+            ]
+          },
+          {
+            title: 'Cardio Low Impact – Ficha #3', tag: '25 min · Iniciante',
+            img: 'https://images.unsplash.com/photo-1605296867304-46d5465a13f1?w=600&q=80',
+            exercises: [
+              { name: 'Step Lateral', sets: '4x45 seg', thumb: 'https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?w=300&q=70' },
+              { name: 'Chute Frontal Alternado', sets: '3x30 seg', thumb: 'https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=300&q=70' },
+              { name: 'Elevação de Joelho', sets: '3x45 seg', thumb: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=300&q=70' },
+            ]
+          },
+        ]
+      },
+      intermediario: {
+        label: 'Intermediário',
+        img: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&q=80',
+        desc: 'Intensidade moderada-alta com intervalos, circuitos e combinações de cardio que aceleram o metabolismo.',
+        workouts: [
+          {
+            title: 'Corrida Intervalada – Ficha #1', tag: '30 min · Intermediário',
+            img: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600&q=80',
+            exercises: [
+              { name: 'Aquecimento (trote leve)', sets: '5 min', thumb: 'https://images.unsplash.com/photo-1552674605-db6ffd4facb5?w=300&q=70' },
+              { name: 'Sprint 80%', sets: '6x1 min (1 min descanso)', thumb: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=300&q=70' },
+              { name: 'Corrida Moderada', sets: '10 min contínuo', thumb: 'https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=300&q=70' },
+            ]
+          },
+          {
+            title: 'Bike + Jump 40min – Ficha #2', tag: '40 min · Intermediário',
+            img: 'https://images.unsplash.com/photo-1518611012118-696072aa579a?w=600&q=80',
+            exercises: [
+              { name: 'Bicicleta Moderada', sets: '15 min', thumb: 'https://images.unsplash.com/photo-1607962837359-5e7e89f86776?w=300&q=70' },
+              { name: 'Jump Alternado', sets: '5x45 seg', thumb: 'https://images.unsplash.com/photo-1599058945522-28d584b6f0ff?w=300&q=70' },
+              { name: 'Bicicleta Resistência Alta', sets: '10 min', thumb: 'https://images.unsplash.com/photo-1518611012118-696072aa579a?w=300&q=70' },
+            ]
+          },
+          {
+            title: 'Dança Cardio Funcional – Ficha #3', tag: '35 min · Intermediário',
+            img: 'https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?w=600&q=80',
+            exercises: [
+              { name: 'Aquecimento Dança', sets: '5 min', thumb: 'https://images.unsplash.com/photo-1605296867304-46d5465a13f1?w=300&q=70' },
+              { name: 'Sequência Cardio Dança', sets: '20 min', thumb: 'https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?w=300&q=70' },
+              { name: 'Cool Down', sets: '10 min', thumb: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=300&q=70' },
+            ]
+          },
+        ]
+      },
+      avancado: {
+        label: 'Avançado',
+        img: 'https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=800&q=80',
+        desc: 'Protocolos de alta intensidade máxima — HIIT, Tabata e circuitos explosivos para queima extrema.',
+        workouts: [
+          {
+            title: 'HIIT 20min Maximal – Ficha #1', tag: '20 min · Avançado',
+            img: 'https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=600&q=80',
+            exercises: [
+              { name: 'Burpee', sets: '4x10 reps (30 seg descanso)', thumb: 'https://images.unsplash.com/photo-1552674605-db6ffd4facb5?w=300&q=70' },
+              { name: 'Sprint Máximo', sets: '4x20 seg (40 seg descanso)', thumb: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=300&q=70' },
+              { name: 'Jump Squat', sets: '4x15 reps (30 seg descanso)', thumb: 'https://images.unsplash.com/photo-1434682881908-b43d0467b798?w=300&q=70' },
+              { name: 'Mountain Climber Explosivo', sets: '4x30 seg (30 seg descanso)', thumb: 'https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=300&q=70' },
+            ]
+          },
+          {
+            title: 'Circuito Cardio Explosivo – Ficha #2', tag: '45 min · Avançado',
+            img: 'https://images.unsplash.com/photo-1607962837359-5e7e89f86776?w=600&q=80',
+            exercises: [
+              { name: 'Box Jump', sets: '5x8 reps', thumb: 'https://images.unsplash.com/photo-1552674605-db6ffd4facb5?w=300&q=70' },
+              { name: 'Battle Rope', sets: '5x30 seg', thumb: 'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=300&q=70' },
+              { name: 'Sled Push', sets: '5x20 metros', thumb: 'https://images.unsplash.com/photo-1549060279-7e168fcee0c2?w=300&q=70' },
+              { name: 'Corrida com Parachute', sets: '4x40 metros', thumb: 'https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=300&q=70' },
+            ]
+          },
+          {
+            title: 'Treino Alta Intensidade – Ficha #3', tag: '30 min · Avançado',
+            img: 'https://images.unsplash.com/photo-1549060279-7e168fcee0c2?w=600&q=80',
+            exercises: [
+              { name: 'Tabata Burpee', sets: '8 rodadas (20/10)', thumb: 'https://images.unsplash.com/photo-1552674605-db6ffd4facb5?w=300&q=70' },
+              { name: 'Tabata Sprint', sets: '8 rodadas (20/10)', thumb: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=300&q=70' },
+              { name: 'Tabata Jump Squat', sets: '8 rodadas (20/10)', thumb: 'https://images.unsplash.com/photo-1434682881908-b43d0467b798?w=300&q=70' },
+            ]
+          },
+        ]
+      }
+    }
+  },
+
+  secar: {
+    label: 'Receitas pra Secar', icon: '🥗',
+    levels: {
+      iniciante: {
+        label: 'Iniciante',
+        img: 'https://images.unsplash.com/photo-1498837167922-ddd27525d352?w=800&q=80',
+        desc: 'Receitas simples e deliciosas para perder peso sem sofrimento, com ingredientes acessíveis do dia a dia.',
+        workouts: [
+          {
+            title: 'Receitas Rápidas – Aula #1', tag: '10 min · Iniciante',
+            img: 'https://images.unsplash.com/photo-1498837167922-ddd27525d352?w=600&q=80',
+            exercises: [
+              { name: 'Bowl Proteico Detox', sets: 'Preparo: 10 min', thumb: 'https://images.unsplash.com/photo-1498837167922-ddd27525d352?w=300&q=70' },
+              { name: 'Vitamina Emagrecedora', sets: 'Preparo: 5 min', thumb: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=300&q=70' },
+              { name: 'Chá Termogênico', sets: 'Preparo: 5 min', thumb: 'https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=300&q=70' },
+            ]
+          },
+          {
+            title: 'Almoço Fit – Aula #2', tag: '12 min · Iniciante',
+            img: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=600&q=80',
+            exercises: [
+              { name: 'Salada Completa Fit', sets: 'Preparo: 8 min', thumb: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=300&q=70' },
+              { name: 'Omelete de Espinafre', sets: 'Preparo: 12 min', thumb: 'https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=300&q=70' },
+            ]
+          },
+          {
+            title: 'Lanche Saudável – Aula #3', tag: '8 min · Iniciante',
+            img: 'https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=600&q=80',
+            exercises: [
+              { name: 'Mix de Castanhas e Frutas', sets: 'Preparo: 5 min', thumb: 'https://images.unsplash.com/photo-1498837167922-ddd27525d352?w=300&q=70' },
+              { name: 'Iogurte com Granola', sets: 'Preparo: 3 min', thumb: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=300&q=70' },
+            ]
+          },
+        ]
+      },
+      intermediario: {
+        label: 'Intermediário',
+        img: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&q=80',
+        desc: 'Planos alimentares estruturados com controle de macros para acelerar a perda de gordura de forma eficiente.',
+        workouts: [
+          {
+            title: 'Frango Magro – Aula #1', tag: '25 min · Intermediário',
+            img: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600&q=80',
+            exercises: [
+              { name: 'Frango ao Molho Limão', sets: 'Preparo: 25 min', thumb: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=300&q=70' },
+              { name: 'Arroz de Couve-Flor', sets: 'Preparo: 15 min', thumb: 'https://images.unsplash.com/photo-1547592180-85f173990554?w=300&q=70' },
+            ]
+          },
+          {
+            title: 'Marmita Low Carb – Aula #2', tag: '45 min · Intermediário',
+            img: 'https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=600&q=80',
+            exercises: [
+              { name: 'Sopa Termogênica', sets: 'Preparo: 30 min', thumb: 'https://images.unsplash.com/photo-1547592180-85f173990554?w=300&q=70' },
+              { name: 'Marmita Low Carb Semanal', sets: 'Preparo: 45 min', thumb: 'https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=300&q=70' },
+            ]
+          },
+          {
+            title: 'Controle de Macros – Aula #3', tag: '20 min · Intermediário',
+            img: 'https://images.unsplash.com/photo-1498837167922-ddd27525d352?w=600&q=80',
+            exercises: [
+              { name: 'Como Calcular seus Macros', sets: 'Aula teórica: 15 min', thumb: 'https://images.unsplash.com/photo-1498837167922-ddd27525d352?w=300&q=70' },
+              { name: 'Montagem do Prato Perfeito', sets: 'Prática: 20 min', thumb: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=300&q=70' },
+            ]
+          },
+        ]
+      },
+      avancado: {
+        label: 'Avançado',
+        img: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800&q=80',
+        desc: 'Estratégias nutricionais avançadas: deficit calórico preciso, ciclagem de carboidratos e detox completo.',
+        workouts: [
+          {
+            title: 'Plano Detox 7 Dias – Aula #1', tag: '60 min · Avançado',
+            img: 'https://images.unsplash.com/photo-1498837167922-ddd27525d352?w=600&q=80',
+            exercises: [
+              { name: 'Detox Dia 1: Líquidos', sets: 'Cardápio completo', thumb: 'https://images.unsplash.com/photo-1498837167922-ddd27525d352?w=300&q=70' },
+              { name: 'Detox Dia 2-3: Frutas e Vegetais', sets: 'Cardápio completo', thumb: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=300&q=70' },
+              { name: 'Detox Dia 4-7: Reintrodução', sets: 'Cardápio completo', thumb: 'https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=300&q=70' },
+            ]
+          },
+          {
+            title: 'Cutting Culinário Pro – Aula #2', tag: '55 min · Avançado',
+            img: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=600&q=80',
+            exercises: [
+              { name: 'Proteína Magra com Temperos', sets: 'Preparo: 30 min', thumb: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=300&q=70' },
+              { name: 'Legumes Grelhados Anti-inflamatórios', sets: 'Preparo: 25 min', thumb: 'https://images.unsplash.com/photo-1547592180-85f173990554?w=300&q=70' },
+            ]
+          },
+          {
+            title: 'Jejum Intermitente – Aula #3', tag: '40 min · Avançado',
+            img: 'https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=600&q=80',
+            exercises: [
+              { name: 'Protocolo 16:8', sets: 'Aula teórica + prática', thumb: 'https://images.unsplash.com/photo-1498837167922-ddd27525d352?w=300&q=70' },
+              { name: 'Janela Alimentar Otimizada', sets: 'Estratégia completa', thumb: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=300&q=70' },
+            ]
+          },
+        ]
+      }
+    }
+  },
+
+  massa: {
+    label: 'Receitas pra Ganhar Massa', icon: '🍗',
+    levels: {
+      iniciante: {
+        label: 'Iniciante',
+        img: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&q=80',
+        desc: 'Receitas hipercalóricas simples e nutritivas para quem está começando a buscar ganho de massa muscular.',
+        workouts: [
+          {
+            title: 'Básico do Bulking – Aula #1', tag: '15 min · Iniciante',
+            img: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600&q=80',
+            exercises: [
+              { name: 'Shake de Proteína Caseiro', sets: 'Preparo: 5 min', thumb: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=300&q=70' },
+              { name: 'Frango + Batata Doce', sets: 'Preparo: 20 min', thumb: 'https://images.unsplash.com/photo-1547592180-85f173990554?w=300&q=70' },
+              { name: 'Omelete Hipercalórica', sets: 'Preparo: 15 min', thumb: 'https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=300&q=70' },
+            ]
+          },
+          {
+            title: 'Almoço para Crescer – Aula #2', tag: '20 min · Iniciante',
+            img: 'https://images.unsplash.com/photo-1547592180-85f173990554?w=600&q=80',
+            exercises: [
+              { name: 'Arroz Integral + Carne Moída', sets: 'Preparo: 25 min', thumb: 'https://images.unsplash.com/photo-1547592180-85f173990554?w=300&q=70' },
+              { name: 'Feijão com Proteína Extra', sets: 'Preparo: 30 min', thumb: 'https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=300&q=70' },
+            ]
+          },
+          {
+            title: 'Lanches Pré e Pós-Treino – Aula #3', tag: '10 min · Iniciante',
+            img: 'https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=600&q=80',
+            exercises: [
+              { name: 'Banana com Pasta de Amendoim', sets: 'Preparo: 3 min', thumb: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=300&q=70' },
+              { name: 'Whey com Aveia', sets: 'Preparo: 5 min', thumb: 'https://images.unsplash.com/photo-1498837167922-ddd27525d352?w=300&q=70' },
+            ]
+          },
+        ]
+      },
+      intermediario: {
+        label: 'Intermediário',
+        img: 'https://images.unsplash.com/photo-1547592180-85f173990554?w=800&q=80',
+        desc: 'Planejamento alimentar com foco em superávit calórico estratégico para maximizar o ganho de massa.',
+        workouts: [
+          {
+            title: 'Marmita Bulking – Aula #1', tag: '50 min · Intermediário',
+            img: 'https://images.unsplash.com/photo-1547592180-85f173990554?w=600&q=80',
+            exercises: [
+              { name: 'Bowl de Arroz + Carne', sets: 'Preparo: 30 min', thumb: 'https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=300&q=70' },
+              { name: 'Pasta Integral com Atum', sets: 'Preparo: 25 min', thumb: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=300&q=70' },
+              { name: 'Marmita Bulking Semanal', sets: 'Preparo: 50 min', thumb: 'https://images.unsplash.com/photo-1498837167922-ddd27525d352?w=300&q=70' },
+            ]
+          },
+          {
+            title: 'Carboidratos Estratégicos – Aula #2', tag: '30 min · Intermediário',
+            img: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=600&q=80',
+            exercises: [
+              { name: 'Timing de Carboidratos', sets: 'Aula teórica: 20 min', thumb: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=300&q=70' },
+              { name: 'Receita de Carboidratos Complexos', sets: 'Preparo: 30 min', thumb: 'https://images.unsplash.com/photo-1547592180-85f173990554?w=300&q=70' },
+            ]
+          },
+          {
+            title: 'Proteínas de Alto Valor Biológico – Aula #3', tag: '25 min · Intermediário',
+            img: 'https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=600&q=80',
+            exercises: [
+              { name: 'Frango Assado com Ervas', sets: 'Preparo: 40 min', thumb: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=300&q=70' },
+              { name: 'Peixe Grelhado com Quinoa', sets: 'Preparo: 25 min', thumb: 'https://images.unsplash.com/photo-1547592180-85f173990554?w=300&q=70' },
+            ]
+          },
+        ]
+      },
+      avancado: {
+        label: 'Avançado',
+        img: 'https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=800&q=80',
+        desc: 'Estratégias de nutrição de elite para atletas — periodização nutricional, bulk e cut calculados.',
+        workouts: [
+          {
+            title: 'Plano Anabólico 4000kcal – Aula #1', tag: '60 min · Avançado',
+            img: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600&q=80',
+            exercises: [
+              { name: 'Cardápio Anabólico Completo', sets: 'Plano de 7 dias', thumb: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=300&q=70' },
+              { name: 'Shake Pré-Treino Avançado', sets: 'Preparo: 5 min', thumb: 'https://images.unsplash.com/photo-1498837167922-ddd27525d352?w=300&q=70' },
+              { name: 'Refeição Pós-Treino Otimizada', sets: 'Preparo: 20 min', thumb: 'https://images.unsplash.com/photo-1547592180-85f173990554?w=300&q=70' },
+            ]
+          },
+          {
+            title: 'Volume Max – Aula #2', tag: '55 min · Avançado',
+            img: 'https://images.unsplash.com/photo-1547592180-85f173990554?w=600&q=80',
+            exercises: [
+              { name: 'Dieta de Força: Volume Máximo', sets: 'Aula + receitas', thumb: 'https://images.unsplash.com/photo-1547592180-85f173990554?w=300&q=70' },
+              { name: 'Suplementação Estratégica', sets: 'Guia completo', thumb: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=300&q=70' },
+            ]
+          },
+          {
+            title: 'Nutrição de Competição – Aula #3', tag: '65 min · Avançado',
+            img: 'https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=600&q=80',
+            exercises: [
+              { name: 'Peak Week: Últimos 7 Dias', sets: 'Protocolo completo', thumb: 'https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=300&q=70' },
+              { name: 'Manipulação de Água e Sódio', sets: 'Estratégia avançada', thumb: 'https://images.unsplash.com/photo-1498837167922-ddd27525d352?w=300&q=70' },
+            ]
+          },
+        ]
+      }
+    }
+  }
+};
+
+/* ── Navegação de Views ── */
+function showView(viewId) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  const el = document.getElementById(viewId);
+  if (el) {
+    el.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+}
+
+function showLevelView(catKey, levelKey) {
+  const cat = CATALOG[catKey];
+  const lvl = cat.levels[levelKey];
+  if (!cat || !lvl) return;
+
+  const levelLabels = { iniciante: '🌱 Iniciante', intermediario: '🔥 Intermediário', avancado: '⚡ Avançado' };
+  const levelLabel = levelLabels[levelKey] || lvl.label;
+
+  const workoutCards = lvl.workouts.map((wk, i) => `
+    <div class="wk-card" onclick="showWorkoutView('${catKey}','${levelKey}',${i})">
+      <img src="${wk.img}" alt="${wk.title}" loading="lazy"/>
+      <div class="wk-card-ov">
+        <div class="wk-play">▶</div>
+        <div class="wk-tag">${cat.label}</div>
+        <div class="wk-ttl">${wk.title}</div>
+      </div>
+      <div class="wk-intro-badge">${wk.tag}</div>
+    </div>
+  `).join('');
+
+  document.getElementById('course-page').innerHTML = `
+    <div class="course-hero">
+      <img src="${lvl.img}" alt="${lvl.label}" loading="lazy"/>
+      <div class="course-hero-ov"></div>
+      <button class="course-back" onclick="showView('view-home')">‹ Voltar</button>
+    </div>
+    <div class="course-body">
+      <div class="course-badge-pill">${cat.icon} ${cat.label}</div>
+      <h1 class="course-ttl">${levelLabel}</h1>
+      <p class="course-dsc">${lvl.desc}</p>
+      <div class="playlist-hd">📋 Lista de Reprodução</div>
+      <div class="wk-grid">${workoutCards}</div>
+    </div>
+  `;
+  showView('view-level');
+}
+
+function showWorkoutView(catKey, levelKey, wIdx) {
+  const cat = CATALOG[catKey];
+  const lvl = cat.levels[levelKey];
+  const wk = lvl.workouts[wIdx];
+  if (!wk) return;
+
+  const levelLabels = { iniciante: '🌱 Iniciante', intermediario: '🔥 Intermediário', avancado: '⚡ Avançado' };
+  const levelLabel = levelLabels[levelKey] || lvl.label;
+
+  const exItems = wk.exercises.map((ex, i) => `
+    <div class="ex-item" onclick="showToast('▶ ${ex.name.replace(/'/g,"\\'")}')">
+      <div class="ex-thumb"><img src="${ex.thumb}" alt="${ex.name}" loading="lazy"/></div>
+      <div class="ex-info">
+        <div class="ex-num">${String(i+1).padStart(2,'0')}</div>
+        <div class="ex-name">${ex.name}</div>
+        <div class="ex-sets">${ex.sets}</div>
+      </div>
+      <div class="ex-play-btn">▶</div>
+    </div>
+  `).join('');
+
+  document.getElementById('exercise-page').innerHTML = `
+    <div class="ex-page-hd">
+      <div class="ex-back" onclick="showLevelView('${catKey}','${levelKey}')">‹ Voltar</div>
+      <div class="ex-badge">${cat.icon} ${levelLabel}</div>
+      <div class="ex-hd-title">${wk.title}</div>
+    </div>
+    <div class="ex-list-wrap">
+      <div class="ex-sub">Exercícios</div>
+      <div class="ex-playlist-name">${wk.exercises.length} exercícios · ${wk.tag}</div>
+      ${exItems}
+    </div>
+  `;
+  showView('view-workout');
 }
 
 function openModal(img, series, title, meta) {
