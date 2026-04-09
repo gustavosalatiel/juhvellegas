@@ -1376,7 +1376,7 @@
     <div class="content">
 
       <!-- Continuar assistindo -->
-      <section class="section">
+      <section class="section" id="sec-continue" style="display:none">
         <div class="sec-head"><div><div class="sec-title-wrap"><span class="sec-icon">▶</span><h2 class="sec-title">Continuar assistindo</h2></div></div></div>
         <div class="row-wrap">
           <button class="sbtn sp" onclick="scrollR('rca',-1)">‹</button>
@@ -1665,6 +1665,7 @@ function doLogin() {
     document.getElementById('avatarInitials').textContent = em.substring(0, 2).toUpperCase();
     document.getElementById('avNameDisplay').textContent = em.split('@')[0];
     document.getElementById('avEmailDisplay').textContent = em;
+    loadWatchHistory(em);
   }
 }
 
@@ -1687,6 +1688,7 @@ function doRegister() {
       document.getElementById('avatarInitials').textContent = nm.substring(0, 2).toUpperCase();
       document.getElementById('avNameDisplay').textContent = nm;
       document.getElementById('avEmailDisplay').textContent = em;
+      loadWatchHistory(em);
     }, 800);
   }
 }
@@ -1697,6 +1699,10 @@ function doForgot() {
 
 function doLogout() {
   closeMenus();
+  currentUserEmail = '';
+  watchHistory = [];
+  const sec = document.getElementById('sec-continue');
+  if (sec) sec.style.display = 'none';
   document.getElementById('app').classList.remove('visible');
   document.getElementById('loginPage').classList.remove('hidden');
   document.getElementById('lEmail').value = '';
@@ -1772,6 +1778,69 @@ function scrollR(id, dir) {
  * @param {string} level  — 'all' | 'iniciante' | 'intermediario' | 'avancado'
  * @param {HTMLElement} btn — botão clicado (para marcar como active)
  */
+/* ════════════════════════════════════════════
+   HISTÓRICO POR USUÁRIO (localStorage)
+   ════════════════════════════════════════════ */
+let currentUserEmail = '';
+let watchHistory = [];
+
+function loadWatchHistory(email) {
+  currentUserEmail = email;
+  try {
+    watchHistory = JSON.parse(localStorage.getItem('juh_hist_' + email) || '[]');
+  } catch(e) { watchHistory = []; }
+  renderContinueSection();
+}
+
+function saveToHistory(catKey, levelKey, wIdx) {
+  if (!currentUserEmail) return;
+  // Remove entrada duplicada
+  watchHistory = watchHistory.filter(h => !(h.c === catKey && h.l === levelKey && h.w === wIdx));
+  // Adiciona no início
+  watchHistory.unshift({ c: catKey, l: levelKey, w: wIdx, prog: 15 });
+  // Mantém máximo 8 itens
+  watchHistory = watchHistory.slice(0, 8);
+  try {
+    localStorage.setItem('juh_hist_' + currentUserEmail, JSON.stringify(watchHistory));
+  } catch(e) {}
+  renderContinueSection();
+}
+
+function renderContinueSection() {
+  const sec = document.getElementById('sec-continue');
+  const row = document.getElementById('rca');
+  if (!sec || !row) return;
+
+  if (watchHistory.length === 0) {
+    sec.style.display = 'none';
+    return;
+  }
+
+  sec.style.display = '';
+  row.innerHTML = watchHistory.map(h => {
+    const cat = CATALOG[h.c];
+    if (!cat) return '';
+    const lvl = cat.levels[h.l];
+    if (!lvl) return '';
+    const wk = lvl.workouts[h.w];
+    if (!wk) return '';
+    const durLabel = wk.tag.split('·')[0].trim();
+    return `<div class="vc" onclick="showWorkoutView('${h.c}','${h.l}',${h.w})">
+      <div class="cth">
+        <img src="${wk.img}" alt="" loading="lazy"/>
+        <div class="cov"><div class="pcircle">▶</div></div>
+        <span class="cdur">${durLabel}</span>
+        <div class="cprog"><div class="cprogbar" style="width:${h.prog || 20}%"></div></div>
+      </div>
+      <div class="cinfo">
+        <div class="cseries">${cat.label}</div>
+        <div class="ctitle">${wk.title}</div>
+        <div class="cmeta">${wk.tag}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
 function filterSection(secId, level, btn) {
   const sec = document.getElementById(secId);
   if (!sec) return;
@@ -2409,6 +2478,7 @@ function showLevelView(catKey, levelKey) {
 }
 
 function showWorkoutView(catKey, levelKey, wIdx) {
+  saveToHistory(catKey, levelKey, wIdx);
   const cat = CATALOG[catKey];
   const lvl = cat.levels[levelKey];
   const wk = lvl.workouts[wIdx];
