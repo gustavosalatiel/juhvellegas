@@ -45,76 +45,40 @@
     /* ═══ LOGIN PAGE ═══ */
     #loginPage {
       position: fixed; inset: 0; z-index: 9999;
-      display: flex; flex-direction: row;
-      overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+      padding: 20px;
+      overflow-y: auto;
     }
     #loginPage.hidden { display: none; }
 
-    /* Painel esquerdo: foto Juh (desktop) */
-    .login-cover {
-      flex: 1.1;
-      position: relative;
-      overflow: hidden;
-      display: none;
+    /* Fundo: foto da Juh com overlay escuro */
+    .login-bg {
+      position: absolute; inset: 0;
+      z-index: 0;
     }
-    @media(min-width: 768px) { .login-cover { display: block; } }
-    .login-cover img {
+    .login-bg img {
       width: 100%; height: 100%;
       object-fit: cover; object-position: center top;
       display: block;
     }
-    .login-cover-ov {
+    .login-bg-ov {
       position: absolute; inset: 0;
-      background: linear-gradient(90deg, transparent 55%, rgba(12,12,12,0.7) 100%),
-                  linear-gradient(0deg, rgba(0,0,0,0.55) 0%, transparent 45%);
-    }
-    .login-cover-badge {
-      position: absolute; bottom: 36px; left: 32px;
-      font-family: 'Montserrat', sans-serif;
-    }
-    .lcb-tag {
-      font-size: 10px; font-weight: 700; letter-spacing: 2px;
-      color: var(--primary); text-transform: uppercase; margin-bottom: 8px;
-    }
-    .lcb-title {
-      font-size: 30px; font-weight: 900; line-height: 1.12; color: #fff;
-      text-shadow: 0 2px 16px rgba(0,0,0,0.6);
-    }
-    .lcb-sub {
-      font-size: 13px; color: rgba(255,255,255,0.65); margin-top: 8px;
-      font-family: 'Inter', sans-serif;
+      background: rgba(0,0,0,0.82);
     }
 
-    /* Painel direito: formulário */
-    .login-panel {
-      width: 100%; max-width: 480px;
-      background: var(--bg);
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      padding: 32px 24px;
-      overflow-y: auto;
-    }
-    @media(min-width: 768px) { .login-panel { border-left: 1px solid var(--border); } }
-
-    /* Mobile: foto no topo */
-    .login-mobile-cover {
-      display: block;
-      width: 100%; height: 210px;
-      object-fit: cover; object-position: center 18%;
-      border-radius: 18px;
-      margin-bottom: 22px;
-    }
-    @media(min-width: 768px) { .login-mobile-cover { display: none; } }
-
+    /* Card centralizado sobre o fundo */
     .login-card {
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.08);
+      position: relative; z-index: 1;
+      background: rgba(18,18,18,0.88);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(255,255,255,0.10);
       border-radius: 24px;
-      width: 100%; max-width: 380px;
-      padding: 40px 32px;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.06);
-      position: relative;
+      width: 100%; max-width: 420px;
+      padding: 44px 40px;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.07);
     }
+    @media(max-width:480px) { .login-card { padding: 36px 24px; } }
     .login-logo { text-align: center; margin-bottom: 28px; }
     .login-logo .brand {
       font-size: 32px;
@@ -1170,18 +1134,11 @@
 
 <!-- ═══ LOGIN PAGE ═══ -->
 <div id="loginPage">
-  <div class="login-cover">
-    <img src="juh-login-cover.png" alt="JuhVellegas — Seu Treino, Sua Evolução"/>
-    <div class="login-cover-ov"></div>
-    <div class="login-cover-badge">
-      <div class="lcb-tag">Plataforma Oficial</div>
-      <div class="lcb-title">Seu Treino,<br>Sua Evolução.</div>
-      <div class="lcb-sub">Academia · Casa · Cardio · Nutrição</div>
-    </div>
+  <div class="login-bg">
+    <img src="juh-login-cover.png" alt=""/>
+    <div class="login-bg-ov"></div>
   </div>
-  <div class="login-panel">
-    <img class="login-mobile-cover" src="juh-login-cover.png" alt="JuhVellegas"/>
-    <div class="login-card">
+  <div class="login-card">
     <div class="login-logo">
       <div class="brand">JuhVellegas<span style="font-size:24px; color: var(--primary);">✦</span></div>
       <div class="login-tagline">Sua plataforma de treinos e bem-estar</div>
@@ -1249,8 +1206,7 @@
       </div>
       <button class="btn-prim" onclick="doRegister()">Criar minha conta</button>
     </div>
-    </div><!-- /login-card -->
-  </div><!-- /login-panel -->
+  </div><!-- /login-card -->
 </div><!-- /loginPage -->
 
 <!-- ═══ APP ═══ -->
