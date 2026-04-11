@@ -1325,7 +1325,7 @@
   <div class="toast-wrap" id="toastWrap"></div>
 
   <!-- ═══ HERO ═══ -->
-  <section class="hero">
+  <section class="hero" id="heroSection">
     <!-- Slide 1 -->
     <div class="hslide active">
       <div class="hslide-bg" style="background-image:url('https://images.unsplash.com/photo-1599058945522-28d584b6f0ff?w=1600&q=80')"></div>
@@ -2465,6 +2465,9 @@ function showView(viewId) {
     el.classList.add('active');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
+  // Hero: only visible on home tab
+  const hero = document.getElementById('heroSection');
+  if (hero) hero.style.display = viewId === 'view-home' ? '' : 'none';
   // Hero slideshow: pause when not on home tab, resume when back on home
   if (viewId === 'view-home') {
     resetSlideTimer();
