@@ -2465,6 +2465,12 @@ function showView(viewId) {
     el.classList.add('active');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
+  // Hero slideshow: pause when not on home tab, resume when back on home
+  if (viewId === 'view-home') {
+    resetSlideTimer();
+  } else {
+    clearInterval(slideInterval);
+  }
 }
 
 function showLevelView(catKey, levelKey) {
