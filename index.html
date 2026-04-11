@@ -88,16 +88,36 @@
       box-shadow: none;
     }
     @media(min-width: 560px) {
-      #loginPage { justify-content: center; align-items: center; }
+      /* Desktop: card à direita, rosto da Juh livre à esquerda */
+      #loginPage {
+        justify-content: flex-end;
+        align-items: stretch;
+        padding: 0;
+      }
       .login-card {
-        border-radius: 24px;
-        border: 1px solid rgba(255,255,255,0.10);
-        max-width: 440px;
-        padding: 44px 40px;
-        background: rgba(10,10,10,0.78);
-        backdrop-filter: blur(28px);
-        -webkit-backdrop-filter: blur(28px);
-        box-shadow: 0 32px 80px rgba(0,0,0,0.7);
+        border-radius: 0;
+        border: none;
+        border-left: 1px solid rgba(255,255,255,0.08);
+        width: 420px;
+        max-width: 420px;
+        padding: 0 48px;
+        background: rgba(8,8,8,0.82);
+        backdrop-filter: blur(32px);
+        -webkit-backdrop-filter: blur(32px);
+        box-shadow: -20px 0 60px rgba(0,0,0,0.5);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        overflow-y: auto;
+      }
+      .login-bg-ov {
+        background: linear-gradient(
+          to right,
+          rgba(0,0,0,0.0) 0%,
+          rgba(0,0,0,0.0) 40%,
+          rgba(0,0,0,0.55) 65%,
+          rgba(0,0,0,0.85) 100%
+        );
       }
     }
     .login-logo { text-align: center; margin-bottom: 28px; }
