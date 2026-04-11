@@ -88,36 +88,34 @@
       box-shadow: none;
     }
     @media(min-width: 560px) {
-      /* Desktop: card à direita, rosto da Juh livre à esquerda */
       #loginPage {
-        justify-content: flex-end;
-        align-items: stretch;
-        padding: 0;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        padding: 40px 5%;
       }
-      .login-card {
-        border-radius: 0;
-        border: none;
-        border-left: 1px solid rgba(255,255,255,0.08);
-        width: 420px;
-        max-width: 420px;
-        padding: 0 48px;
-        background: rgba(8,8,8,0.82);
-        backdrop-filter: blur(32px);
-        -webkit-backdrop-filter: blur(32px);
-        box-shadow: -20px 0 60px rgba(0,0,0,0.5);
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        overflow-y: auto;
-      }
+      /* No desktop: degradê da esquerda (card) para transparente no centro */
       .login-bg-ov {
         background: linear-gradient(
-          to right,
-          rgba(0,0,0,0.0) 0%,
-          rgba(0,0,0,0.0) 40%,
-          rgba(0,0,0,0.55) 65%,
-          rgba(0,0,0,0.85) 100%
+          105deg,
+          rgba(0,0,0,0.88) 0%,
+          rgba(0,0,0,0.72) 28%,
+          rgba(0,0,0,0.18) 55%,
+          rgba(0,0,0,0.05) 100%
         );
+      }
+      .login-card {
+        border-radius: 20px;
+        border: 1px solid rgba(255,255,255,0.10);
+        width: 400px;
+        max-width: 400px;
+        padding: 48px 40px;
+        background: rgba(8,8,8,0.70);
+        backdrop-filter: blur(30px);
+        -webkit-backdrop-filter: blur(30px);
+        box-shadow: 0 24px 64px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.06);
+        flex-direction: column;
+        justify-content: center;
       }
     }
     .login-logo { text-align: center; margin-bottom: 28px; }
