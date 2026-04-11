@@ -75,23 +75,21 @@
     /* ── MOBILE: foto + card ancorado na base ── */
     @media(max-width: 767px) {
       .login-bg { display: block; }
-      #loginPage {
-        background: var(--bg);
-        display: flex; flex-direction: column;
-        justify-content: flex-end;
-      }
+      #loginPage { background: #000; }
       .login-wrap {
-        position: relative; z-index: 1;
-        width: 100%;
+        position: absolute; bottom: 0; left: 0; right: 0;
+        z-index: 1;
       }
       .login-card {
         width: 100%;
-        padding: 28px 22px 48px;
+        padding: 24px 22px 44px;
         background: transparent;
         border-top: 1px solid rgba(255,255,255,0.08);
         border-radius: 28px 28px 0 0;
         box-sizing: border-box;
       }
+      /* No mobile oculta logo (já aparece na foto como marca) */
+      .login-logo { display: none; }
     }
 
     /* ── DESKTOP: card escuro centralizado, sem foto ── */
