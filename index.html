@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
   <title>JuhVellegas</title>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
@@ -72,27 +72,34 @@
         #000 100%);
     }
 
-    /* ── MOBILE: foto + card ancorado na base ── */
+    /* ── MOBILE (< 768px): foto + card ancorado na base ── */
     @media(max-width: 767px) {
       .login-bg { display: block; }
       #loginPage { background: #000; }
       .login-wrap {
         position: absolute; bottom: 0; left: 0; right: 0;
         z-index: 1;
+        width: 100%;
       }
       .login-card {
         width: 100%;
-        padding: 24px 22px 44px;
+        padding: 22px 20px env(safe-area-inset-bottom, 40px);
+        padding-bottom: max(40px, env(safe-area-inset-bottom));
         background: transparent;
         border-top: 1px solid rgba(255,255,255,0.08);
         border-radius: 28px 28px 0 0;
         box-sizing: border-box;
       }
-      /* No mobile oculta logo (já aparece na foto como marca) */
       .login-logo { display: none; }
+      /* Inputs um pouco menores no mobile para caber tudo */
+      .finput { padding: 11px 13px; }
+      .btn-prim { padding: 13px; }
+      .btn-out { padding: 11px 8px; }
+      .lform { gap: 11px; }
+      .login-tabs { margin-bottom: 16px; }
     }
 
-    /* ── DESKTOP: card escuro centralizado, sem foto ── */
+    /* ── DESKTOP (≥ 768px): card escuro centralizado, sem foto ── */
     @media(min-width: 768px) {
       #loginPage {
         background: radial-gradient(ellipse at 30% 50%, rgba(184,208,0,0.12) 0%, transparent 60%),
@@ -154,9 +161,12 @@
       border: 1px solid rgba(255,255,255,0.12);
       border-radius: 10px;
       padding: 12px 14px;
-      color: var(--text); font-family: 'Inter', sans-serif; font-size: 14px;
+      color: var(--text); font-family: 'Inter', sans-serif;
+      font-size: 16px; /* ≥16px evita zoom automático no iOS */
       outline: none; width: 100%;
       transition: border-color .2s, box-shadow .2s;
+      -webkit-appearance: none; appearance: none;
+      box-sizing: border-box;
     }
     .finput:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(184,208,0,0.15); }
     .finput::placeholder { color: #555; }
@@ -216,6 +226,9 @@
     }
     .lsuc.show { display: block; }
 
+    /* ═══ APP (oculto até fazer login) ═══ */
+    #app { display: none; }
+    #app.visible { display: block; }
 
     /* VIDEO CARD */
     .vc {
@@ -505,7 +518,7 @@
 
     <!-- FORMULÁRIO ENTRAR -->
     <div class="lform" id="lformLogin">
-      <div class="lerr" id="loginErr">E-mail ou senha incorretos. Tente novamente.</div>
+      <div class="lerr" id="loginErr">Preencha e-mail e senha para continuar.</div>
       <div class="fg">
         <label class="flabel">E-mail</label>
         <input class="finput" id="lEmail" type="email" placeholder="seu@email.com" autocomplete="email"/>
@@ -1019,16 +1032,22 @@ function toggleEye(id, btn) {
 }
 
 function doLogin() {
-  const em = document.getElementById('lEmail').value;
+  const em = document.getElementById('lEmail').value.trim();
   const pw = document.getElementById('lPass').value;
-  if (em && pw) {
-    document.getElementById('loginPage').classList.add('hidden');
-    document.getElementById('app').classList.add('visible');
-    document.getElementById('avatarInitials').textContent = em.substring(0, 2).toUpperCase();
-    document.getElementById('avNameDisplay').textContent = em.split('@')[0];
-    document.getElementById('avEmailDisplay').textContent = em;
-    loadWatchHistory(em);
+  const err = document.getElementById('loginErr');
+  err.classList.remove('show');
+  if (!em || !pw) {
+    err.classList.add('show');
+    return;
   }
+  // Blur para fechar teclado antes de esconder o login
+  document.activeElement && document.activeElement.blur();
+  document.getElementById('loginPage').classList.add('hidden');
+  document.getElementById('app').classList.add('visible');
+  document.getElementById('avatarInitials').textContent = em.substring(0, 2).toUpperCase();
+  document.getElementById('avNameDisplay').textContent = em.split('@')[0];
+  document.getElementById('avEmailDisplay').textContent = em;
+  loadWatchHistory(em);
 }
 
 function doRegister() {
