@@ -45,41 +45,61 @@
     /* ═══ LOGIN PAGE ═══ */
     #loginPage {
       position: fixed; inset: 0; z-index: 9999;
-      display: grid;
-      place-items: center;
-      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
       overflow-y: auto;
     }
     #loginPage.hidden { display: none; }
 
-    /* Fundo: foto da Juh com overlay escuro */
+    /* Fundo: foto da Juh sem overlay pesado */
     .login-bg {
       position: absolute; inset: 0;
       z-index: 0;
     }
     .login-bg img {
       width: 100%; height: 100%;
-      object-fit: cover; object-position: center top;
+      object-fit: cover; object-position: center 10%;
       display: block;
     }
+    /* Degradê: transparente no topo (rosto/corpo visível), escuro embaixo (form) */
     .login-bg-ov {
       position: absolute; inset: 0;
-      background: rgba(0,0,0,0.72);
+      background: linear-gradient(
+        to bottom,
+        rgba(0,0,0,0.08) 0%,
+        rgba(0,0,0,0.15) 35%,
+        rgba(0,0,0,0.75) 58%,
+        rgba(0,0,0,0.97) 75%,
+        rgba(0,0,0,1.00) 100%
+      );
     }
 
-    /* Card centralizado sobre o fundo */
+    /* Card ancorado na base da tela */
     .login-card {
       position: relative; z-index: 1;
-      background: rgba(18,18,18,0.88);
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
-      border: 1px solid rgba(255,255,255,0.10);
-      border-radius: 24px;
-      width: 100%; max-width: 420px;
-      padding: 44px 40px;
-      box-shadow: 0 32px 80px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.07);
+      background: transparent;
+      border: none;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      border-radius: 28px 28px 0 0;
+      width: 100%;
+      max-width: 100%;
+      padding: 32px 24px 40px;
+      box-shadow: none;
     }
-    @media(max-width:480px) { .login-card { padding: 36px 24px; } }
+    @media(min-width: 560px) {
+      #loginPage { justify-content: center; align-items: center; }
+      .login-card {
+        border-radius: 24px;
+        border: 1px solid rgba(255,255,255,0.10);
+        max-width: 440px;
+        padding: 44px 40px;
+        background: rgba(10,10,10,0.78);
+        backdrop-filter: blur(28px);
+        -webkit-backdrop-filter: blur(28px);
+        box-shadow: 0 32px 80px rgba(0,0,0,0.7);
+      }
+    }
     .login-logo { text-align: center; margin-bottom: 28px; }
     .login-logo .brand {
       font-size: 32px;
