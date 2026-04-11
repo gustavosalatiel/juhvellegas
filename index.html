@@ -44,94 +44,132 @@
 
     /* ═══ LOGIN PAGE ═══ */
     /* ═══════════════════════════════
-       LOGIN PAGE — clean rewrite
+       LOGIN PAGE
     ═══════════════════════════════ */
     #loginPage {
       position: fixed; inset: 0; z-index: 9999;
-      overflow: hidden;
+      background: radial-gradient(ellipse at 30% 50%, rgba(184,208,0,0.12) 0%, transparent 60%),
+                  radial-gradient(ellipse at 80% 20%, rgba(184,208,0,0.06) 0%, transparent 50%),
+                  var(--bg);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 20px;
+      overflow-y: auto;
     }
     #loginPage.hidden { display: none; }
+    .login-card {
+      background: rgba(20,20,20,0.85);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 24px;
+      width: 100%; max-width: 420px;
+      padding: 44px 40px;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.08);
+      position: relative; z-index: 1;
+    }
+    @media(max-width: 480px) {
+      .login-card { padding: 32px 24px; }
+    }
+
+    /* ── Logo / tagline ── */
+    .login-logo { text-align: center; margin-bottom: 22px; }
+    .login-logo .brand {
+      font-size: 30px; font-weight: 900; letter-spacing: -1px;
+      background: linear-gradient(135deg, #b8d000, #d4f000 50%, #b8d000);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .login-tagline { font-size: 13px; color: var(--muted); margin-top: 6px; }
+
+    /* ── Tabs ── */
+    .login-tabs {
+      display: flex;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      margin-bottom: 22px;
+    }
+    .ltab {
+      flex: 1; background: none; border: none; cursor: pointer;
+      color: var(--muted); font-family: 'Montserrat', sans-serif;
+      font-size: 14px; font-weight: 600;
+      padding: 10px 0;
+      border-bottom: 2px solid transparent;
+      transition: color .2s, border-color .2s;
+      margin-bottom: -1px;
+    }
+    .ltab.active { color: var(--primary); border-bottom-color: var(--primary); }
+
+    /* ── Formulários ── */
     .lform { display: flex; flex-direction: column; gap: 14px; }
     .lform.hidden { display: none !important; }
-    .lerr { display: none; color: #ff6b6b; font-size: 13px; }
+    .fg { display: flex; flex-direction: column; gap: 5px; }
+    .flabel {
+      font-size: 11px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.6px; color: var(--muted); font-family: 'Inter', sans-serif;
+    }
+    .finput {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 10px;
+      padding: 12px 14px;
+      color: var(--text); font-family: 'Inter', sans-serif; font-size: 14px;
+      outline: none; width: 100%;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .finput:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(184,208,0,0.15); }
+    .finput::placeholder { color: #555; }
+    .pass-wrap { position: relative; }
+    .eye-btn {
+      position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+      background: none; border: none; color: #666; cursor: pointer;
+      display: flex; align-items: center;
+    }
+    .eye-btn:hover { color: var(--muted); }
+    .forgot { text-align: right; }
+    .forgot a { font-size: 12px; color: var(--primary); text-decoration: none; font-weight: 600; }
+    .btn-prim {
+      background: linear-gradient(135deg, #b8d000, #96aa00);
+      color: #000; font-family: 'Montserrat', sans-serif;
+      font-size: 14px; font-weight: 800; letter-spacing: 0.3px;
+      padding: 13px; border-radius: 10px; border: none;
+      cursor: pointer; width: 100%;
+      transition: transform .2s, box-shadow .2s;
+      box-shadow: 0 4px 20px rgba(184,208,0,0.3);
+    }
+    .btn-prim:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(184,208,0,0.4); }
+    .btn-prim:active { transform: translateY(0); }
+    .btn-out {
+      background: rgba(255,255,255,0.05);
+      color: var(--text); font-family: 'Montserrat', sans-serif;
+      font-size: 14px; font-weight: 600;
+      padding: 12px; border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.12);
+      cursor: pointer; width: 100%;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      transition: border-color .2s, background .2s;
+    }
+    .btn-out:hover { border-color: rgba(184,208,0,0.3); background: rgba(184,208,0,0.08); }
+    .ldivider {
+      display: flex; align-items: center; gap: 12px;
+      font-size: 12px; color: #444;
+    }
+    .ldivider::before, .ldivider::after { content:''; flex:1; border-top: 1px solid rgba(255,255,255,0.08); }
+
+    /* ── Mensagens erro/sucesso ── */
+    .lerr {
+      display: none;
+      background: rgba(220,53,69,.15); border: 1px solid rgba(220,53,69,.3);
+      border-left: 3px solid #ff6b7a; border-radius: 8px;
+      padding: 10px 14px; font-size: 13px; color: #ff6b7a;
+      font-family: 'Inter', sans-serif;
+    }
     .lerr.show { display: block; }
-    .lsuc { display: none; color: #6bffb8; font-size: 13px; }
+    .lsuc {
+      display: none;
+      background: rgba(40,167,69,.15); border: 1px solid rgba(40,167,69,.3);
+      border-left: 3px solid #28a745; border-radius: 8px;
+      padding: 10px 14px; font-size: 13px; color: #28a745;
+      font-family: 'Inter', sans-serif;
+    }
     .lsuc.show { display: block; }
-
-    /* Fundo: foto em tela cheia */
-    .login-bg {
-      position: absolute; inset: 0; z-index: 0;
-      overflow: hidden;
-    }
-    .login-bg img {
-      width: 100%; height: 100%;
-      object-fit: cover; object-position: center 22%;
-      display: block;
-      transform: scale(1.15) translateX(10%);
-      transform-origin: center center;
-    }
-
-    /* ── MOBILE (padrão) ──
-       Degradê de baixo: transparente no topo (foto visível),
-       escuro na parte inferior (card + form)             */
-    .login-bg-ov {
-      position: absolute; inset: 0;
-      background: linear-gradient(
-        to bottom,
-        rgba(0,0,0,0.05) 0%,
-        rgba(0,0,0,0.10) 30%,
-        rgba(0,0,0,0.80) 58%,
-        rgba(0,0,0,0.97) 75%,
-        #000 100%
-      );
-    }
-
-    /* Card mobile: ancorado na base */
-    .login-wrap {
-      position: absolute; bottom: 0; left: 0; right: 0; z-index: 1;
-      padding: 0;
-    }
-    .login-card {
-      background: transparent;
-      border-top: 1px solid rgba(255,255,255,0.07);
-      border-radius: 28px 28px 0 0;
-      width: 100%;
-      padding: 32px 24px 48px;
-    }
-
-    /* ── DESKTOP (≥ 768px) ──
-       Card à esquerda, centralizado; foto aparece à direita */
-    @media(min-width: 768px) {
-      .login-bg img { transform: scale(1.18) translateX(12%); object-position: center 22%; }
-      .login-bg-ov {
-        background: linear-gradient(
-          100deg,
-          rgba(0,0,0,0.92) 0%,
-          rgba(0,0,0,0.80) 30%,
-          rgba(0,0,0,0.20) 58%,
-          rgba(0,0,0,0.02) 100%
-        );
-      }
-      .login-wrap {
-        position: absolute;
-        top: 0; bottom: 0; left: 0;
-        width: 460px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 40px;
-      }
-      .login-card {
-        background: rgba(10,10,10,0.55);
-        backdrop-filter: blur(28px);
-        -webkit-backdrop-filter: blur(28px);
-        border: 1px solid rgba(255,255,255,0.10);
-        border-radius: 22px;
-        width: 100%;
-        padding: 48px 40px;
-        box-shadow: 0 24px 60px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.06);
-      }
-    }
 
 
     /* VIDEO CARD */
@@ -404,11 +442,6 @@
 
 <!-- ═══ LOGIN PAGE ═══ -->
 <div id="loginPage">
-  <div class="login-bg">
-    <img src="juh-login-cover.png" alt=""/>
-    <div class="login-bg-ov"></div>
-  </div>
-  <div class="login-wrap">
   <div class="login-card">
     <div class="login-logo">
       <div class="brand">JuhVellegas<span style="font-size:24px; color: var(--primary);">✦</span></div>
@@ -478,7 +511,6 @@
       <button class="btn-prim" onclick="doRegister()">Criar minha conta</button>
     </div>
   </div><!-- /login-card -->
-  </div><!-- /login-wrap -->
 </div><!-- /loginPage -->
 
 <!-- ═══ APP ═══ -->
