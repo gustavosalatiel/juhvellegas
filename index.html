@@ -2,50 +2,134 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
+  <meta name="theme-color" content="#0c0c0c"/>
+  <meta name="color-scheme" content="dark"/>
+  <meta name="description" content="JuhVellegas — sua plataforma de treinos e bem-estar."/>
   <title>JuhVellegas</title>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link rel="preconnect" href="https://images.unsplash.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
   <style>
+    /* ════════════════════════════════════════════════════════
+       1. RESET
+    ════════════════════════════════════════════════════════ */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root {
-      --primary: #b8d000;
-      --primary-dark: #96aa00;
-      --primary-glow: rgba(184,208,0,0.18);
-      --bg: #0c0c0c;
-      --bg2: #141414;
-      --bg3: #1e1e1e;
-      --bg4: #262626;
-      --surface: rgba(255,255,255,0.04);
-      --border: rgba(255,255,255,0.08);
-      --text: #f5f5f5;
-      --muted: #888;
-      --radius: 12px;
-      --radius-lg: 20px;
-      --nav-h: 68px;
-    }
-    html { scroll-behavior: smooth; }
-    body { font-family: 'Inter', 'Montserrat', sans-serif; background: radial-gradient(ellipse at 50% 0%, rgba(184,208,0,0.04) 0%, transparent 60%), var(--bg); color: var(--text); overflow-x: hidden; }
 
+    /* ════════════════════════════════════════════════════════
+       2. DESIGN TOKENS
+    ════════════════════════════════════════════════════════ */
+    :root {
+      /* Brand */
+      --primary:        #b8d000;
+      --primary-2:      #d4f000;
+      --primary-dark:   #96aa00;
+      --primary-glow:   rgba(184,208,0,0.18);
+      --primary-soft:   rgba(184,208,0,0.10);
+
+      /* Surfaces */
+      --bg:        #0c0c0c;
+      --bg2:       #141414;
+      --bg3:       #1e1e1e;
+      --bg4:       #262626;
+      --surface:   rgba(255,255,255,0.04);
+      --surface-2: rgba(255,255,255,0.06);
+      --border:    rgba(255,255,255,0.08);
+      --border-2:  rgba(255,255,255,0.12);
+
+      /* Text */
+      --text:    #f5f5f5;
+      --text-2:  rgba(255,255,255,0.75);
+      --muted:   #888;
+      --muted-2: #555;
+
+      /* Semantics */
+      --danger:  #ff6b7a;
+      --success: #28a745;
+
+      /* Radii */
+      --radius-sm: 8px;
+      --radius:    12px;
+      --radius-lg: 20px;
+      --radius-xl: 24px;
+
+      /* Layout */
+      --nav-h: 68px;
+      --pad-x: clamp(16px, 4vw, 48px);
+
+      /* Motion */
+      --ease-out:    cubic-bezier(0.22, 1, 0.36, 1);
+      --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+      --t-fast: .18s;
+      --t-base: .25s;
+      --t-slow: .35s;
+
+      /* Shadows */
+      --shadow-sm:   0 4px 16px rgba(0,0,0,0.3);
+      --shadow-md:   0 8px 28px rgba(0,0,0,0.45);
+      --shadow-lg:   0 18px 48px rgba(0,0,0,0.55);
+      --shadow-xl:   0 30px 80px rgba(0,0,0,0.7);
+      --shadow-glow: 0 4px 20px var(--primary-glow);
+    }
+
+    /* ════════════════════════════════════════════════════════
+       3. BASE
+    ════════════════════════════════════════════════════════ */
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+    body {
+      font-family: 'Inter', 'Montserrat', sans-serif;
+      background:
+        radial-gradient(ellipse at 50% 0%, rgba(184,208,0,0.04) 0%, transparent 60%),
+        var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      min-height: 100vh;
+      min-height: 100dvh;
+    }
+    img { max-width: 100%; }
+    button { font: inherit; }
+
+    /* ════════════════════════════════════════════════════════
+       4. ANIMATIONS
+    ════════════════════════════════════════════════════════ */
     @keyframes fadeInUp {
       from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
+      to   { opacity: 1; transform: translateY(0); }
     }
     @keyframes shimmer {
-      0% { background-position: -200% 0; }
-      100% { background-position: 200% 0; }
+      0%   { background-position: -200% 0; }
+      100% { background-position:  200% 0; }
     }
 
-    ::-webkit-scrollbar { width: 5px; height: 5px; }
-    ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 10px; }
+    /* ════════════════════════════════════════════════════════
+       5. SCROLLBAR
+    ════════════════════════════════════════════════════════ */
+    ::-webkit-scrollbar           { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track     { background: transparent; }
+    ::-webkit-scrollbar-thumb     { background: rgba(255,255,255,0.15); border-radius: 10px; }
     ::-webkit-scrollbar-thumb:hover { background: rgba(184,208,0,0.4); }
 
-    /* ═══ LOGIN PAGE ═══ */
-    /* ═══════════════════════════════
-       LOGIN PAGE
-    ═══════════════════════════════ */
+    /* ════════════════════════════════════════════════════════
+       6. ACCESSIBILITY UTILITIES
+    ════════════════════════════════════════════════════════ */
+    :focus { outline: none; }
+    :focus-visible {
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+      border-radius: 4px;
+    }
+    .sr-only {
+      position: absolute; width: 1px; height: 1px; padding: 0;
+      margin: -1px; overflow: hidden; clip: rect(0,0,0,0);
+      white-space: nowrap; border: 0;
+    }
+
+    /* ════════════════════════════════════════════════════════
+       7. LOGIN PAGE
+    ════════════════════════════════════════════════════════ */
     #loginPage {
       position: fixed; inset: 0; z-index: 9999;
       box-sizing: border-box;
@@ -410,6 +494,7 @@
     .hero {
       position: relative; width: 100%;
       height: calc(100vh - var(--nav-h));
+      height: calc(100dvh - var(--nav-h));
       min-height: 380px; max-height: 720px;
       overflow: hidden; margin-top: var(--nav-h);
     }
@@ -751,7 +836,12 @@
     .lvl-dot.on { background: var(--primary); }
 
     /* ── COURSE / LEVEL PAGE ── */
-    .course-page { min-height: 100vh; padding-top: var(--nav-h); padding-bottom: 60px; }
+    .course-page {
+      min-height: 100vh;
+      min-height: 100dvh;
+      padding-top: var(--nav-h);
+      padding-bottom: 60px;
+    }
     .course-hero { position: relative; height: 300px; overflow: hidden; }
     .course-hero img { width: 100%; height: 100%; object-fit: cover; display: block; }
     .course-hero-ov {
@@ -820,7 +910,12 @@
     }
 
     /* ── EXERCISE LIST PAGE ── */
-    .ex-page { min-height: 100vh; padding-top: var(--nav-h); padding-bottom: 60px; }
+    .ex-page {
+      min-height: 100vh;
+      min-height: 100dvh;
+      padding-top: var(--nav-h);
+      padding-bottom: 60px;
+    }
     .ex-page-hd {
       background: var(--bg2); padding: 20px 20px 24px;
       border-bottom: 1px solid var(--border);
@@ -1109,7 +1204,14 @@
     .mbtn.ms:hover { border-color: var(--primary); color: var(--primary); }
 
     /* TOAST */
-    .toast-wrap { position: fixed; bottom: 28px; right: 28px; z-index: 5000; display: flex; flex-direction: column; gap: 10px; pointer-events: none; }
+    .toast-wrap {
+      position: fixed;
+      bottom: max(28px, env(safe-area-inset-bottom));
+      right: 28px;
+      z-index: 5000;
+      display: flex; flex-direction: column; gap: 10px;
+      pointer-events: none;
+    }
     .toast {
       background: rgba(26,26,26,0.96);
       backdrop-filter: blur(12px);
@@ -1144,6 +1246,21 @@
       .hsub { display: none; }
       .hbtn { padding: 11px 16px; font-size: 12px; }
       .login-card { padding: 28px 18px; }
+      .toast-wrap { right: 14px; left: 14px; }
+      .toast { max-width: 100%; }
+    }
+
+    /* ════════════════════════════════════════════════════════
+       19. REDUCED MOTION
+    ════════════════════════════════════════════════════════ */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+        scroll-behavior: auto !important;
+      }
+      .hslide.active .hslide-bg { transform: none; }
     }
     
     /* ════════════════════════════════════════════
@@ -1521,9 +1638,9 @@
 <body>
 
 <!-- ═══ LOGIN PAGE ═══ -->
-<div id="loginPage">
-  <div class="login-bg">
-    <img src="juh-login-cover.png" alt=""/>
+<div id="loginPage" role="dialog" aria-label="Login">
+  <div class="login-bg" aria-hidden="true">
+    <img src="juh-login-cover.png" alt="" decoding="async"/>
     <div class="login-bg-ov"></div>
   </div>
   <div class="login-wrap">
@@ -1533,20 +1650,20 @@
       <div class="login-tagline">Sua plataforma de treinos e bem-estar</div>
     </div>
 
-    <div class="login-tabs">
-      <button class="ltab active" onclick="switchTab('login')">Entrar</button>
-      <button class="ltab" onclick="switchTab('register')">Criar conta</button>
+    <div class="login-tabs" role="tablist">
+      <button class="ltab active" role="tab" onclick="switchTab('login')">Entrar</button>
+      <button class="ltab" role="tab" onclick="switchTab('register')">Criar conta</button>
     </div>
 
     <!-- FORMULÁRIO ENTRAR -->
     <div class="lform" id="lformLogin">
-      <div class="lerr" id="loginErr">Preencha e-mail e senha para continuar.</div>
+      <div class="lerr" id="loginErr" role="alert">Preencha e-mail e senha para continuar.</div>
       <div class="fg">
-        <label class="flabel">E-mail</label>
+        <label class="flabel" for="lEmail">E-mail</label>
         <input class="finput" id="lEmail" type="email" placeholder="seu@email.com" autocomplete="email"/>
       </div>
       <div class="fg">
-        <label class="flabel">Senha</label>
+        <label class="flabel" for="lPass">Senha</label>
         <div class="pass-wrap">
           <input class="finput" id="lPass" type="password" placeholder="Sua senha" style="padding-right:42px" autocomplete="current-password"/>
           <button class="eye-btn" type="button" onclick="toggleEye('lPass',this)">
@@ -1565,18 +1682,18 @@
 
     <!-- FORMULÁRIO CRIAR CONTA -->
     <div class="lform hidden" id="lformReg">
-      <div class="lsuc" id="regSuc">Conta criada! Entrando...</div>
-      <div class="lerr" id="regErr">Preencha todos os campos corretamente.</div>
+      <div class="lsuc" id="regSuc" role="status">Conta criada! Entrando...</div>
+      <div class="lerr" id="regErr" role="alert">Preencha todos os campos corretamente.</div>
       <div class="fg">
-        <label class="flabel">Nome completo</label>
-        <input class="finput" id="rName" type="text" placeholder="Seu nome"/>
+        <label class="flabel" for="rName">Nome completo</label>
+        <input class="finput" id="rName" type="text" placeholder="Seu nome" autocomplete="name"/>
       </div>
       <div class="fg">
-        <label class="flabel">E-mail</label>
-        <input class="finput" id="rEmail" type="email" placeholder="seu@email.com"/>
+        <label class="flabel" for="rEmail">E-mail</label>
+        <input class="finput" id="rEmail" type="email" placeholder="seu@email.com" autocomplete="email"/>
       </div>
       <div class="fg">
-        <label class="flabel">Senha</label>
+        <label class="flabel" for="rPass">Senha</label>
         <div class="pass-wrap">
           <input class="finput" id="rPass" type="password" placeholder="Mínimo 6 caracteres" style="padding-right:42px"/>
           <button class="eye-btn" type="button" onclick="toggleEye('rPass',this)">
@@ -1585,7 +1702,7 @@
         </div>
       </div>
       <div class="fg">
-        <label class="flabel">Confirmar senha</label>
+        <label class="flabel" for="rPass2">Confirmar senha</label>
         <div class="pass-wrap">
           <input class="finput" id="rPass2" type="password" placeholder="Repita a senha" style="padding-right:42px"/>
           <button class="eye-btn" type="button" onclick="toggleEye('rPass2',this)">
@@ -1603,8 +1720,8 @@
 <div id="app">
 
   <!-- NAVBAR -->
-  <nav class="navbar">
-    <button class="hamburger" id="hamburger" onclick="toggleMobNav()" aria-label="Menu">
+  <nav class="navbar" aria-label="Navegação principal">
+    <button class="hamburger" id="hamburger" onclick="toggleMobNav()" aria-label="Abrir menu" aria-expanded="false">
       <span></span><span></span><span></span>
     </button>
     <a class="nb-logo" href="#" onclick="return false;">
@@ -1659,7 +1776,7 @@
   </div>
 
   <!-- NOTIFICATIONS -->
-  <div class="notif-panel" id="notifPanel">
+  <div class="notif-panel" id="notifPanel" role="region" aria-label="Notificações">
     <div class="np-head">
       <span class="np-title">Notificações</span>
       <span class="np-mark" onclick="showToast('✅ Todas marcadas como lidas!')">Marcar todas como lidas</span>
@@ -1668,24 +1785,24 @@
   </div>
 
   <!-- SEARCH -->
-  <div class="search-ov" id="searchOv" onclick="closeSearchOut(event)">
+  <div class="search-ov" id="searchOv" onclick="closeSearchOut(event)" role="dialog" aria-label="Buscar">
     <div class="search-box">
       <div class="search-inp-wrap">
-        <svg width="20" height="20" fill="none" stroke="#666" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-        <input class="search-inp" id="searchInp" type="text" placeholder="Buscar cursos, aulas, treinos..." oninput="doSearch(this.value)"/>
-        <button class="search-close" onclick="toggleSearch()">✕</button>
+        <svg width="20" height="20" fill="none" stroke="#666" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input class="search-inp" id="searchInp" type="text" placeholder="Buscar cursos, aulas, treinos..." oninput="doSearch(this.value)" aria-label="Buscar conteúdos"/>
+        <button class="search-close" onclick="toggleSearch()" aria-label="Fechar busca">✕</button>
       </div>
       <div class="search-res" id="searchRes"><p class="search-hint">Digite para buscar conteúdos...</p></div>
     </div>
   </div>
 
   <!-- VIDEO MODAL -->
-  <div class="modal-bg" id="modalBg" onclick="closeMOut(event)">
+  <div class="modal-bg" id="modalBg" onclick="closeMOut(event)" role="dialog" aria-modal="true" aria-labelledby="mTitle">
     <div class="modal" id="modalBox">
       <div class="mvid">
-        <img id="mImg" src="" alt=""/>
-        <div class="mplay" onclick="showToast('▶️ Reproduzindo aula!')">▶</div>
-        <button class="mclose" onclick="closeModal()">✕</button>
+        <img id="mImg" src="" alt="" decoding="async"/>
+        <div class="mplay" onclick="showToast('▶️ Reproduzindo aula!')" role="button" aria-label="Reproduzir">▶</div>
+        <button class="mclose" onclick="closeModal()" aria-label="Fechar">✕</button>
       </div>
       <div class="mbody">
         <div class="mbadge" id="mBadge"></div>
@@ -1701,10 +1818,10 @@
   </div>
 
   <!-- TOAST -->
-  <div class="toast-wrap" id="toastWrap"></div>
+  <div class="toast-wrap" id="toastWrap" aria-live="polite" aria-atomic="true"></div>
 
   <!-- ═══ HERO ═══ -->
-  <section class="hero" id="heroSection">
+  <section class="hero" id="heroSection" aria-label="Destaques">
     <!-- Slide 1 -->
     <div class="hslide active">
       <div class="hslide-bg" style="background-image:url('https://images.unsplash.com/photo-1599058945522-28d584b6f0ff?w=1600&q=80')"></div>
