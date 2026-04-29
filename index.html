@@ -2195,6 +2195,119 @@
       .diary-promo-cta-text { font-size: 11px; padding: 8px 12px; }
     }
 
+  
+    /* ════════════════════════════════════════════════════════
+       ✨ DIARY PROMO — estilo A: botão full-width embaixo
+       Sobrescreve estilos anteriores
+       ════════════════════════════════════════════════════════ */
+
+    /* Remove animações/elementos do estilo anterior */
+    .diary-promo-cta-text,
+    .diary-promo-corner { display: none !important; }
+    .diary-promo-cta { animation: none !important; }
+
+    .diary-promo {
+      cursor: pointer;
+      display: block;
+      padding: 22px 22px 18px;
+      transition:
+        transform 0.25s var(--ease-out, cubic-bezier(0.22, 1, 0.36, 1)),
+        box-shadow 0.3s var(--ease-out, cubic-bezier(0.22, 1, 0.36, 1));
+    }
+
+    /* Top: info + emoji lado a lado */
+    .diary-promo-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 16px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Emoji standalone à direita (sem caixinha) */
+    .diary-promo-emoji {
+      font-size: 32px;
+      opacity: 0.85;
+      flex-shrink: 0;
+      line-height: 1;
+      filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.18));
+      transition: transform 0.3s ease;
+    }
+
+    /* Stats menores e em pílulas */
+    .diary-promo-stats { margin-top: 12px !important; }
+    .diary-promo-stat {
+      font-size: 11px !important;
+      padding: 5px 10px !important;
+    }
+    .diary-promo-stat b { font-size: 13px !important; }
+
+    /* Botão preto full-width embaixo */
+    .diary-promo-btn {
+      width: 100%;
+      background: #0c0c0c;
+      color: #b8d000;
+      border: none;
+      padding: 15px 18px;
+      border-radius: 14px;
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      cursor: pointer;
+      font-family: 'Geist', system-ui, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      position: relative;
+      z-index: 1;
+      transition: transform 0.2s ease, gap 0.25s ease, background 0.25s ease;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+    }
+
+    .diary-promo-btn-arrow {
+      font-size: 16px;
+      transition: transform 0.25s var(--ease-out, ease);
+    }
+
+    /* Hover do card inteiro: lift + glow forte */
+    .diary-promo:hover {
+      transform: translateY(-3px) !important;
+      box-shadow:
+        0 0 0 2px rgba(184, 208, 0, 0.25),
+        0 18px 56px rgba(184, 208, 0, 0.32),
+        0 12px 36px rgba(0, 0, 0, 0.5) !important;
+    }
+    .diary-promo:hover .diary-promo-btn-arrow {
+      transform: translateX(6px);
+    }
+    .diary-promo:hover .diary-promo-btn {
+      gap: 14px;
+    }
+    .diary-promo:hover .diary-promo-emoji {
+      transform: scale(1.08) rotate(-3deg);
+    }
+
+    .diary-promo:active {
+      transform: translateY(-1px) scale(0.997) !important;
+    }
+
+    .diary-promo:focus-visible {
+      box-shadow:
+        0 0 0 3px rgba(255, 255, 255, 0.5),
+        0 0 0 6px rgba(184, 208, 0, 0.65) !important;
+    }
+
+    /* Mobile: ajustes pra caber bonito em telas pequenas */
+    @media (max-width: 480px) {
+      .diary-promo { padding: 18px 18px 16px; }
+      .diary-promo-emoji { font-size: 26px; }
+      .diary-promo-btn { padding: 13px 16px; font-size: 12px; }
+    }
+
   </style>
 </head>
 <body>
@@ -2675,27 +2788,22 @@
           </div>
         </div>
         <div class="diary-promo" id="diaryPromo" onclick="openDiary()" role="button" tabindex="0" aria-label="Abrir diário alimentar e tirar foto da refeição">
-          <div class="diary-promo-row">
+          <div class="diary-promo-top">
             <div class="diary-promo-info">
               <span class="diary-promo-tag">Hoje</span>
-              <div class="diary-promo-title">Análise de Refeições por IA</div>
+              <div class="diary-promo-title">Análise por IA</div>
               <div class="diary-promo-sub">Estimativas instantâneas de calorias, proteína, carbo e gordura</div>
               <div class="diary-promo-stats" id="diaryPromoStats">
                 <div class="diary-promo-stat"><b id="dpCalories">0</b>kcal</div>
                 <div class="diary-promo-stat"><b id="dpMeals">0</b>refeições</div>
               </div>
-              <div class="diary-promo-cta-text">
-                <span class="diary-promo-cta-label">Toque para analisar uma refeição</span>
-                <span class="diary-promo-cta-arrow">→</span>
-              </div>
             </div>
-            <div class="diary-promo-cta" aria-hidden="true">📸</div>
+            <div class="diary-promo-emoji" aria-hidden="true">📸</div>
           </div>
-          <div class="diary-promo-corner" aria-hidden="true">
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-              <path d="M3 11L11 3M11 3H5M11 3V9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </div>
+          <button type="button" class="diary-promo-btn" tabindex="-1" aria-hidden="true">
+            <span>Tirar foto agora</span>
+            <span class="diary-promo-btn-arrow">→</span>
+          </button>
         </div>
       </section>
 
