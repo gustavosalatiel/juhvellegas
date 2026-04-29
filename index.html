@@ -3248,55 +3248,14 @@ document.addEventListener('click', (e) => {
 });
 
 /* ════════════════════════════════════════════
-   📸 DIÁRIO ALIMENTAR (CalorIA por foto - Gemini)
+   📸 DIÁRIO ALIMENTAR (CalorIA por foto)
+   Chamada protegida via backend /api/analyze
+   A chave do Gemini fica no servidor — nunca exposta no cliente.
    ════════════════════════════════════════════ */
 
-const GEMINI_API_KEY = 'AIzaSyA1Ftyw4FLLhzweA1XPAzCCjfqhTikMsEU';
-const GEMINI_MODELS = [
-  'gemini-2.5-flash',
-  'gemini-flash-latest',
-  'gemini-2.0-flash',
-  'gemini-2.5-flash-lite',
-  'gemini-2.0-flash-lite',
-  'gemini-1.5-flash',
-  'gemini-1.5-flash-8b'
-];
-const GEMINI_URL_BASE = 'https://generativelanguage.googleapis.com/v1beta/models/';
-const DIARY_RETRY_ROUNDS = 2;
-const DIARY_RETRY_DELAY = 1500;
+const DIARY_API_ENDPOINT = '/api/analyze';
 
-const DIARY_PROMPT = `Você é um nutricionista especialista em análise de pratos por imagem. Analise esta foto de comida com precisão.
-
-Estime cada item visível:
-1. Identifique o alimento
-2. Estime peso/porção em gramas baseado no tamanho aparente do prato (assume prato padrão ~25cm)
-3. Calcule calorias e macros baseado em tabelas nutricionais brasileiras (TACO/USDA)
-
-Responda APENAS com JSON válido neste formato:
-
-{
-  "dish_name": "Nome resumido do prato em português (max 30 chars)",
-  "total_calories": <int>,
-  "protein_g": <number>,
-  "carbs_g": <number>,
-  "fat_g": <number>,
-  "items": [
-    {
-      "name": "<alimento em português>",
-      "portion": "<quantidade ex: 150g, 1 unidade média>",
-      "weight_g": <number>,
-      "calories": <int>,
-      "protein_g": <number>,
-      "carbs_g": <number>,
-      "fat_g": <number>
-    }
-  ],
-  "confidence": "high|medium|low"
-}
-
-Se não houver comida na imagem, retorne: {"error": "Não consegui identificar comida nesta imagem. Tire uma foto mais clara."}
-
-Seja realista. Considere métodos de preparo (frito vs grelhado).`;
+const DIARY_PROMPT = ''; // movido pro backend
 
 const DIARY_LOADING_MSGS = [
   'Identificando alimentos',
@@ -3312,12 +3271,36 @@ let diaryState = {
   loadingTimer: null
 };
 
+async function diaryAnalyzeWithGemini(imageBase64) {
+  let res;
+  try {
+    res = await fetch(DIARY_API_ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ image: imageBase64 })
+    });
+  } catch (e) {
+    throw new Error('Sem conexão com o servidor. Verifica sua internet e tenta de novo.');
+  }
+
+  let data = null;
+  try { data = await res.json(); } catch {}
+
+  if (!res.ok) {
+    const msg = data?.error || `Erro ${res.status} ao analisar imagem`;
+    throw new Error(msg);
+  }
+  if (!data || (typeof data.total_calories !== 'number' && !data.dish_name)) {
+    throw new Error('Resposta inválida do servidor');
+  }
+  return data;
+}
+
 /* ─── Navegação dentro do view-diary ─── */
 function diaryShowSub(subId) {
   document.querySelectorAll('#view-diary .diary-sub').forEach(s => s.classList.remove('active'));
   const el = document.getElementById('diary-sub-' + subId);
   if (el) el.classList.add('active');
-  // FAB só aparece na home do diário
   const fab = document.getElementById('diaryFab');
   if (fab) fab.classList.toggle('show', subId === 'home');
   window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -3330,8 +3313,6 @@ function openDiary() {
 }
 
 function diaryBackToList() {
-  // se está numa sub-view interna, volta pra home do diário
-  // se já está na home do diário, volta pra view-home do app
   const homeSub = document.getElementById('diary-sub-home');
   if (homeSub && homeSub.classList.contains('active')) {
     showView('view-home');
@@ -3357,7 +3338,7 @@ function diaryResetCamera() {
   if (gi) gi.value = '';
 }
 
-/* ─── Processamento de imagem ─── */
+/* ─── Processamento client-side da imagem (resize + base64) ─── */
 function diaryProcessImage(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -3391,132 +3372,6 @@ function diaryProcessImage(file) {
     };
     reader.readAsDataURL(file);
   });
-}
-
-/* ─── Helpers Gemini ─── */
-function diaryLooksOverload(text) {
-  if (!text) return false;
-  const m = String(text).toLowerCase();
-  return m.includes('overload') || m.includes('high demand') || m.includes('unavailable') ||
-         m.includes('try again later') || m.includes('temporarily') || m.includes('quota') ||
-         m.includes('rate limit') || m.includes('exhausted') || m.includes('exceeded') || m.includes('busy');
-}
-function diaryFatalKey(text) {
-  if (!text) return false;
-  const m = String(text).toLowerCase();
-  return m.includes('api key not valid') || m.includes('api_key_invalid') ||
-         m.includes('permission denied') || m.includes('forbidden');
-}
-function diaryExtractJson(text) {
-  if (!text || typeof text !== 'string') return null;
-  try { return JSON.parse(text); } catch {}
-  const fence = text.match(/```(?:json)?\s*([\s\S]*?)```/i);
-  if (fence) { try { return JSON.parse(fence[1].trim()); } catch {} }
-  const start = text.indexOf('{');
-  const end = text.lastIndexOf('}');
-  if (start >= 0 && end > start) {
-    try { return JSON.parse(text.slice(start, end + 1)); } catch {}
-  }
-  return null;
-}
-function diarySleep(ms) { return new Promise(r => setTimeout(r, ms)); }
-
-async function diaryCallModel(model, imageBase64, useJsonMode = true) {
-  const url = `${GEMINI_URL_BASE}${model}:generateContent?key=${GEMINI_API_KEY}`;
-  const generationConfig = { temperature: 0.2, maxOutputTokens: 1024 };
-  if (useJsonMode) generationConfig.responseMimeType = 'application/json';
-
-  const body = {
-    contents: [{
-      parts: [
-        { text: DIARY_PROMPT },
-        { inline_data: { mime_type: 'image/jpeg', data: imageBase64 } }
-      ]
-    }],
-    generationConfig
-  };
-
-  let res;
-  try {
-    res = await fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body)
-    });
-  } catch {
-    const err = new Error('Sem conexão com o Gemini. Verifica sua internet.');
-    err.recoverable = true; throw err;
-  }
-
-  if (!res.ok) {
-    const errText = await res.text().catch(() => '');
-    let msg = `HTTP ${res.status}`;
-    try { const j = JSON.parse(errText); if (j?.error?.message) msg = j.error.message; } catch {}
-    const err = new Error(msg);
-    err.status = res.status;
-    if (res.status === 400 && diaryFatalKey(msg)) { err.fatal = true; throw err; }
-    if (res.status === 401 || res.status === 403) { err.fatal = true; throw err; }
-    err.recoverable = true; throw err;
-  }
-
-  const data = await res.json().catch(() => null);
-  if (!data) { const e = new Error('Resposta inválida'); e.recoverable = true; throw e; }
-  if (data?.promptFeedback?.blockReason) {
-    const e = new Error('Imagem rejeitada por filtros de segurança. Tenta outra foto.');
-    e.fatal = true; throw e;
-  }
-  const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-  if (!text || !text.trim()) {
-    const e = new Error('Resposta vazia'); e.recoverable = true; throw e;
-  }
-  if (diaryLooksOverload(text) && !text.trim().startsWith('{')) {
-    const e = new Error('Modelo sobrecarregado'); e.recoverable = true; throw e;
-  }
-  const parsed = diaryExtractJson(text);
-  if (!parsed) {
-    const e = new Error('Não consegui interpretar a resposta');
-    e.recoverable = true; e.unparsable = true; throw e;
-  }
-  if (parsed.error) {
-    const e = new Error(parsed.error);
-    e.recoverable = diaryLooksOverload(parsed.error); throw e;
-  }
-  if (typeof parsed.total_calories !== 'number' && !parsed.dish_name) {
-    const e = new Error('Formato inesperado'); e.recoverable = true; throw e;
-  }
-  return parsed;
-}
-
-async function diaryAnalyzeWithGemini(imageBase64) {
-  if (!GEMINI_API_KEY || GEMINI_API_KEY === 'COLE_AQUI_SUA_CHAVE') {
-    throw new Error('Chave da API Gemini não configurada.');
-  }
-  let lastError = null;
-  for (let round = 0; round < DIARY_RETRY_ROUNDS; round++) {
-    for (let i = 0; i < GEMINI_MODELS.length; i++) {
-      const model = GEMINI_MODELS[i];
-      for (const useJson of [true, false]) {
-        try {
-          console.log(`[Diário] round=${round} model=${model} json=${useJson}`);
-          const result = await diaryCallModel(model, imageBase64, useJson);
-          console.log(`[Diário] ✓ Sucesso com ${model}`);
-          return result;
-        } catch (err) {
-          console.warn(`[Diário] ${model} (json=${useJson}) → ${err.message}`);
-          lastError = err;
-          if (err.fatal) throw err;
-          if (err.unparsable && useJson) continue;
-          break;
-        }
-      }
-    }
-    if (round < DIARY_RETRY_ROUNDS - 1) await diarySleep(DIARY_RETRY_DELAY);
-  }
-  const finalMsg = lastError?.message || 'Erro desconhecido';
-  if (diaryLooksOverload(finalMsg)) {
-    throw new Error('Os servidores do Gemini estão sobrecarregados agora. Tenta de novo em 1-2 minutos.');
-  }
-  throw new Error(finalMsg);
 }
 
 /* ─── IndexedDB ─── */
