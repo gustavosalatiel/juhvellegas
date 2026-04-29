@@ -1145,7 +1145,378 @@
       .hbtn { padding: 11px 16px; font-size: 12px; }
       .login-card { padding: 28px 18px; }
     }
-    </style>
+    
+    /* ════════════════════════════════════════════
+       📸 DIÁRIO ALIMENTAR - CalorIA por foto
+       ════════════════════════════════════════════ */
+
+    /* Card destaque no Home */
+    .diary-promo {
+      position: relative;
+      border-radius: var(--radius-lg);
+      padding: 22px 22px;
+      background: linear-gradient(135deg, #b8d000 0%, #8aa400 100%);
+      color: #0c0c0c;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform .15s ease, box-shadow .2s ease;
+      box-shadow: 0 10px 40px rgba(184,208,0,0.18);
+    }
+    .diary-promo:hover { transform: translateY(-2px); box-shadow: 0 14px 50px rgba(184,208,0,0.28); }
+    .diary-promo::before {
+      content:''; position:absolute; right:-50px; top:-50px;
+      width:180px; height:180px; border-radius:50%;
+      background: rgba(255,255,255,0.08);
+    }
+    .diary-promo::after {
+      content:''; position:absolute; right:30px; bottom:-50px;
+      width:120px; height:120px; border-radius:50%;
+      background: rgba(0,0,0,0.06);
+    }
+    .diary-promo-row {
+      display:flex; align-items:center; justify-content:space-between;
+      gap: 16px; position: relative; z-index: 1;
+    }
+    .diary-promo-info { flex: 1; min-width: 0; }
+    .diary-promo-tag {
+      display: inline-block;
+      font-size: 11px; font-weight: 800;
+      text-transform: uppercase; letter-spacing: 1.2px;
+      background: rgba(0,0,0,0.18); color: #0c0c0c;
+      padding: 4px 10px; border-radius: 999px;
+      margin-bottom: 8px;
+    }
+    .diary-promo-title { font-size: 22px; font-weight: 900; line-height: 1.15; letter-spacing: -0.3px; }
+    .diary-promo-sub { font-size: 13px; opacity: 0.85; margin-top: 4px; max-width: 90%; font-weight: 500; }
+    .diary-promo-stats {
+      display: flex; align-items: center; gap: 18px;
+      margin-top: 14px; flex-wrap: wrap;
+    }
+    .diary-promo-stat {
+      display: flex; align-items: baseline; gap: 4px;
+      font-size: 12px; font-weight: 600;
+      background: rgba(0,0,0,0.12);
+      padding: 6px 10px; border-radius: 10px;
+    }
+    .diary-promo-stat b { font-size: 16px; font-weight: 900; }
+    .diary-promo-cta {
+      flex-shrink: 0;
+      width: 64px; height: 64px;
+      border-radius: 50%;
+      background: #0c0c0c; color: #b8d000;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 28px; box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+      position: relative; z-index: 1;
+    }
+    @media(max-width:640px){
+      .diary-promo-title { font-size: 18px; }
+      .diary-promo-cta { width: 54px; height: 54px; font-size: 22px; }
+    }
+
+    /* ─── Diário Alimentar (view-diary) ─── */
+    .diary-page {
+      min-height: calc(100vh - var(--nav-h));
+      padding: calc(var(--nav-h) + 16px) 0 100px;
+    }
+    .diary-wrap { max-width: 720px; margin: 0 auto; padding: 0 20px; }
+    .diary-back-bar { padding: 0 20px 16px; max-width: 720px; margin: 0 auto; }
+    .diary-back {
+      background: var(--surface); border: 1px solid var(--border);
+      color: var(--text); padding: 9px 14px; border-radius: 999px;
+      font-size: 13px; font-weight: 600; cursor: pointer;
+      display: inline-flex; align-items: center; gap: 6px;
+    }
+    .diary-back:hover { background: rgba(255,255,255,0.08); border-color: var(--primary); color: var(--primary); }
+
+    .diary-hd { margin-bottom: 18px; display:flex; align-items:flex-end; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+    .diary-title { font-family: 'Montserrat', sans-serif; font-size: 28px; font-weight: 900; letter-spacing: -0.5px; }
+    .diary-date { font-size: 12px; color: var(--muted); font-weight: 500; }
+
+    /* Card calorias do dia */
+    .diary-day-card {
+      background: linear-gradient(135deg, #b8d000 0%, #8aa400 100%);
+      color: #0c0c0c;
+      border-radius: 24px;
+      padding: 24px 22px;
+      position: relative; overflow: hidden;
+      box-shadow: 0 12px 40px rgba(184,208,0,0.2);
+      margin-bottom: 14px;
+    }
+    .diary-day-card::before {
+      content:''; position:absolute; top:-40px; right:-40px;
+      width:160px; height:160px; border-radius:50%;
+      background: rgba(255,255,255,0.1);
+    }
+    .diary-day-card::after {
+      content:''; position:absolute; bottom:-60px; left:-30px;
+      width:140px; height:140px; border-radius:50%;
+      background: rgba(0,0,0,0.06);
+    }
+    .diary-day-label {
+      font-size: 12px; font-weight: 800; text-transform: uppercase;
+      letter-spacing: 1.5px; opacity: 0.85;
+      position: relative; z-index: 1;
+    }
+    .diary-day-cals {
+      font-size: 56px; font-weight: 900; line-height: 1;
+      margin-top: 8px; letter-spacing: -2px;
+      position: relative; z-index: 1;
+    }
+    .diary-day-cals small { font-size: 18px; font-weight: 700; opacity: 0.85; margin-left: 6px; }
+
+    .diary-macros {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 10px; margin-bottom: 22px;
+    }
+    .diary-macro {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 14px 12px;
+      text-align: center;
+    }
+    .diary-macro-icon {
+      width: 36px; height: 36px; border-radius: 50%;
+      margin: 0 auto 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; font-weight: 800;
+    }
+    .dm-protein { background: rgba(239,68,68,0.15); color: #ef4444; }
+    .dm-carbs   { background: rgba(245,158,11,0.15); color: #f59e0b; }
+    .dm-fat     { background: rgba(59,130,246,0.15); color: #3b82f6; }
+    .diary-macro-value { font-size: 18px; font-weight: 800; color: var(--text); }
+    .diary-macro-value small { font-size: 11px; color: var(--muted); font-weight: 500; }
+    .diary-macro-label {
+      font-size: 11px; color: var(--muted);
+      margin-top: 2px; text-transform: uppercase;
+      letter-spacing: 0.5px; font-weight: 600;
+    }
+
+    .diary-section-hd {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 12px;
+    }
+    .diary-section-title {
+      font-size: 16px; font-weight: 700;
+      font-family: 'Montserrat', sans-serif;
+    }
+    .diary-clear {
+      background: none; border: none; color: var(--muted);
+      font-size: 12px; font-weight: 500; cursor: pointer;
+      padding: 4px 8px;
+    }
+    .diary-clear:hover { color: #ef4444; }
+
+    .diary-meals { display: flex; flex-direction: column; gap: 10px; }
+    .diary-meal {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px; padding: 12px;
+      display: flex; align-items: center; gap: 12px;
+      transition: border-color .15s ease, transform .12s ease;
+    }
+    .diary-meal:hover { border-color: rgba(184,208,0,0.4); transform: translateX(2px); }
+    .diary-meal-thumb {
+      width: 56px; height: 56px; border-radius: 12px;
+      object-fit: cover; flex-shrink: 0;
+      background: var(--bg3);
+    }
+    .diary-meal-info { flex: 1; min-width: 0; }
+    .diary-meal-name {
+      font-size: 14px; font-weight: 600; color: var(--text);
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .diary-meal-time { font-size: 12px; color: var(--muted); margin-top: 2px; }
+    .diary-meal-cals {
+      font-size: 16px; font-weight: 800; color: var(--primary);
+      flex-shrink: 0;
+    }
+    .diary-meal-cals small { font-size: 10px; color: var(--muted); font-weight: 500; }
+
+    .diary-empty {
+      text-align: center; padding: 40px 20px; color: var(--muted);
+      background: var(--surface);
+      border: 1px dashed var(--border);
+      border-radius: 18px;
+    }
+    .diary-empty-icon { font-size: 40px; margin-bottom: 8px; }
+
+    /* FAB */
+    .diary-fab {
+      position: fixed;
+      bottom: 24px; right: 24px;
+      width: 64px; height: 64px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #b8d000, #8aa400);
+      border: none; color: #0c0c0c;
+      font-size: 26px; cursor: pointer;
+      box-shadow: 0 12px 30px rgba(184,208,0,0.4);
+      display: none; align-items: center; justify-content: center;
+      z-index: 100;
+      transition: transform .15s ease, box-shadow .2s ease;
+    }
+    .diary-fab.show { display: flex; }
+    .diary-fab:active { transform: scale(0.92); }
+    .diary-fab:hover { box-shadow: 0 16px 40px rgba(184,208,0,0.55); }
+
+    /* Sub-views dentro do diary */
+    .diary-sub { display: none; }
+    .diary-sub.active { display: block; }
+
+    /* Camera sub-view */
+    .diary-cam-content { display: flex; flex-direction: column; gap: 12px; }
+    .diary-cam-btn {
+      width: 100%; padding: 16px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: var(--surface); color: var(--text);
+      font-size: 15px; font-weight: 600; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      font-family: inherit;
+    }
+    .diary-cam-btn:hover { background: rgba(184,208,0,0.08); border-color: rgba(184,208,0,0.3); }
+    .diary-preview-wrap {
+      margin-top: 6px;
+      border-radius: 18px;
+      overflow: hidden;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      display: none;
+    }
+    .diary-preview-wrap.show { display: block; }
+    .diary-preview-img { width: 100%; display: block; }
+    .diary-analyze-btn {
+      width: 100%; padding: 18px;
+      border-radius: 14px; border: none;
+      background: linear-gradient(135deg, #b8d000, #8aa400);
+      color: #0c0c0c;
+      font-size: 16px; font-weight: 800;
+      cursor: pointer; display: none;
+      align-items: center; justify-content: center; gap: 10px;
+      box-shadow: 0 8px 24px rgba(184,208,0,0.3);
+      font-family: inherit;
+    }
+    .diary-analyze-btn.show { display: flex; }
+    .diary-analyze-btn:active { transform: scale(0.98); }
+
+    /* Loading com scanner */
+    .diary-load-wrap {
+      width: 100%;
+      border-radius: 20px;
+      overflow: hidden; position: relative;
+      background: var(--bg2);
+      margin-bottom: 22px;
+    }
+    .diary-load-wrap img { width: 100%; display: block; }
+    .diary-scanner {
+      position: absolute; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, transparent, #b8d000, #d6ee35, transparent);
+      box-shadow: 0 0 20px #b8d000, 0 0 40px #b8d000;
+      animation: diary-scan 2s linear infinite;
+    }
+    @keyframes diary-scan {
+      0%   { top: 0%; }
+      50%  { top: calc(100% - 4px); }
+      100% { top: 0%; }
+    }
+    .diary-load-text {
+      font-size: 16px; font-weight: 700;
+      text-align: center;
+    }
+    .diary-load-dots::after {
+      content: ''; animation: diary-dots 1.5s steps(4, end) infinite;
+    }
+    @keyframes diary-dots {
+      0%, 20% { content: ''; }
+      40%     { content: '.'; }
+      60%     { content: '..'; }
+      80%, 100% { content: '...'; }
+    }
+
+    /* Resultado */
+    .diary-result-img { width: 100%; border-radius: 20px; margin-bottom: 16px; }
+    .diary-result-name {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 24px; font-weight: 900;
+      letter-spacing: -0.5px;
+      margin-bottom: 4px;
+    }
+    .diary-result-conf {
+      display: inline-block;
+      font-size: 11px; padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(34,197,94,0.15); color: #22c55e;
+      font-weight: 700; margin-bottom: 16px;
+      text-transform: uppercase; letter-spacing: 0.6px;
+    }
+    .diary-result-conf.medium { background: rgba(245,158,11,0.15); color: #f59e0b; }
+    .diary-result-conf.low    { background: rgba(239,68,68,0.15);  color: #ef4444; }
+
+    .diary-items { margin-top: 18px; }
+    .diary-items-title {
+      font-size: 12px; font-weight: 800; color: var(--muted);
+      text-transform: uppercase; letter-spacing: 0.8px;
+      margin-bottom: 10px;
+    }
+    .diary-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 14px;
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 8px;
+    }
+    .diary-item-name { font-size: 14px; font-weight: 600; }
+    .diary-item-portion { font-size: 12px; color: var(--muted); margin-top: 2px; }
+    .diary-item-cals { font-size: 14px; font-weight: 800; color: var(--primary); }
+
+    .diary-disclaimer {
+      margin-top: 16px;
+      padding: 12px 14px;
+      background: rgba(245,158,11,0.08);
+      border: 1px solid rgba(245,158,11,0.2);
+      border-radius: 12px;
+      font-size: 12px; color: #f59e0b;
+      text-align: center; line-height: 1.5;
+    }
+
+    .diary-actions {
+      margin-top: 18px;
+      display: flex; flex-direction: column; gap: 10px;
+    }
+    .diary-btn-prim {
+      width: 100%; padding: 16px;
+      border-radius: 14px; border: none;
+      background: linear-gradient(135deg, #b8d000, #8aa400);
+      color: #0c0c0c;
+      font-size: 15px; font-weight: 800; cursor: pointer;
+      box-shadow: 0 8px 24px rgba(184,208,0,0.25);
+      font-family: inherit;
+    }
+    .diary-btn-sec {
+      width: 100%; padding: 16px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: var(--surface); color: var(--text);
+      font-size: 15px; font-weight: 600; cursor: pointer;
+      font-family: inherit;
+    }
+
+    .diary-error {
+      background: rgba(239,68,68,0.1);
+      border: 1px solid rgba(239,68,68,0.3);
+      color: #fca5a5;
+      padding: 16px; border-radius: 14px;
+      font-size: 14px; line-height: 1.5;
+      margin-bottom: 16px;
+    }
+    .diary-error strong { color: #ef4444; display: block; margin-bottom: 4px; }
+
+    .diary-file-input { display: none; }
+
+
+  </style>
 </head>
 <body>
 
@@ -1267,6 +1638,9 @@
           </a>
           <a href="#" onclick="showToast('⚙️ Configurações!');closeMenus();return false;">
             <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>Configurações
+          </a>
+                    <a href="#" onclick="openDiary();closeMenus();return false;">
+            <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14.31 8l5.74 9.94"/><path d="M9.69 8h11.48"/><path d="M7.38 12l5.74-9.94"/><path d="M9.69 16L3.95 6.06"/><path d="M14.31 16H2.83"/><path d="M16.62 12l-5.74 9.94"/></svg>📊 Meu Diário Alimentar
           </a>
           <a href="#" class="danger" onclick="doLogout();return false;">
             <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Sair da conta
@@ -1612,8 +1986,154 @@
         </div>
       </section>
 
+
+      <!-- 📸 DIÁRIO ALIMENTAR (CalorIA) -->
+      <section class="section">
+        <div class="sec-head">
+          <div>
+            <div class="sec-title-wrap"><span class="sec-icon">📸</span><h2 class="sec-title">Diário Alimentar</h2></div>
+            <p class="sec-sub">Tire uma foto do seu prato e a IA calcula calorias e macros automaticamente</p>
+          </div>
+        </div>
+        <div class="diary-promo" id="diaryPromo" onclick="openDiary()">
+          <div class="diary-promo-row">
+            <div class="diary-promo-info">
+              <span class="diary-promo-tag">Hoje</span>
+              <div class="diary-promo-title">Análise de Refeições por IA</div>
+              <div class="diary-promo-sub">Estimativas instantâneas de calorias, proteína, carbo e gordura</div>
+              <div class="diary-promo-stats" id="diaryPromoStats">
+                <div class="diary-promo-stat"><b id="dpCalories">0</b>kcal</div>
+                <div class="diary-promo-stat"><b id="dpMeals">0</b>refeições</div>
+              </div>
+            </div>
+            <div class="diary-promo-cta">📸</div>
+          </div>
+        </div>
+      </section>
+
+
     </div><!-- /content -->
   </div><!-- /view-home -->
+
+  <!-- ═══ VIEW: DIÁRIO ALIMENTAR ═══ -->
+  <div id="view-diary" class="view">
+    <div class="diary-page">
+      <div class="diary-back-bar">
+        <button class="diary-back" onclick="diaryBackToList()">‹ Voltar</button>
+      </div>
+
+      <!-- Sub-view: HOME do diário (lista de refeições + totais) -->
+      <div class="diary-sub active" id="diary-sub-home">
+        <div class="diary-wrap">
+          <div class="diary-hd">
+            <div>
+              <div class="diary-title">Meu Diário Alimentar</div>
+              <div class="diary-date" id="diaryDate">Hoje</div>
+            </div>
+          </div>
+
+          <div class="diary-day-card">
+            <div class="diary-day-label">Calorias hoje</div>
+            <div class="diary-day-cals"><span id="dCalories">0</span><small>kcal</small></div>
+          </div>
+
+          <div class="diary-macros">
+            <div class="diary-macro">
+              <div class="diary-macro-icon dm-protein">P</div>
+              <div class="diary-macro-value"><span id="dProtein">0</span><small>g</small></div>
+              <div class="diary-macro-label">Proteína</div>
+            </div>
+            <div class="diary-macro">
+              <div class="diary-macro-icon dm-carbs">C</div>
+              <div class="diary-macro-value"><span id="dCarbs">0</span><small>g</small></div>
+              <div class="diary-macro-label">Carbo</div>
+            </div>
+            <div class="diary-macro">
+              <div class="diary-macro-icon dm-fat">G</div>
+              <div class="diary-macro-value"><span id="dFat">0</span><small>g</small></div>
+              <div class="diary-macro-label">Gordura</div>
+            </div>
+          </div>
+
+          <div class="diary-section-hd">
+            <div class="diary-section-title">Refeições de hoje</div>
+            <button class="diary-clear" onclick="clearDiaryToday()">Limpar</button>
+          </div>
+
+          <div class="diary-meals" id="diaryMeals">
+            <div class="diary-empty">
+              <div class="diary-empty-icon">🍽️</div>
+              <div>Nenhuma refeição registrada hoje<br>Toque no botão abaixo pra começar</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sub-view: CÂMERA -->
+      <div class="diary-sub" id="diary-sub-camera">
+        <div class="diary-wrap">
+          <div class="diary-hd">
+            <div>
+              <div class="diary-title">Nova Refeição</div>
+              <div class="diary-date">Tire ou escolha uma foto do seu prato</div>
+            </div>
+          </div>
+          <div class="diary-cam-content">
+            <button class="diary-cam-btn" onclick="document.getElementById('diaryCameraInput').click()">
+              📸 Tirar Foto
+            </button>
+            <button class="diary-cam-btn" onclick="document.getElementById('diaryGalleryInput').click()">
+              🖼️ Escolher da Galeria
+            </button>
+            <input type="file" id="diaryCameraInput"  class="diary-file-input" accept="image/*" capture="environment">
+            <input type="file" id="diaryGalleryInput" class="diary-file-input" accept="image/*">
+            <div class="diary-preview-wrap" id="diaryPreviewWrap">
+              <img class="diary-preview-img" id="diaryPreviewImg" alt="">
+            </div>
+            <button class="diary-analyze-btn" id="diaryAnalyzeBtn">
+              ✨ Analisar com IA
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sub-view: LOADING -->
+      <div class="diary-sub" id="diary-sub-loading">
+        <div class="diary-wrap">
+          <div class="diary-hd">
+            <div>
+              <div class="diary-title">Analisando...</div>
+              <div class="diary-date">A IA está estudando sua refeição</div>
+            </div>
+          </div>
+          <div class="diary-load-wrap">
+            <img id="diaryLoadImg" alt="">
+            <div class="diary-scanner"></div>
+          </div>
+          <div class="diary-load-text"><span id="diaryLoadMsg">Identificando alimentos</span><span class="diary-load-dots"></span></div>
+        </div>
+      </div>
+
+      <!-- Sub-view: RESULTADO -->
+      <div class="diary-sub" id="diary-sub-result">
+        <div class="diary-wrap">
+          <div class="diary-hd">
+            <div>
+              <div class="diary-title">Resultado</div>
+              <div class="diary-date">Análise nutricional</div>
+            </div>
+          </div>
+          <div id="diaryResultContent"></div>
+        </div>
+      </div>
+
+    </div>
+  </div><!-- /view-diary -->
+
+  <!-- FAB do Diário -->
+  <button class="diary-fab" id="diaryFab" onclick="diaryStartCamera()" title="Adicionar refeição">📸</button>
+
+
 
   <!-- ═══ VIEW: LEVEL/COURSE PAGE ═══ -->
   <div id="view-level" class="view">
@@ -1841,6 +2361,8 @@ function loadWatchHistory(email) {
     watchHistory = JSON.parse(localStorage.getItem('juh_hist_' + email) || '[]');
   } catch(e) { watchHistory = []; }
   renderContinueSection();
+  // atualiza diário também (pra mostrar totais do home)
+  if (typeof renderDiaryHome === 'function') { try { renderDiaryHome(); } catch(e){} }
 }
 
 function saveToHistory(catKey, levelKey, wIdx) {
@@ -2607,6 +3129,548 @@ document.addEventListener('click', (e) => {
     document.getElementById('avMenu').classList.remove('open');
   }
 });
+
+/* ════════════════════════════════════════════
+   📸 DIÁRIO ALIMENTAR (CalorIA por foto - Gemini)
+   ════════════════════════════════════════════ */
+
+const GEMINI_API_KEY = 'AIzaSyA1Ftyw4FLLhzweA1XPAzCCjfqhTikMsEU';
+const GEMINI_MODELS = [
+  'gemini-2.5-flash',
+  'gemini-flash-latest',
+  'gemini-2.0-flash',
+  'gemini-2.5-flash-lite',
+  'gemini-2.0-flash-lite',
+  'gemini-1.5-flash',
+  'gemini-1.5-flash-8b'
+];
+const GEMINI_URL_BASE = 'https://generativelanguage.googleapis.com/v1beta/models/';
+const DIARY_RETRY_ROUNDS = 2;
+const DIARY_RETRY_DELAY = 1500;
+
+const DIARY_PROMPT = `Você é um nutricionista especialista em análise de pratos por imagem. Analise esta foto de comida com precisão.
+
+Estime cada item visível:
+1. Identifique o alimento
+2. Estime peso/porção em gramas baseado no tamanho aparente do prato (assume prato padrão ~25cm)
+3. Calcule calorias e macros baseado em tabelas nutricionais brasileiras (TACO/USDA)
+
+Responda APENAS com JSON válido neste formato:
+
+{
+  "dish_name": "Nome resumido do prato em português (max 30 chars)",
+  "total_calories": <int>,
+  "protein_g": <number>,
+  "carbs_g": <number>,
+  "fat_g": <number>,
+  "items": [
+    {
+      "name": "<alimento em português>",
+      "portion": "<quantidade ex: 150g, 1 unidade média>",
+      "weight_g": <number>,
+      "calories": <int>,
+      "protein_g": <number>,
+      "carbs_g": <number>,
+      "fat_g": <number>
+    }
+  ],
+  "confidence": "high|medium|low"
+}
+
+Se não houver comida na imagem, retorne: {"error": "Não consegui identificar comida nesta imagem. Tire uma foto mais clara."}
+
+Seja realista. Considere métodos de preparo (frito vs grelhado).`;
+
+const DIARY_LOADING_MSGS = [
+  'Identificando alimentos',
+  'Estimando porções',
+  'Calculando calorias',
+  'Verificando macros',
+  'Quase pronto'
+];
+
+let diaryState = {
+  currentImage: null,
+  currentResult: null,
+  loadingTimer: null
+};
+
+/* ─── Navegação dentro do view-diary ─── */
+function diaryShowSub(subId) {
+  document.querySelectorAll('#view-diary .diary-sub').forEach(s => s.classList.remove('active'));
+  const el = document.getElementById('diary-sub-' + subId);
+  if (el) el.classList.add('active');
+  // FAB só aparece na home do diário
+  const fab = document.getElementById('diaryFab');
+  if (fab) fab.classList.toggle('show', subId === 'home');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function openDiary() {
+  diaryShowSub('home');
+  showView('view-diary');
+  renderDiaryHome();
+}
+
+function diaryBackToList() {
+  // se está numa sub-view interna, volta pra home do diário
+  // se já está na home do diário, volta pra view-home do app
+  const homeSub = document.getElementById('diary-sub-home');
+  if (homeSub && homeSub.classList.contains('active')) {
+    showView('view-home');
+    document.getElementById('diaryFab').classList.remove('show');
+  } else {
+    diaryShowSub('home');
+    renderDiaryHome();
+  }
+}
+
+function diaryStartCamera() {
+  diaryResetCamera();
+  diaryShowSub('camera');
+}
+
+function diaryResetCamera() {
+  diaryState.currentImage = null;
+  document.getElementById('diaryPreviewWrap').classList.remove('show');
+  document.getElementById('diaryAnalyzeBtn').classList.remove('show');
+  const ci = document.getElementById('diaryCameraInput');
+  const gi = document.getElementById('diaryGalleryInput');
+  if (ci) ci.value = '';
+  if (gi) gi.value = '';
+}
+
+/* ─── Processamento de imagem ─── */
+function diaryProcessImage(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onerror = () => reject(new Error('Falha ao ler arquivo'));
+    reader.onload = (e) => {
+      const img = new Image();
+      img.onerror = () => reject(new Error('Imagem inválida'));
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        const maxDim = 1024;
+        let { width, height } = img;
+        if (width > maxDim || height > maxDim) {
+          const ratio = Math.min(maxDim / width, maxDim / height);
+          width  = Math.round(width  * ratio);
+          height = Math.round(height * ratio);
+        }
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx.fillStyle = '#fff';
+        ctx.fillRect(0, 0, width, height);
+        ctx.drawImage(img, 0, 0, width, height);
+        const dataUrl = canvas.toDataURL('image/jpeg', 0.85);
+        resolve({
+          dataUrl,
+          base64: dataUrl.split(',')[1],
+          mimeType: 'image/jpeg'
+        });
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+/* ─── Helpers Gemini ─── */
+function diaryLooksOverload(text) {
+  if (!text) return false;
+  const m = String(text).toLowerCase();
+  return m.includes('overload') || m.includes('high demand') || m.includes('unavailable') ||
+         m.includes('try again later') || m.includes('temporarily') || m.includes('quota') ||
+         m.includes('rate limit') || m.includes('exhausted') || m.includes('exceeded') || m.includes('busy');
+}
+function diaryFatalKey(text) {
+  if (!text) return false;
+  const m = String(text).toLowerCase();
+  return m.includes('api key not valid') || m.includes('api_key_invalid') ||
+         m.includes('permission denied') || m.includes('forbidden');
+}
+function diaryExtractJson(text) {
+  if (!text || typeof text !== 'string') return null;
+  try { return JSON.parse(text); } catch {}
+  const fence = text.match(/```(?:json)?\s*([\s\S]*?)```/i);
+  if (fence) { try { return JSON.parse(fence[1].trim()); } catch {} }
+  const start = text.indexOf('{');
+  const end = text.lastIndexOf('}');
+  if (start >= 0 && end > start) {
+    try { return JSON.parse(text.slice(start, end + 1)); } catch {}
+  }
+  return null;
+}
+function diarySleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+async function diaryCallModel(model, imageBase64, useJsonMode = true) {
+  const url = `${GEMINI_URL_BASE}${model}:generateContent?key=${GEMINI_API_KEY}`;
+  const generationConfig = { temperature: 0.2, maxOutputTokens: 1024 };
+  if (useJsonMode) generationConfig.responseMimeType = 'application/json';
+
+  const body = {
+    contents: [{
+      parts: [
+        { text: DIARY_PROMPT },
+        { inline_data: { mime_type: 'image/jpeg', data: imageBase64 } }
+      ]
+    }],
+    generationConfig
+  };
+
+  let res;
+  try {
+    res = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+  } catch {
+    const err = new Error('Sem conexão com o Gemini. Verifica sua internet.');
+    err.recoverable = true; throw err;
+  }
+
+  if (!res.ok) {
+    const errText = await res.text().catch(() => '');
+    let msg = `HTTP ${res.status}`;
+    try { const j = JSON.parse(errText); if (j?.error?.message) msg = j.error.message; } catch {}
+    const err = new Error(msg);
+    err.status = res.status;
+    if (res.status === 400 && diaryFatalKey(msg)) { err.fatal = true; throw err; }
+    if (res.status === 401 || res.status === 403) { err.fatal = true; throw err; }
+    err.recoverable = true; throw err;
+  }
+
+  const data = await res.json().catch(() => null);
+  if (!data) { const e = new Error('Resposta inválida'); e.recoverable = true; throw e; }
+  if (data?.promptFeedback?.blockReason) {
+    const e = new Error('Imagem rejeitada por filtros de segurança. Tenta outra foto.');
+    e.fatal = true; throw e;
+  }
+  const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+  if (!text || !text.trim()) {
+    const e = new Error('Resposta vazia'); e.recoverable = true; throw e;
+  }
+  if (diaryLooksOverload(text) && !text.trim().startsWith('{')) {
+    const e = new Error('Modelo sobrecarregado'); e.recoverable = true; throw e;
+  }
+  const parsed = diaryExtractJson(text);
+  if (!parsed) {
+    const e = new Error('Não consegui interpretar a resposta');
+    e.recoverable = true; e.unparsable = true; throw e;
+  }
+  if (parsed.error) {
+    const e = new Error(parsed.error);
+    e.recoverable = diaryLooksOverload(parsed.error); throw e;
+  }
+  if (typeof parsed.total_calories !== 'number' && !parsed.dish_name) {
+    const e = new Error('Formato inesperado'); e.recoverable = true; throw e;
+  }
+  return parsed;
+}
+
+async function diaryAnalyzeWithGemini(imageBase64) {
+  if (!GEMINI_API_KEY || GEMINI_API_KEY === 'COLE_AQUI_SUA_CHAVE') {
+    throw new Error('Chave da API Gemini não configurada.');
+  }
+  let lastError = null;
+  for (let round = 0; round < DIARY_RETRY_ROUNDS; round++) {
+    for (let i = 0; i < GEMINI_MODELS.length; i++) {
+      const model = GEMINI_MODELS[i];
+      for (const useJson of [true, false]) {
+        try {
+          console.log(`[Diário] round=${round} model=${model} json=${useJson}`);
+          const result = await diaryCallModel(model, imageBase64, useJson);
+          console.log(`[Diário] ✓ Sucesso com ${model}`);
+          return result;
+        } catch (err) {
+          console.warn(`[Diário] ${model} (json=${useJson}) → ${err.message}`);
+          lastError = err;
+          if (err.fatal) throw err;
+          if (err.unparsable && useJson) continue;
+          break;
+        }
+      }
+    }
+    if (round < DIARY_RETRY_ROUNDS - 1) await diarySleep(DIARY_RETRY_DELAY);
+  }
+  const finalMsg = lastError?.message || 'Erro desconhecido';
+  if (diaryLooksOverload(finalMsg)) {
+    throw new Error('Os servidores do Gemini estão sobrecarregados agora. Tenta de novo em 1-2 minutos.');
+  }
+  throw new Error(finalMsg);
+}
+
+/* ─── IndexedDB ─── */
+const DIARY_DB = 'caloriaDiaryDB';
+const DIARY_STORE = 'meals';
+function diaryOpenDB() {
+  return new Promise((resolve, reject) => {
+    const req = indexedDB.open(DIARY_DB, 1);
+    req.onupgradeneeded = (e) => {
+      const db = e.target.result;
+      if (!db.objectStoreNames.contains(DIARY_STORE)) {
+        db.createObjectStore(DIARY_STORE, { keyPath: 'id' });
+      }
+    };
+    req.onsuccess = () => resolve(req.result);
+    req.onerror = () => reject(req.error);
+  });
+}
+async function diarySaveMeal(meal) {
+  const db = await diaryOpenDB();
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(DIARY_STORE, 'readwrite');
+    tx.objectStore(DIARY_STORE).put(meal);
+    tx.oncomplete = () => resolve();
+    tx.onerror    = () => reject(tx.error);
+  });
+}
+async function diaryGetAllMeals() {
+  const db = await diaryOpenDB();
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(DIARY_STORE, 'readonly');
+    const req = tx.objectStore(DIARY_STORE).getAll();
+    req.onsuccess = () => resolve(req.result || []);
+    req.onerror   = () => reject(req.error);
+  });
+}
+async function diaryClearAll() {
+  const db = await diaryOpenDB();
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(DIARY_STORE, 'readwrite');
+    tx.objectStore(DIARY_STORE).clear();
+    tx.oncomplete = () => resolve();
+    tx.onerror    = () => reject(tx.error);
+  });
+}
+
+/* ─── Salvar ─── */
+async function diarySaveResult() {
+  if (!diaryState.currentResult || !diaryState.currentImage) return;
+  const r = diaryState.currentResult;
+  const meal = {
+    id: 'meal_' + Date.now(),
+    timestamp: Date.now(),
+    user: currentUserEmail || 'guest',
+    image: diaryState.currentImage.dataUrl,
+    name: r.dish_name || 'Refeição',
+    calories: Math.round(r.total_calories || 0),
+    protein:  diaryFmtG(r.protein_g),
+    carbs:    diaryFmtG(r.carbs_g),
+    fat:      diaryFmtG(r.fat_g),
+    items:    r.items || []
+  };
+  try {
+    await diarySaveMeal(meal);
+    showToast('💾 Refeição salva no diário!');
+    await renderDiaryHome();
+    diaryShowSub('home');
+  } catch (err) {
+    showToast('❌ Erro ao salvar: ' + err.message);
+  }
+}
+
+async function clearDiaryToday() {
+  if (!confirm('Apagar todas as refeições do diário?')) return;
+  await diaryClearAll();
+  await renderDiaryHome();
+  showToast('🗑️ Diário limpo');
+}
+
+/* ─── Render ─── */
+function diaryFmtG(v) {
+  if (v === undefined || v === null) return 0;
+  return Math.round(v * 10) / 10;
+}
+function diaryEscape(s) {
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+async function renderDiaryHome() {
+  // data label
+  const now = new Date();
+  const dEl = document.getElementById('diaryDate');
+  if (dEl) dEl.textContent = now.toLocaleDateString('pt-BR', { weekday: 'long', day: '2-digit', month: 'long' });
+
+  let meals = [];
+  try { meals = await diaryGetAllMeals(); } catch {}
+
+  const startOfDay = new Date(); startOfDay.setHours(0,0,0,0);
+  const todayMeals = meals
+    .filter(m => m.timestamp >= startOfDay.getTime() && (m.user === currentUserEmail || !currentUserEmail))
+    .sort((a,b) => b.timestamp - a.timestamp);
+
+  const totals = todayMeals.reduce((acc, m) => {
+    acc.calories += Number(m.calories) || 0;
+    acc.protein  += Number(m.protein)  || 0;
+    acc.carbs    += Number(m.carbs)    || 0;
+    acc.fat      += Number(m.fat)      || 0;
+    return acc;
+  }, { calories: 0, protein: 0, carbs: 0, fat: 0 });
+
+  const set = (id, val) => { const e = document.getElementById(id); if (e) e.textContent = val; };
+  set('dCalories', Math.round(totals.calories));
+  set('dProtein',  Math.round(totals.protein));
+  set('dCarbs',    Math.round(totals.carbs));
+  set('dFat',      Math.round(totals.fat));
+
+  // promo no home
+  set('dpCalories', Math.round(totals.calories));
+  set('dpMeals',    todayMeals.length);
+
+  const list = document.getElementById('diaryMeals');
+  if (!list) return;
+  if (todayMeals.length === 0) {
+    list.innerHTML = `
+      <div class="diary-empty">
+        <div class="diary-empty-icon">🍽️</div>
+        <div>Nenhuma refeição registrada hoje<br>Toque no botão abaixo pra começar</div>
+      </div>`;
+    return;
+  }
+  list.innerHTML = todayMeals.map(m => `
+    <div class="diary-meal">
+      <img class="diary-meal-thumb" src="${m.image}" alt="">
+      <div class="diary-meal-info">
+        <div class="diary-meal-name">${diaryEscape(m.name)}</div>
+        <div class="diary-meal-time">${new Date(m.timestamp).toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'})}</div>
+      </div>
+      <div class="diary-meal-cals">${m.calories}<small> kcal</small></div>
+    </div>
+  `).join('');
+}
+
+function diaryRenderResult(r) {
+  const conf = (r.confidence || 'medium').toLowerCase();
+  const confLabel = { high: 'Alta confiança', medium: 'Confiança média', low: 'Baixa confiança' }[conf] || conf;
+  const itemsHtml = (r.items || []).map(it => `
+    <div class="diary-item">
+      <div>
+        <div class="diary-item-name">${diaryEscape(it.name || '')}</div>
+        <div class="diary-item-portion">${diaryEscape(it.portion || '')}</div>
+      </div>
+      <div class="diary-item-cals">${Math.round(it.calories || 0)} kcal</div>
+    </div>
+  `).join('');
+
+  document.getElementById('diaryResultContent').innerHTML = `
+    <img class="diary-result-img" src="${diaryState.currentImage.dataUrl}" alt="">
+    <div class="diary-result-name">${diaryEscape(r.dish_name || 'Refeição')}</div>
+    <div class="diary-result-conf ${conf}">${confLabel}</div>
+
+    <div class="diary-day-card">
+      <div class="diary-day-label">Calorias estimadas</div>
+      <div class="diary-day-cals">${Math.round(r.total_calories || 0)}<small>kcal</small></div>
+    </div>
+
+    <div class="diary-macros" style="margin-top: 14px;">
+      <div class="diary-macro">
+        <div class="diary-macro-icon dm-protein">P</div>
+        <div class="diary-macro-value">${diaryFmtG(r.protein_g)}<small>g</small></div>
+        <div class="diary-macro-label">Proteína</div>
+      </div>
+      <div class="diary-macro">
+        <div class="diary-macro-icon dm-carbs">C</div>
+        <div class="diary-macro-value">${diaryFmtG(r.carbs_g)}<small>g</small></div>
+        <div class="diary-macro-label">Carbo</div>
+      </div>
+      <div class="diary-macro">
+        <div class="diary-macro-icon dm-fat">G</div>
+        <div class="diary-macro-value">${diaryFmtG(r.fat_g)}<small>g</small></div>
+        <div class="diary-macro-label">Gordura</div>
+      </div>
+    </div>
+
+    <div class="diary-items">
+      <div class="diary-items-title">Alimentos identificados</div>
+      ${itemsHtml || '<div class="diary-item-portion" style="text-align:center;padding:12px;">Nenhum item detalhado</div>'}
+    </div>
+
+    <div class="diary-disclaimer">
+      ⚠️ Estimativas geradas por IA têm margem de erro de ±20%. Use como referência.
+    </div>
+
+    <div class="diary-actions">
+      <button class="diary-btn-prim" onclick="diarySaveResult()">💾 Salvar no Diário</button>
+      <button class="diary-btn-sec" onclick="diaryStartCamera()">📸 Tirar Outra Foto</button>
+    </div>
+  `;
+}
+
+function diaryShowError(msg) {
+  document.getElementById('diaryResultContent').innerHTML = `
+    <div class="diary-error">
+      <strong>Não consegui analisar</strong>
+      ${diaryEscape(msg)}
+    </div>
+    <div class="diary-actions">
+      <button class="diary-btn-prim" onclick="diaryStartCamera()">📸 Tentar Novamente</button>
+      <button class="diary-btn-sec" onclick="diaryShowSub('home');renderDiaryHome();">‹ Voltar</button>
+    </div>
+  `;
+  diaryShowSub('result');
+}
+
+/* ─── Hooks de input + analyze ─── */
+function diaryAttachHandlers() {
+  ['diaryCameraInput', 'diaryGalleryInput'].forEach(id => {
+    const el = document.getElementById(id);
+    if (!el || el.dataset.bound) return;
+    el.dataset.bound = '1';
+    el.addEventListener('change', async (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      try {
+        diaryState.currentImage = await diaryProcessImage(file);
+        document.getElementById('diaryPreviewImg').src = diaryState.currentImage.dataUrl;
+        document.getElementById('diaryPreviewWrap').classList.add('show');
+        document.getElementById('diaryAnalyzeBtn').classList.add('show');
+      } catch (err) {
+        showToast('❌ Erro: ' + err.message);
+      }
+    });
+  });
+
+  const btn = document.getElementById('diaryAnalyzeBtn');
+  if (btn && !btn.dataset.bound) {
+    btn.dataset.bound = '1';
+    btn.addEventListener('click', async () => {
+      if (!diaryState.currentImage) return;
+      document.getElementById('diaryLoadImg').src = diaryState.currentImage.dataUrl;
+      diaryShowSub('loading');
+
+      let idx = 0;
+      const msgEl = document.getElementById('diaryLoadMsg');
+      msgEl.textContent = DIARY_LOADING_MSGS[0];
+      diaryState.loadingTimer = setInterval(() => {
+        idx = (idx + 1) % DIARY_LOADING_MSGS.length;
+        msgEl.textContent = DIARY_LOADING_MSGS[idx];
+      }, 1500);
+
+      try {
+        diaryState.currentResult = await diaryAnalyzeWithGemini(diaryState.currentImage.base64);
+        clearInterval(diaryState.loadingTimer);
+        diaryRenderResult(diaryState.currentResult);
+        diaryShowSub('result');
+      } catch (err) {
+        clearInterval(diaryState.loadingTimer);
+        diaryShowError(err.message || String(err));
+      }
+    });
+  }
+}
+
+// inicializa quando o DOM está pronto
+document.addEventListener('DOMContentLoaded', diaryAttachHandlers);
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', diaryAttachHandlers);
+} else {
+  diaryAttachHandlers();
+}
+
+
 </script>
 </body>
 </html>
