@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link rel="preconnect" href="https://images.unsplash.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;0,9..144,900;1,9..144,500;1,9..144,700&family=Geist:wght@300;400;500;600;700;800&family=Montserrat:wght@500;600;700;800;900&display=swap" rel="stylesheet"/>
   <style>
     /* ════════════════════════════════════════════════════════
        1. RESET
@@ -78,7 +78,7 @@
     ════════════════════════════════════════════════════════ */
     html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
     body {
-      font-family: 'Inter', 'Montserrat', sans-serif;
+      font-family: 'Geist', 'Inter', system-ui, sans-serif;
       background:
         radial-gradient(ellipse at 50% 0%, rgba(184,208,0,0.04) 0%, transparent 60%),
         var(--bg);
@@ -238,14 +238,14 @@
     .fg { display: flex; flex-direction: column; gap: 5px; }
     .flabel {
       font-size: 11px; font-weight: 700; text-transform: uppercase;
-      letter-spacing: 0.6px; color: var(--muted); font-family: 'Inter', sans-serif;
+      letter-spacing: 0.6px; color: var(--muted); font-family: 'Geist', system-ui, sans-serif;
     }
     .finput {
       background: rgba(255,255,255,0.06);
       border: 1px solid rgba(255,255,255,0.12);
       border-radius: 10px;
       padding: 12px 14px;
-      color: var(--text); font-family: 'Inter', sans-serif;
+      color: var(--text); font-family: 'Geist', system-ui, sans-serif;
       font-size: 16px; /* ≥16px evita zoom automático no iOS */
       outline: none; width: 100%;
       transition: border-color .2s, box-shadow .2s;
@@ -298,7 +298,7 @@
       background: rgba(220,53,69,.15); border: 1px solid rgba(220,53,69,.3);
       border-left: 3px solid #ff6b7a; border-radius: 8px;
       padding: 10px 14px; font-size: 13px; color: #ff6b7a;
-      font-family: 'Inter', sans-serif;
+      font-family: 'Geist', system-ui, sans-serif;
     }
     .lerr.show { display: block; }
     .lsuc {
@@ -306,7 +306,7 @@
       background: rgba(40,167,69,.15); border: 1px solid rgba(40,167,69,.3);
       border-left: 3px solid #28a745; border-radius: 8px;
       padding: 10px 14px; font-size: 13px; color: #28a745;
-      font-family: 'Inter', sans-serif;
+      font-family: 'Geist', system-ui, sans-serif;
     }
     .lsuc.show { display: block; }
 
@@ -418,7 +418,7 @@
     .av-menu.open { display: flex; }
     .av-head { padding: 16px; border-bottom: 1px solid rgba(255,255,255,0.07); }
     .av-name { font-size: 14px; font-weight: 700; }
-    .av-email { font-size: 12px; color: var(--muted); margin-top: 2px; font-family: 'Inter', sans-serif; }
+    .av-email { font-size: 12px; color: var(--muted); margin-top: 2px; font-family: 'Geist', system-ui, sans-serif; }
     .av-menu a {
       display: flex; align-items: center; gap: 10px;
       padding: 12px 16px; text-decoration: none; color: var(--text);
@@ -446,7 +446,7 @@
     .np-title { font-size: 15px; font-weight: 700; }
     .np-mark { font-size: 12px; color: var(--primary); cursor: pointer; font-weight: 600; }
     .np-mark:hover { opacity: .8; }
-    .np-empty { padding: 40px 20px; text-align: center; color: var(--muted); font-size: 13px; font-family: 'Inter', sans-serif; }
+    .np-empty { padding: 40px 20px; text-align: center; color: var(--muted); font-size: 13px; font-family: 'Geist', system-ui, sans-serif; }
 
     /* SEARCH */
     .search-ov {
@@ -471,13 +471,13 @@
     }
     .search-inp {
       flex: 1; background: none; border: none; outline: none;
-      color: #fff; font-size: 18px; font-family: 'Inter', sans-serif;
+      color: #fff; font-size: 18px; font-family: 'Geist', system-ui, sans-serif;
     }
     .search-inp::placeholder { color: #555; }
     .search-close { background: none; border: none; color: #888; font-size: 20px; cursor: pointer; }
     .search-close:hover { color: #fff; }
     .search-res { padding: 16px 20px; max-height: 320px; overflow-y: auto; }
-    .search-hint { color: #555; font-size: 13px; font-family: 'Inter', sans-serif; }
+    .search-hint { color: #555; font-size: 13px; font-family: 'Geist', system-ui, sans-serif; }
     .sri {
       display: flex; align-items: center; gap: 12px;
       padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.05);
@@ -540,7 +540,7 @@
       color: rgba(255,255,255,0.75);
       line-height: 1.7;
       max-width: 440px;
-      font-family: 'Inter', sans-serif;
+      font-family: 'Geist', system-ui, sans-serif;
     }
     .hactions { display: flex; gap: 12px; margin-top: 24px; flex-wrap: wrap; }
     .hbtn {
@@ -689,7 +689,7 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
-    .sec-sub { font-size: 13px; color: #777; margin-top: 5px; font-family: 'Inter', sans-serif; }
+    .sec-sub { font-size: 13px; color: #777; margin-top: 5px; font-family: 'Geist', system-ui, sans-serif; }
     .sec-link {
       font-size: 12px;
       color: var(--primary);
@@ -874,7 +874,7 @@
     }
     .course-dsc {
       font-size: 13px; color: rgba(255,255,255,0.58); line-height: 1.65;
-      margin-bottom: 28px; font-family: 'Inter', sans-serif;
+      margin-bottom: 28px; font-family: 'Geist', system-ui, sans-serif;
     }
     .playlist-hd {
       font-size: 16px; font-weight: 800; margin-bottom: 14px;
@@ -898,7 +898,7 @@
       background: linear-gradient(135deg,#b8d000,#96aa00); display: flex; align-items: center;
       justify-content: center; color: #000; font-size: 12px; box-shadow: 0 4px 14px rgba(184,208,0,.35); }
     .wk-tag { font-size: 9px; color: rgba(255,255,255,0.45); text-transform: uppercase;
-      letter-spacing: .8px; font-family: 'Inter', sans-serif; }
+      letter-spacing: .8px; font-family: 'Geist', system-ui, sans-serif; }
     .wk-ttl { font-size: 13px; font-weight: 800; color: #fff; line-height: 1.2; margin-top: 2px;
       font-family: 'Montserrat', sans-serif; }
     .wk-intro-badge {
@@ -938,7 +938,7 @@
     .ex-hd-title { font-size: 20px; font-weight: 900; font-family: 'Montserrat', sans-serif; }
     .ex-list-wrap { padding: 20px 20px 10px; }
     .ex-sub { font-size: 11px; color: rgba(255,255,255,0.35); text-transform: uppercase;
-      letter-spacing: 1px; margin-bottom: 4px; font-family: 'Inter', sans-serif; }
+      letter-spacing: 1px; margin-bottom: 4px; font-family: 'Geist', system-ui, sans-serif; }
     .ex-playlist-name { font-size: 13px; font-weight: 700; color: rgba(255,255,255,0.7);
       margin-bottom: 20px; font-family: 'Montserrat', sans-serif; }
     .ex-item {
@@ -955,11 +955,11 @@
     .ex-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
     .ex-info { flex: 1; min-width: 0; }
     .ex-num { font-size: 10px; color: var(--primary); font-weight: 700;
-      margin-bottom: 4px; font-family: 'Inter', sans-serif; }
+      margin-bottom: 4px; font-family: 'Geist', system-ui, sans-serif; }
     .ex-name { font-size: 14px; font-weight: 700; color: #f0f0f0; line-height: 1.3;
       font-family: 'Montserrat', sans-serif; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .ex-sets { font-size: 11px; color: rgba(255,255,255,0.38); margin-top: 4px;
-      font-family: 'Inter', sans-serif; }
+      font-family: 'Geist', system-ui, sans-serif; }
     .ex-play-btn {
       width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0;
       background: rgba(184,208,0,0.1); border: 1px solid rgba(184,208,0,0.22);
@@ -1063,7 +1063,7 @@
       text-overflow: ellipsis;
       white-space: nowrap;
     }
-    .cmeta { font-size: 11px; color: #666; margin-top: 3px; font-family: 'Inter', sans-serif; }
+    .cmeta { font-size: 11px; color: #666; margin-top: 3px; font-family: 'Geist', system-ui, sans-serif; }
 
     /* COURSE CARD */
     .cc { flex: 0 0 clamp(145px, 16vw, 205px); scroll-snap-align: start; cursor: pointer; transition: transform .25s cubic-bezier(0.34,1.56,0.64,1), box-shadow .25s ease; }
@@ -1095,7 +1095,7 @@
       padding: 14px;
     }
     .cat-t { font-size: 16px; font-weight: 800; }
-    .cat-s { font-size: 12px; color: rgba(255,255,255,0.65); margin-top: 4px; line-height: 1.4; font-family: 'Inter', sans-serif; }
+    .cat-s { font-size: 12px; color: rgba(255,255,255,0.65); margin-top: 4px; line-height: 1.4; font-family: 'Geist', system-ui, sans-serif; }
 
     /* VIDEO MODAL */
     .modal-bg {
@@ -1176,7 +1176,7 @@
       letter-spacing: 0.8px;
     }
     .mtitle { font-size: 22px; font-weight: 800; margin-top: 6px; }
-    .mmeta { font-size: 13px; color: #666; margin-top: 6px; font-family: 'Inter', sans-serif; }
+    .mmeta { font-size: 13px; color: #666; margin-top: 6px; font-family: 'Geist', system-ui, sans-serif; }
     .mfooter { display: flex; gap: 10px; margin-top: 18px; flex-wrap: wrap; }
     .mbtn {
       flex: 1;
@@ -1224,7 +1224,7 @@
       box-shadow: 0 8px 32px rgba(0,0,0,0.5);
       animation: tIn .3s ease, tOut .3s ease 2.7s forwards;
       max-width: 290px;
-      font-family: 'Inter', sans-serif;
+      font-family: 'Geist', system-ui, sans-serif;
     }
     .toast.err { border-left-color: #ff6b7a; }
     @keyframes tIn { from { opacity: 0; transform: translateX(30px); } to { opacity: 1; transform: translateX(0); } }
@@ -1633,6 +1633,290 @@
     .diary-file-input { display: none; }
 
 
+  
+    /* ════════════════════════════════════════════════════════
+       ✨ PILOTO VISUAL — refinamento editorial
+       ════════════════════════════════════════════════════════ */
+
+    /* Grain overlay sutil (cinematográfico) */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9998;
+      opacity: 0.06;
+      mix-blend-mode: overlay;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.6 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+    }
+
+    /* Tipografia editorial: Fraunces nos hero-titles, course title e diary title */
+    .htitle,
+    .course-ttl,
+    .diary-title,
+    .diary-result-name {
+      font-family: 'Fraunces', 'Playfair Display', Georgia, serif;
+      font-style: italic;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      font-variation-settings: 'opsz' 144;
+    }
+
+    /* Tabular numbers — números alinhados verticalmente */
+    .daily-calories, .daily-cals,
+    .diary-day-cals, .diary-result-cals,
+    .diary-meal-cals, .diary-promo-stat b,
+    #dpCalories, #dpMeals,
+    .macro-value, .diary-macro-value,
+    #dCalories, #dProtein, #dCarbs, #dFat {
+      font-variant-numeric: tabular-nums;
+      font-feature-settings: "tnum" 1, "lnum" 1;
+    }
+
+    /* Glow neon nos cards ao hover (lvl-card, wk-card, vc, diary-meal) */
+    .lvl-card,
+    .wk-card,
+    .vc,
+    .diary-meal,
+    .diary-promo {
+      transition:
+        transform 0.35s var(--ease-out, cubic-bezier(0.22, 1, 0.36, 1)),
+        box-shadow 0.4s var(--ease-out, cubic-bezier(0.22, 1, 0.36, 1)),
+        border-color 0.3s ease;
+    }
+
+    .lvl-card:hover,
+    .wk-card:hover,
+    .vc:hover {
+      transform: translateY(-4px);
+      box-shadow:
+        0 0 0 1px rgba(184, 208, 0, 0.4),
+        0 0 24px rgba(184, 208, 0, 0.18),
+        0 16px 40px rgba(0, 0, 0, 0.55);
+    }
+
+    .diary-meal:hover {
+      transform: translateX(3px);
+      box-shadow:
+        0 0 0 1px rgba(184, 208, 0, 0.35),
+        0 0 18px rgba(184, 208, 0, 0.15);
+    }
+
+    /* Logo — Fraunces dá personalidade editorial */
+    .nb-logo .bname {
+      font-family: 'Fraunces', 'Montserrat', serif;
+      font-style: italic;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+    }
+
+    /* Section titles — refinamento sutil */
+    .sec-title {
+      letter-spacing: -0.01em;
+    }
+
+    /* Animação de entrada nos cards (staggered) */
+    @keyframes appearUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .view.active .lvl-card,
+    .view.active .wk-card,
+    .view.active .vc,
+    .view.active .section .sec-head {
+      animation: appearUp 0.6s var(--ease-out, cubic-bezier(0.22, 1, 0.36, 1)) both;
+    }
+
+    .view.active .lvl-grid > *:nth-child(1) { animation-delay: 0.05s; }
+    .view.active .lvl-grid > *:nth-child(2) { animation-delay: 0.12s; }
+    .view.active .lvl-grid > *:nth-child(3) { animation-delay: 0.19s; }
+
+    /* Hero title sutil glow */
+    .htitle .hl {
+      text-shadow: 0 0 40px rgba(184, 208, 0, 0.28);
+    }
+
+  
+    /* ════════════════════════════════════════════════════════
+       ✨ SECTION HEADERS — refinamento editorial
+       ════════════════════════════════════════════════════════ */
+
+    .sec-head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 28px;
+      padding-left: 16px;
+      position: relative;
+    }
+
+    /* Barra acento vertical verde-limão à esquerda */
+    .sec-head::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 6px; bottom: 6px;
+      width: 2px;
+      background: linear-gradient(
+        to bottom,
+        var(--primary, #b8d000) 0%,
+        rgba(184, 208, 0, 0.4) 40%,
+        transparent 100%
+      );
+      border-radius: 2px;
+      box-shadow: 0 0 12px rgba(184, 208, 0, 0.4);
+    }
+
+    .sec-title-wrap {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: nowrap;
+    }
+
+    /* Ícone sem caixa, em destaque */
+    .sec-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: auto;
+      height: auto;
+      padding: 0;
+      margin: 0;
+      background: none;
+      border: none;
+      font-size: 22px;
+      filter: drop-shadow(0 0 12px rgba(184, 208, 0, 0.25));
+      flex-shrink: 0;
+    }
+
+    /* Título: Fraunces italic editorial */
+    .sec-title {
+      font-family: 'Fraunces', 'Playfair Display', Georgia, serif !important;
+      font-style: italic !important;
+      font-weight: 700 !important;
+      font-size: clamp(22px, 3vw, 30px) !important;
+      letter-spacing: -0.025em !important;
+      line-height: 1.1;
+      background: linear-gradient(
+        135deg,
+        #ffffff 0%,
+        #ffffff 50%,
+        rgba(255, 255, 255, 0.65) 100%
+      );
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-variation-settings: 'opsz' 144;
+    }
+
+    /* Linha decorativa após o título */
+    .sec-title-wrap::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(
+        to right,
+        rgba(184, 208, 0, 0.35) 0%,
+        rgba(184, 208, 0, 0.08) 50%,
+        transparent 100%
+      );
+      min-width: 60px;
+      margin-left: 4px;
+      align-self: center;
+      transform: translateY(2px);
+    }
+
+    /* Subtítulo: mais legível, mais espaço */
+    .sec-sub {
+      font-size: 14px !important;
+      color: rgba(255, 255, 255, 0.58) !important;
+      margin-top: 10px !important;
+      font-weight: 400 !important;
+      letter-spacing: 0.005em;
+      max-width: 64ch;
+      line-height: 1.5;
+      font-family: 'Geist', system-ui, sans-serif !important;
+    }
+
+    /* Mobile: ajustes */
+    @media (max-width: 640px) {
+      .sec-title {
+        font-size: clamp(20px, 5.5vw, 24px) !important;
+      }
+      .sec-title-wrap::after { min-width: 24px; }
+      .sec-head { padding-left: 12px; gap: 12px; }
+    }
+
+  
+    /* ════════════════════════════════════════════════════════
+       ✨ SECTION HEADERS — STENCIL MASS
+       ════════════════════════════════════════════════════════ */
+
+    .sec-title-wrap {
+      display: block !important;
+      gap: 0 !important;
+    }
+
+    /* Remove a linha decorativa horizontal anterior */
+    .sec-title-wrap::after {
+      display: none !important;
+    }
+
+    /* Some o ícone (não vamos mais usar emoji) */
+    .sec-icon { display: none !important; }
+
+    /* O wrapper sec-head — sem barra lateral verde */
+    .sec-head {
+      padding-left: 0 !important;
+      margin-bottom: 32px !important;
+    }
+    .sec-head::before {
+      display: none !important;
+    }
+
+    /* Título Stencil Mass: ALL CAPS, dois níveis empilhados */
+    .sec-title {
+      font-family: 'Geist', 'Inter', system-ui, sans-serif !important;
+      font-style: normal !important;
+      font-weight: 900 !important;
+      font-size: clamp(34px, 5.5vw, 56px) !important;
+      line-height: 0.95 !important;
+      letter-spacing: -0.04em !important;
+      text-transform: uppercase !important;
+      background: none !important;
+      -webkit-text-fill-color: initial !important;
+      -webkit-background-clip: initial !important;
+      background-clip: initial !important;
+      color: #ffffff !important;
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 0 !important;
+      font-variation-settings: normal !important;
+    }
+
+    .sec-title .st-1 {
+      color: #ffffff;
+    }
+    .sec-title .st-2 {
+      color: var(--primary, #b8d000);
+      text-shadow: 0 0 32px rgba(184, 208, 0, 0.25);
+    }
+
+    /* Subtítulo permanece, mas alinhado ao início (sem indent extra) */
+    .sec-sub {
+      margin-top: 14px !important;
+      max-width: 56ch;
+    }
+
+    @media (max-width: 640px) {
+      .sec-title {
+        font-size: clamp(30px, 9vw, 42px) !important;
+      }
+      .sec-head { margin-bottom: 22px !important; }
+    }
+
   </style>
 </head>
 <body>
@@ -1894,7 +2178,7 @@
 
       <!-- Continuar assistindo -->
       <section class="section" id="sec-continue" style="display:none">
-        <div class="sec-head"><div><div class="sec-title-wrap"><span class="sec-icon">▶</span><h2 class="sec-title">Continuar assistindo</h2></div></div></div>
+        <div class="sec-head"><div><div class="sec-title-wrap"><h2 class="sec-title"><span class="st-1">Continuar</span><span class="st-2">Assistindo.</span></h2></div></div></div>
         <div class="row-wrap">
           <button class="sbtn sp" onclick="scrollR('rca',-1)">‹</button>
           <div class="row" id="rca">
@@ -1927,7 +2211,7 @@
       <section class="section">
         <div class="sec-head">
           <div>
-            <div class="sec-title-wrap"><span class="sec-icon">🏠</span><h2 class="sec-title">Treinos em Casa</h2></div>
+            <div class="sec-title-wrap"><h2 class="sec-title"><span class="st-1">Treinos</span><span class="st-2">em Casa.</span></h2></div>
             <p class="sec-sub">Do iniciante ao avançado — sem academia, sem desculpas!</p>
           </div>
         </div>
@@ -1963,7 +2247,7 @@
       <section class="section">
         <div class="sec-head">
           <div>
-            <div class="sec-title-wrap"><span class="sec-icon">💪</span><h2 class="sec-title">Treino na Academia</h2></div>
+            <div class="sec-title-wrap"><h2 class="sec-title"><span class="st-1">Treinos</span><span class="st-2">na Academia.</span></h2></div>
             <p class="sec-sub">Fichas completas para cada grupo muscular e objetivo</p>
           </div>
         </div>
@@ -1999,7 +2283,7 @@
       <section class="section">
         <div class="sec-head">
           <div>
-            <div class="sec-title-wrap"><span class="sec-icon">🏃</span><h2 class="sec-title">Aeróbico / Cardio</h2></div>
+            <div class="sec-title-wrap"><h2 class="sec-title"><span class="st-1">Aeróbico</span><span class="st-2">& Cardio.</span></h2></div>
             <p class="sec-sub">Queime calorias, melhore o fôlego e acelere o metabolismo</p>
           </div>
         </div>
@@ -2035,7 +2319,7 @@
       <section class="section">
         <div class="sec-head">
           <div>
-            <div class="sec-title-wrap"><span class="sec-icon">🥗</span><h2 class="sec-title">Receitas pra Secar</h2></div>
+            <div class="sec-title-wrap"><h2 class="sec-title"><span class="st-1">Receitas</span><span class="st-2">pra Secar.</span></h2></div>
             <p class="sec-sub">Alimentação inteligente para emagrecer com saúde</p>
           </div>
         </div>
@@ -2071,7 +2355,7 @@
       <section class="section">
         <div class="sec-head">
           <div>
-            <div class="sec-title-wrap"><span class="sec-icon">🍗</span><h2 class="sec-title">Receitas pra Ganhar Massa</h2></div>
+            <div class="sec-title-wrap"><h2 class="sec-title"><span class="st-1">Receitas</span><span class="st-2">pra Ganhar Massa.</span></h2></div>
             <p class="sec-sub">Nutrição de alto desempenho para construir músculo de verdade</p>
           </div>
         </div>
@@ -2108,7 +2392,7 @@
       <section class="section">
         <div class="sec-head">
           <div>
-            <div class="sec-title-wrap"><span class="sec-icon">📸</span><h2 class="sec-title">Diário Alimentar</h2></div>
+            <div class="sec-title-wrap"><h2 class="sec-title"><span class="st-1">Diário</span><span class="st-2">Alimentar.</span></h2></div>
             <p class="sec-sub">Tire uma foto do seu prato e a IA calcula calorias e macros automaticamente</p>
           </div>
         </div>
