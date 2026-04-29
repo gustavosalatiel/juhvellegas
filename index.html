@@ -1990,6 +1990,106 @@
       }
     }
 
+  
+    /* ════════════════════════════════════════════════════════
+       ✨ FIX desktop — page de course/workout
+       ════════════════════════════════════════════════════════ */
+
+    /* Hero do course: limitar altura E largura em desktop */
+    .course-page {
+      max-width: 1320px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .course-body {
+      max-width: 1280px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    @media (min-width: 1100px) {
+      .course-hero {
+        height: 360px;
+        border-radius: var(--radius-xl, 20px);
+        max-width: 1280px;
+        margin: 16px auto 0;
+      }
+    }
+
+    @media (min-width: 1500px) {
+      .course-hero {
+        height: 400px;
+      }
+    }
+
+    /* Workout cards: grid responsivo (2 → 3 → 4 colunas) e aspect-ratio menor */
+    @media (min-width: 768px) {
+      .wk-grid {
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 18px !important;
+      }
+      .wk-card {
+        aspect-ratio: 1 !important;
+      }
+    }
+
+    @media (min-width: 1100px) {
+      .wk-grid {
+        grid-template-columns: repeat(4, 1fr) !important;
+        gap: 22px !important;
+      }
+      .wk-card {
+        aspect-ratio: 4/5 !important;
+      }
+    }
+
+    @media (min-width: 1500px) {
+      .wk-card {
+        max-height: 380px;
+      }
+    }
+
+    /* Texto interno dos cards de workout: maior em desktop */
+    @media (min-width: 1100px) {
+      .wk-ttl {
+        font-size: 16px !important;
+        line-height: 1.25;
+      }
+      .wk-tag {
+        font-size: 10px !important;
+        letter-spacing: 1px;
+      }
+      .wk-intro-badge {
+        font-size: 10px !important;
+        padding: 5px 12px !important;
+      }
+      .wk-card-ov {
+        padding: 16px !important;
+      }
+      .wk-play {
+        width: 44px !important;
+        height: 44px !important;
+        font-size: 16px !important;
+      }
+    }
+
+    /* Course title — pode aumentar em desktop também */
+    @media (min-width: 1100px) {
+      .course-ttl {
+        font-size: clamp(36px, 4vw, 52px) !important;
+        line-height: 1.05;
+      }
+      .course-dsc {
+        font-size: 16px;
+        max-width: 64ch;
+      }
+      .playlist-hd {
+        font-size: 18px;
+        margin-top: 32px;
+      }
+    }
+
   </style>
 </head>
 <body>
