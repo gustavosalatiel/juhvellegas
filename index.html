@@ -2090,6 +2090,111 @@
       }
     }
 
+  
+    /* ════════════════════════════════════════════════════════
+       ✨ DIARY PROMO — affordance melhorada
+       ════════════════════════════════════════════════════════ */
+
+    .diary-promo {
+      cursor: pointer;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+      outline: none;
+      position: relative;
+      transition:
+        transform 0.25s var(--ease-out, cubic-bezier(0.22, 1, 0.36, 1)),
+        box-shadow 0.3s var(--ease-out, cubic-bezier(0.22, 1, 0.36, 1));
+    }
+
+    /* Setinha "abre nova tela" no canto superior direito */
+    .diary-promo-corner {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.18);
+      color: #0c0c0c;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.25s ease, background 0.25s ease;
+      z-index: 2;
+    }
+
+    /* CTA texto + seta abaixo dos stats */
+    .diary-promo-cta-text {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 14px;
+      padding: 9px 14px;
+      background: rgba(0, 0, 0, 0.85);
+      color: #b8d000;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      transition: gap 0.2s ease, padding-right 0.2s ease;
+      font-family: 'Geist', system-ui, sans-serif;
+    }
+    .diary-promo-cta-arrow {
+      font-size: 14px;
+      transition: transform 0.25s var(--ease-out, ease);
+    }
+
+    /* Hover MAIS evidente */
+    .diary-promo:hover {
+      transform: translateY(-3px) !important;
+      box-shadow:
+        0 0 0 2px rgba(184, 208, 0, 0.35),
+        0 18px 60px rgba(184, 208, 0, 0.4),
+        0 12px 40px rgba(0, 0, 0, 0.5) !important;
+    }
+    .diary-promo:hover .diary-promo-cta-arrow {
+      transform: translateX(6px);
+    }
+    .diary-promo:hover .diary-promo-corner {
+      transform: translate(2px, -2px);
+      background: rgba(0, 0, 0, 0.32);
+    }
+    .diary-promo:hover .diary-promo-cta {
+      transform: scale(1.06);
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.55), 0 0 0 4px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Active (clique) — feedback tátil */
+    .diary-promo:active {
+      transform: translateY(-1px) scale(0.995);
+    }
+
+    /* Focus (teclado / tab) */
+    .diary-promo:focus-visible {
+      box-shadow:
+        0 0 0 3px rgba(255, 255, 255, 0.6),
+        0 0 0 6px rgba(184, 208, 0, 0.6);
+    }
+
+    /* Pulse no botão da câmera — chama atenção */
+    @keyframes diary-cta-pulse {
+      0%   { box-shadow: 0 8px 24px rgba(0,0,0,0.4), 0 0 0 0 rgba(0, 0, 0, 0.4); }
+      55%  { box-shadow: 0 8px 24px rgba(0,0,0,0.4), 0 0 0 12px rgba(0, 0, 0, 0); }
+      100% { box-shadow: 0 8px 24px rgba(0,0,0,0.4), 0 0 0 0 rgba(0, 0, 0, 0); }
+    }
+
+    .diary-promo-cta {
+      animation: diary-cta-pulse 2.4s ease-out infinite;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    /* Mobile: a corner setinha pode ficar menor */
+    @media (max-width: 480px) {
+      .diary-promo-corner { width: 24px; height: 24px; top: 12px; right: 12px; }
+      .diary-promo-cta-text { font-size: 11px; padding: 8px 12px; }
+    }
+
   </style>
 </head>
 <body>
@@ -2569,7 +2674,7 @@
             <p class="sec-sub">Tire uma foto do seu prato e a IA calcula calorias e macros automaticamente</p>
           </div>
         </div>
-        <div class="diary-promo" id="diaryPromo" onclick="openDiary()">
+        <div class="diary-promo" id="diaryPromo" onclick="openDiary()" role="button" tabindex="0" aria-label="Abrir diário alimentar e tirar foto da refeição">
           <div class="diary-promo-row">
             <div class="diary-promo-info">
               <span class="diary-promo-tag">Hoje</span>
@@ -2579,8 +2684,17 @@
                 <div class="diary-promo-stat"><b id="dpCalories">0</b>kcal</div>
                 <div class="diary-promo-stat"><b id="dpMeals">0</b>refeições</div>
               </div>
+              <div class="diary-promo-cta-text">
+                <span class="diary-promo-cta-label">Toque para analisar uma refeição</span>
+                <span class="diary-promo-cta-arrow">→</span>
+              </div>
             </div>
-            <div class="diary-promo-cta">📸</div>
+            <div class="diary-promo-cta" aria-hidden="true">📸</div>
+          </div>
+          <div class="diary-promo-corner" aria-hidden="true">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <path d="M3 11L11 3M11 3H5M11 3V9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
           </div>
         </div>
       </section>
