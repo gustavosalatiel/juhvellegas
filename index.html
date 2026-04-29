@@ -1917,6 +1917,79 @@
       .sec-head { margin-bottom: 22px !important; }
     }
 
+  
+    /* ════════════════════════════════════════════════════════
+       ✨ RESPONSIVIDADE DESKTOP — fix cards gigantes
+       ════════════════════════════════════════════════════════ */
+
+    /* Container principal: limita largura em telas grandes */
+    .content {
+      max-width: 1320px;
+      margin-left: auto !important;
+      margin-right: auto !important;
+    }
+
+    /* Hero também limita conteúdo central em telas largas */
+    @media (min-width: 1200px) {
+      .hcontent {
+        max-width: 760px;
+      }
+    }
+
+    /* Cards de nível: aspect-ratio responsivo */
+    /* Mobile (< 768px) mantém 2/3 (vertical, tipo pôster mobile) */
+    /* Tablet (≥ 768px) muda pra 4/5 (mais discreto) */
+    /* Desktop (≥ 1100px) muda pra 1/1.05 (quase quadrado) */
+    /* XL (≥ 1500px) cap em max-height */
+
+    @media (min-width: 768px) {
+      .lvl-card {
+        aspect-ratio: 4/5 !important;
+      }
+      .lvl-grid.cols3 {
+        gap: 18px !important;
+      }
+      .lvl-grid {
+        gap: 18px;
+      }
+    }
+
+    @media (min-width: 1100px) {
+      .lvl-card {
+        aspect-ratio: 1/1.05 !important;
+      }
+      .lvl-grid.cols3 {
+        gap: 24px !important;
+      }
+    }
+
+    @media (min-width: 1500px) {
+      .lvl-card {
+        max-height: 460px;
+      }
+    }
+
+    /* Linha horizontal "Continuar assistindo" — também limitar */
+    .row-wrap {
+      max-width: 100%;
+    }
+
+    /* Em desktop, grids 3-col devem ter um max-width próprio também */
+    @media (min-width: 1100px) {
+      .lvl-grid.cols3 {
+        max-width: 1280px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+    }
+
+    /* Hero: garantir que não estica demais em ultrawide */
+    @media (min-width: 1600px) {
+      .hero {
+        max-height: 720px;
+      }
+    }
+
   </style>
 </head>
 <body>
