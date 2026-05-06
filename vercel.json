@@ -1,4 +1,7 @@
 {
-  "cleanUrls": true,
-  "trailingSlash": false
+    "cleanUrls": true,
+    "trailingSlash": false,
+    "rewrites": [
+          { "source": "/", "destination": "/tanajuras.html" }
+    ]
 }
