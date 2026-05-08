@@ -1185,6 +1185,58 @@
       font-size: 13px; color: rgba(255,255,255,0.62);
       line-height: 1.5;
     }
+    /* Card único de cardio do dia (com botão de trocar) */
+    .cardio-single {
+      background: rgba(255,255,255,0.04);
+      border: 1.5px solid rgba(184,208,0,0.20);
+      border-radius: 18px;
+      padding: 24px 22px;
+      margin-bottom: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+    .cardio-single::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--primary), #d4f000, var(--primary));
+    }
+    .cardio-single-name {
+      font-size: 24px; font-weight: 900;
+      color: #fff; margin-bottom: 6px;
+      font-family: 'Montserrat', sans-serif;
+      line-height: 1.25;
+      letter-spacing: -0.5px;
+    }
+    .cardio-single-meta {
+      font-size: 13px; color: var(--primary);
+      font-weight: 700;
+      margin-bottom: 12px;
+      letter-spacing: 0.3px;
+    }
+    .cardio-single-tip {
+      font-size: 14px; color: rgba(255,255,255,0.70);
+      line-height: 1.55;
+      margin-bottom: 18px;
+    }
+    .cardio-swap-btn {
+      width: 100%;
+      padding: 14px 16px;
+      background: rgba(184,208,0,0.10);
+      border: 1.5px solid rgba(184,208,0,0.30);
+      color: var(--primary);
+      font-size: 14px; font-weight: 700;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all .18s;
+      letter-spacing: 0.2px;
+      font-family: inherit;
+    }
+    .cardio-swap-btn:hover {
+      background: rgba(184,208,0,0.18);
+      border-color: var(--primary);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 16px rgba(184,208,0,0.20);
+    }
     .playlist-hd {
       font-size: 16px; font-weight: 800; margin-bottom: 14px;
       font-family: 'Montserrat', sans-serif;
@@ -2678,7 +2730,7 @@
     /* ════════════════════════════════════════════════════════
        🥗 NUTRIÇÃO (gerador de pratos)
        ════════════════════════════════════════════════════════ */
-    #view-nutrition { padding: 24px var(--pad-x) 80px; max-width: 760px; margin: 0 auto; }
+    #view-nutrition { padding: calc(var(--nav-h) + 16px) var(--pad-x) 80px; max-width: 760px; margin: 0 auto; }
     .nutrition-header { margin-bottom: 24px; }
     .nutrition-header h1 {
       font-family: 'Fraunces', serif; font-weight: 700;
@@ -3188,7 +3240,7 @@
     }
 
     /* View principal de hidratação */
-    #view-water { padding: 24px var(--pad-x) 80px; max-width: 600px; margin: 0 auto; }
+    #view-water { padding: calc(var(--nav-h) + 16px) var(--pad-x) 80px; max-width: 600px; margin: 0 auto; }
     .water-header { margin-bottom: 24px; text-align: center; }
     .water-header h1 {
       font-family: 'Fraunces', serif; font-weight: 700;
@@ -6489,32 +6541,26 @@ function showWorkoutDayView(catKey) {
     ? `<button class="btn-prim split-finish-btn${alreadyDone ? ' done' : ''}" id="splitFinishBtn" onclick="finishTodayWorkout('${catKey}')">${finishLabel}</button>`
     : '';
 
-  /* Para cardio: monta um treino com duração da semana + lista de opções de exercício */
+  /* Para cardio: mostra UMA opcao por dia (deterministica) com botao de trocar */
   let cardioRoutineHtml = '';
   if (isCardio && cat.exercises && cat.exercises.length) {
     const dur = (typeof cardioDurationFor === 'function' && day >= 1) ? cardioDurationFor(day) : 20;
     const wkLbl = (typeof cardioWeekLabel === 'function' && day >= 1) ? cardioWeekLabel(day) : 'Semana 1';
-    const rows = cat.exercises.map(function(ex, i) {
-      const num = String(i+1).padStart(2,'0');
-      const tipText = ex.desc || ex.tip || '';
-      return '<div class="cardio-ex-card">' +
-               '<div class="cardio-ex-num">' + num + '</div>' +
-               '<div class="cardio-ex-body">' +
-                 '<div class="cardio-ex-name">' + ex.name + '</div>' +
-                 '<div class="cardio-ex-meta"><span>⏱ ' + dur + ' min</span>' +
-                 (ex.intensity ? '<span> · ' + ex.intensity + '</span>' : '') + '</div>' +
-                 (tipText ? '<div class="cardio-ex-tip">' + tipText + '</div>' : '') +
-               '</div>' +
-             '</div>';
-    }).join('');
+    const idx = cardioGetIdxForDay(day, cat.exercises.length);
+    const ex = cat.exercises[idx];
+    const tipText = ex.desc || ex.tip || '';
     cardioRoutineHtml = `
       <div class="cardio-week-banner">
         <div class="cwb-label">${wkLbl}</div>
         <div class="cwb-duration">${dur} <span>minutos</span></div>
-        <div class="cwb-sub">Escolha 1 das opções abaixo (ou alterne) e mantenha por ${dur} min hoje</div>
+        <div class="cwb-sub">Sua opção de cardio do dia. Pode trocar se preferir outra.</div>
       </div>
-      <h2 class="cardio-list-title">Opções de cardio do dia</h2>
-      <div class="cardio-list">${rows}</div>
+      <div class="cardio-single">
+        <div class="cardio-single-name">${ex.name}</div>
+        <div class="cardio-single-meta">⏱ ${dur} min${ex.intensity ? ' · ' + ex.intensity : ''}</div>
+        ${tipText ? `<div class="cardio-single-tip">${tipText}</div>` : ''}
+        <button class="cardio-swap-btn" onclick="cardioSwapForDay(${day})">🔁 Trocar opção</button>
+      </div>
     `;
   }
 
@@ -9133,6 +9179,21 @@ function chPrevDay() {
     if (typeof renderHomeCards === 'function') renderHomeCards();
   }
 }
+
+// Navega pra um dia especifico (usado nos botoes Anterior/Proximo do detalhe)
+// Atualiza chCurrentDay pra que diario, dieta e tudo reflitam esse dia.
+function navigateToDay(n) {
+  if (n < 1 || n > CHALLENGE_DAYS) return;
+  const maxDay = (typeof chGetMaxDay === 'function') ? chGetMaxDay() : 1;
+  if (n > maxDay) return; // nao pula pra dias futuros
+  chSetCurrentDay(n);
+  if (typeof renderChallenge === 'function') renderChallenge();
+  if (typeof renderHomeCards === 'function') renderHomeCards();
+  if (typeof renderDayDetail === 'function') renderDayDetail(n);
+  if (typeof renderDiaryHome === 'function') { try { renderDiaryHome(); } catch(e){} }
+  if (typeof renderNutrition === 'function') { try { renderNutrition(); } catch(e){} }
+  if (typeof renderWater === 'function') { try { renderWater(); } catch(e){} }
+}
 function chNextDay() {
   const current = chCurrentDay();
   const maxDay = chGetMaxDay();
@@ -9149,6 +9210,34 @@ function cardioDurationFor(day) {
   if (day >= 8 && day <= 14) return 30;
   if (day >= 15 && day <= 21) return 40;
   return 45; // dia 22+
+}
+// Retorna o indice do exercicio de cardio do dia.
+// Tenta ler override do localStorage; se nao tem, calcula deterministicamente
+// baseado no dia (assim cada dia tem uma opcao diferente, mas estavel ao reabrir).
+function cardioGetIdxForDay(day, total) {
+  if (!total || total < 1) return 0;
+  const email = (typeof chEmail === 'function') ? chEmail() : 'guest';
+  try {
+    const ov = localStorage.getItem('juh_cardio_idx_' + email + '_day' + day);
+    if (ov !== null) {
+      const n = parseInt(ov, 10);
+      if (!isNaN(n) && n >= 0 && n < total) return n;
+    }
+  } catch(e) {}
+  return ((day - 1) * 3) % total; // ciclo deterministico simples
+}
+// Avanca pra proxima opcao de cardio (botao "Trocar")
+function cardioSwapForDay(day) {
+  const cat = (typeof CATALOG !== 'undefined') ? CATALOG.cardio : null;
+  if (!cat || !cat.exercises || !cat.exercises.length) return;
+  const total = cat.exercises.length;
+  const cur = cardioGetIdxForDay(day, total);
+  const next = (cur + 1) % total;
+  const email = (typeof chEmail === 'function') ? chEmail() : 'guest';
+  try { localStorage.setItem('juh_cardio_idx_' + email + '_day' + day, String(next)); } catch(e) {}
+  if (typeof showToast === 'function') showToast('🔁 Opção trocada: ' + cat.exercises[next].name);
+  // Re-renderiza a view de cardio
+  if (typeof showWorkoutDayView === 'function') showWorkoutDayView('cardio');
 }
 function cardioWeekLabel(day) {
   if (day >= 1 && day <= 7) return 'Semana 1';
@@ -9568,15 +9657,16 @@ function renderDayDetail(n) {
   html += '<div style="display:flex;gap:8px;margin-top:16px;">';
 
   // Botão Anterior (sempre disponível se day > 1)
+  // Tambem ATUALIZA chCurrentDay pra que diario, dieta e cards mostrem dados desse dia
   if (n > 1) {
-    html += '<button class="btn-out" style="flex:1;min-height:44px;border:1px solid rgba(255,255,255,0.12)" onclick="renderDayDetail(' + (n-1) + ')">‹ Anterior</button>';
+    html += '<button class="btn-out" style="flex:1;min-height:44px;border:1px solid rgba(255,255,255,0.12)" onclick="navigateToDay(' + (n-1) + ')">‹ Anterior</button>';
   } else {
     html += '<button class="btn-out" style="flex:1;min-height:44px;border:1px solid rgba(255,255,255,0.12);opacity:0.3;cursor:not-allowed" disabled>‹ Anterior</button>';
   }
 
   // Botão Próximo (só se não for o último dia e não exceder maxDay)
   if (n < CHALLENGE_DAYS && n < maxDay) {
-    html += '<button class="btn-out" style="flex:1;min-height:44px;border:1px solid rgba(255,255,255,0.12)" onclick="renderDayDetail(' + (n+1) + ')">Próximo ›</button>';
+    html += '<button class="btn-out" style="flex:1;min-height:44px;border:1px solid rgba(255,255,255,0.12)" onclick="navigateToDay(' + (n+1) + ')">Próximo ›</button>';
   } else {
     html += '<button class="btn-out" style="flex:1;min-height:44px;border:1px solid rgba(255,255,255,0.12);opacity:0.3;cursor:not-allowed" disabled>Próximo ›</button>';
   }
