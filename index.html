@@ -8161,16 +8161,34 @@ function renderNutrition() {
   const list  = document.getElementById('mealsList');
   if (!list) return;
 
-  // 1) Se quiz não foi feito ainda → mostra quiz
-  if (!dietQuizDone()) {
-    renderDietQuiz();
+  // 1) Se onboarding nao foi feito → manda pro onboarding (quiz unico de 10 perguntas)
+  //    Quiz antigo da comida foi removido — toda configuracao vem do onboarding agora.
+  const obFeito = (typeof obDone === 'function' && obDone());
+  const planJaSalvo = !!localStorage.getItem('juh_diet_plan_' + nutCurrentEmail());
+  if (!obFeito && !planJaSalvo) {
+    list.innerHTML =
+      '<div class="diet-empty-prompt" style="text-align:center;padding:40px 24px;">' +
+        '<div style="font-size:48px;margin-bottom:14px;">🥗</div>' +
+        '<h3 style="margin:0 0 10px;font-family:Montserrat,sans-serif;font-weight:900;font-size:22px;">Vamos personalizar sua dieta</h3>' +
+        '<p style="color:rgba(255,255,255,0.6);font-size:14px;line-height:1.55;margin:0 0 22px;max-width:340px;margin-left:auto;margin-right:auto;">Faça o quiz inicial pra eu calcular sua meta calórica, escolher seu plano e montar suas refeições.</p>' +
+        '<button class="btn-prim" style="min-height:48px;padding:0 32px;" onclick="if(typeof openOnboardingQuiz===\'function\')openOnboardingQuiz()">🚀 Começar o quiz</button>' +
+      '</div>';
     return;
   }
-  // 2) Se quiz feito + plano selecionado → mostra cardápio do plano
+  // 2) Se ja tem plano selecionado → mostra cardapio
   const planId = dietGetPlan();
   if (planId && DIET_PLANS[planId]) {
     renderDietPlan(planId);
     return;
+  }
+  // 2b) Onboarding feito mas sem plano (caso raro) → calcula a partir das respostas
+  if (obFeito && typeof obRecommendDietPlan === 'function') {
+    try {
+      const ans = JSON.parse(localStorage.getItem('juh_onboarding_answers_' + nutCurrentEmail()) || '{}');
+      const newPlan = obRecommendDietPlan(ans);
+      localStorage.setItem('juh_diet_plan_' + nutCurrentEmail(), newPlan);
+      if (DIET_PLANS[newPlan]) { renderDietPlan(newPlan); return; }
+    } catch(e) {}
   }
   // 3) Fallback: gerador antigo (raramente usado)
   const email = nutCurrentEmail();
