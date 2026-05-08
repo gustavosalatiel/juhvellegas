@@ -5784,15 +5784,59 @@ function closeSearchOut(e) {
 function doSearch(q) {
   const res = document.getElementById('searchRes');
   if (!q.trim()) {
-    res.innerHTML = '<p class="search-hint">Digite para buscar conteúdos...</p>';
+    res.innerHTML = '<p class="search-hint">Digite para buscar (treino, dieta, água, cardio, diário…)</p>';
     return;
   }
-  const items = [
-    { thumb: 'https://images.unsplash.com/photo-1599058945522-28d584b6f0ff?w=200&q=70', title: 'Full Body Iniciante', cat: 'Treinos' },
-    { thumb: 'https://images.unsplash.com/photo-1549060279-7e168fcee0c2?w=200&q=70', title: 'Academia Full Body', cat: 'Treinos' },
-    { thumb: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=200&q=70', title: 'Glúteos Tonificados', cat: 'Treinos' }
+  // Busca as seções REAIS do app
+  const allItems = [
+    { icon: '🥗', title: 'Nutrição de Hoje', sub: 'Suas 5 refeições e meta calórica', cat: 'Dieta',
+      keywords: ['dieta','nutricao','nutrição','comida','refeicao','refeição','alimentacao','plano','meta','calorias','kcal'],
+      action: "showView('view-nutrition')" },
+    { icon: '💧', title: 'Hidratação', sub: 'Meta de água do dia + copos', cat: 'Água',
+      keywords: ['agua','água','hidratacao','hidratação','liquido','beber','copos','litros','meta'],
+      action: "showView('view-water')" },
+    { icon: '🏠', title: 'Treino em Casa', sub: 'Sem equipamentos · A/B/C', cat: 'Treinos',
+      keywords: ['casa','treino','musculacao','musculação','exercicio','exercício','bodyweight','sem equipamento','peso corporal'],
+      action: "onClickWorkoutCard('casa')" },
+    { icon: '🏋️', title: 'Treino na Academia', sub: 'Ficha do dia A/B/C', cat: 'Treinos',
+      keywords: ['academia','gym','musculacao','musculação','treino','ficha','barra','halter','pesos'],
+      action: "onClickWorkoutCard('acad')" },
+    { icon: '🏃', title: 'Cardio & Aeróbico', sub: 'Caminhada, corrida, bike, esteira, HIIT', cat: 'Cardio',
+      keywords: ['cardio','aerobico','aeróbico','corrida','caminhada','bike','bicicleta','esteira','hiit','queima','correr'],
+      action: "onClickWorkoutCard('cardio')" },
+    { icon: '📔', title: 'Diário Alimentar', sub: 'Tire foto do prato — IA calcula', cat: 'Diário',
+      keywords: ['diario','diário','foto','calorias','prato','calculadora','ia','contar','registrar','calculo'],
+      action: "openDiary()" },
+    { icon: '🏆', title: 'Desafio 30 Dias', sub: 'Seu progresso diário', cat: 'Desafio',
+      keywords: ['desafio','30 dias','progresso','tarefas','dia','liberar','avancar','avançar'],
+      action: "showView('view-home');setTimeout(function(){var s=document.getElementById('challengeSection');if(s)s.scrollIntoView({behavior:'smooth'});},100);" },
+    { icon: '👤', title: 'Meu Perfil', sub: 'Nome, foto e configurações', cat: 'Conta',
+      keywords: ['perfil','conta','nome','foto','configuracao','configuração','dados','pessoal'],
+      action: "openProfile()" },
+    { icon: '🔄', title: 'Refazer quiz inicial', sub: 'Recalcular dieta, água e treinos', cat: 'Quiz',
+      keywords: ['quiz','onboarding','refazer','recalcular','plano','recomeco','recomeço','iniciar'],
+      action: "if(typeof openOnboardingQuiz==='function')openOnboardingQuiz();" }
   ];
-  res.innerHTML = items.map(i => `<div class="sri"><div class="sri-thumb"><img src="${i.thumb}"/></div><div><div class="sri-title">${i.title}</div><div class="sri-cat">${i.cat}</div></div></div>`).join('');
+  const term = q.trim().toLowerCase();
+  const matches = allItems.filter(function(it) {
+    if (it.title.toLowerCase().indexOf(term) >= 0) return true;
+    if (it.cat.toLowerCase().indexOf(term) >= 0) return true;
+    if (it.sub.toLowerCase().indexOf(term) >= 0) return true;
+    return it.keywords.some(function(k) { return k.indexOf(term) >= 0; });
+  });
+  if (!matches.length) {
+    res.innerHTML = '<p class="search-hint">Nenhum resultado pra "' + q + '". Tente: dieta, água, treino, cardio, diário…</p>';
+    return;
+  }
+  res.innerHTML = matches.map(function(i) {
+    return '<div class="sri" onclick="toggleSearch();' + i.action + '" style="cursor:pointer">' +
+             '<div class="sri-thumb" style="display:flex;align-items:center;justify-content:center;font-size:24px;background:rgba(184,208,0,0.10);border:1px solid rgba(184,208,0,0.20);">' + i.icon + '</div>' +
+             '<div>' +
+               '<div class="sri-title">' + i.title + '</div>' +
+               '<div class="sri-cat">' + i.cat + ' · ' + i.sub + '</div>' +
+             '</div>' +
+           '</div>';
+  }).join('');
 }
 
 function scrollR(id, dir) {
@@ -6062,24 +6106,8 @@ const CATALOG = {
     desc: 'Rotina periodizada pra fazer em casa com pouco ou nenhum equipamento. Use uma cadeira firme, garrafas pet com água (1-2L) ou mochila com livros como sobrecarga. Aqueça 5 min antes (polichinelo + mobilidade).',
     splits: {
       A: {
-        title: 'Treino A — Pernas & Glúteos',
-        focus: 'Inferiores: foco em glúteo, quadríceps e posterior',
-        duration: '40-50 min',
-        exercises: [
-          { name: 'Aquecimento dinâmico',          sets: '1', reps: '5 min', rest: '0s', img: 'imagem agachamento.png', videoUrl: '', tip: 'Polichinelo + agachamento sem peso + circundução de quadril. Solta a articulação.' },
-          { name: 'Agachamento livre',             sets: '4', reps: '15',    rest: '60s', img: 'imagem agachamento.png', videoUrl: '', tip: 'Pés na largura do quadril. Desça até a coxa paralela ao chão. Joelhos na linha dos pés.' },
-          { name: 'Afundo búlgaro (cadeira atrás)', sets: '3', reps: '10 cada perna', rest: '60s', img: 'imagem agachamento.png', videoUrl: '', tip: 'Pé de trás apoiado numa cadeira. Desça lento. Trabalha glúteo e equilíbrio.' },
-          { name: 'Agachamento sumô',              sets: '3', reps: '15',    rest: '45s', img: 'imagem agachamento.png', videoUrl: '', tip: 'Pés bem afastados, pontas viradas pra fora. Desce profundo. Adutores + glúteos.' },
-          { name: 'Stiff com mochila/garrafa',     sets: '3', reps: '12',    rest: '60s', img: 'imagem agachamento.png', videoUrl: '', tip: 'Joelhos semi. Quadril pra trás. Sente o posterior alongando. Coluna neutra.' },
-          { name: 'Elevação pélvica (hip thrust)', sets: '4', reps: '15',    rest: '45s', img: 'imagem agachamento.png', videoUrl: '', tip: 'Costas no sofá, pés no chão. Suba o quadril e aperte o glúteo 1s no topo.' },
-          { name: 'Coice 4 apoios',                sets: '3', reps: '15 cada perna', rest: '30s', img: 'imagem agachamento.png', videoUrl: '', tip: 'Joelho em 90°. Suba até alinhar com o tronco. Foco em glúteo médio.' },
-          { name: 'Abdução deitada lateral',       sets: '3', reps: '15 cada perna', rest: '30s', img: 'imagem agachamento.png', videoUrl: '', tip: 'Deitada de lado. Sobe a perna de cima sem rotacionar. Glúteo médio queima.' },
-          { name: 'Panturrilha em pé',             sets: '4', reps: '20',    rest: '30s', img: 'imagem agachamento.png', videoUrl: '', tip: 'Em degrau ou no chão. Suba na ponta, contraia 1s, desça devagar.' }
-        ]
-      },
-      B: {
-        title: 'Treino B — Peito, Ombro & Tríceps (Push)',
-        focus: 'Empurrar: superiores anteriores e core',
+        title: 'Treino A — Peito, Ombro & Tríceps (Push)',
+        focus: 'Empurrar em casa: peito, ombro, tríceps e core',
         duration: '35-45 min',
         exercises: [
           { name: 'Aquecimento upper',             sets: '1', reps: '5 min', rest: '0s', img: 'abdominal.png', videoUrl: '', tip: 'Circundução de braços + flexão na parede + alongamento de peitoral.' },
@@ -6087,15 +6115,15 @@ const CATALOG = {
           { name: 'Flexão inclinada (mãos no sofá)', sets: '3', reps: '12',  rest: '45s', img: 'abdominal.png', videoUrl: '', tip: 'Mais leve. Foco no peito superior e ombro anterior.' },
           { name: 'Flexão diamante (tríceps)',     sets: '3', reps: '8-12',  rest: '60s', img: 'abdominal.png', videoUrl: '', tip: 'Polegares e indicadores juntos formando um diamante. Tríceps queima forte.' },
           { name: 'Desenvolvimento com garrafas',  sets: '4', reps: '12',    rest: '60s', img: 'abdominal.png', videoUrl: '', tip: 'Garrafas de 1-2L (ou halteres). Sentada ou em pé. Não trave o cotovelo no topo.' },
-          { name: 'Elevação lateral',              sets: '3', reps: '15',    rest: '45s', img: 'abdominal.png', videoUrl: '', tip: 'Suba até a linha do ombro, mindinho ligeiramente acima. Movimento controlado.' },
+          { name: 'Elevação lateral c/garrafas',   sets: '3', reps: '15',    rest: '45s', img: 'abdominal.png', videoUrl: '', tip: 'Suba até a linha do ombro, mindinho ligeiramente acima. Movimento controlado.' },
           { name: 'Mergulho na cadeira',           sets: '3', reps: '12',    rest: '45s', img: 'abdominal.png', videoUrl: '', tip: 'Mãos na cadeira, costas. Desça até cotovelo em 90°. Pernas estendidas pra dificultar.' },
           { name: 'Tríceps testa com garrafa',     sets: '3', reps: '12',    rest: '45s', img: 'abdominal.png', videoUrl: '', tip: 'Deitada. Cotovelos fixos apontando pra cima. Só o antebraço se move.' },
           { name: 'Prancha frontal',               sets: '3', reps: '40-60s', rest: '45s', img: 'abdominal.png', videoUrl: '', tip: 'Linha reta. Quadril nem alto nem baixo. Contraia o abdômen.' }
         ]
       },
-      C: {
-        title: 'Treino C — Costas, Bíceps & Posterior (Pull)',
-        focus: 'Puxar: dorsais, bíceps e core',
+      B: {
+        title: 'Treino B — Costas, Bíceps & Posterior (Pull)',
+        focus: 'Puxar em casa: dorsais, bíceps e core',
         duration: '35-45 min',
         exercises: [
           { name: 'Aquecimento posterior',         sets: '1', reps: '5 min', rest: '0s', img: 'abdominal.png', videoUrl: '', tip: 'Circundução + retração de escápula + gato-camelo (mobilidade lombar).' },
@@ -6107,6 +6135,22 @@ const CATALOG = {
           { name: 'Rosca direta com garrafas',     sets: '4', reps: '12',    rest: '45s', img: 'abdominal.png', videoUrl: '', tip: 'Cotovelos colados ao tronco. Sem balanço. Só o antebraço sobe.' },
           { name: 'Rosca martelo',                 sets: '3', reps: '12',    rest: '45s', img: 'abdominal.png', videoUrl: '', tip: 'Punho neutro o tempo todo. Trabalha braquiorradial e dá grossura ao braço.' },
           { name: 'Prancha lateral',               sets: '3', reps: '30-40s cada lado', rest: '30s', img: 'abdominal.png', videoUrl: '', tip: 'Quadril alto. Linha reta dos pés à cabeça. Corpo não pode cair.' }
+        ]
+      },
+      C: {
+        title: 'Treino C — Pernas & Glúteos',
+        focus: 'Inferiores em casa: glúteos, quadríceps e posterior',
+        duration: '40-50 min',
+        exercises: [
+          { name: 'Aquecimento dinâmico',          sets: '1', reps: '5 min', rest: '0s', img: 'imagem agachamento.png', videoUrl: '', tip: 'Polichinelo + agachamento sem peso + circundução de quadril. Solta a articulação.' },
+          { name: 'Agachamento livre',             sets: '4', reps: '15',    rest: '60s', img: 'imagem agachamento.png', videoUrl: '', tip: 'Pés na largura do quadril. Desça até a coxa paralela ao chão. Joelhos na linha dos pés.' },
+          { name: 'Afundo búlgaro (cadeira atrás)', sets: '3', reps: '10 cada perna', rest: '60s', img: 'imagem agachamento.png', videoUrl: '', tip: 'Pé de trás apoiado numa cadeira. Desça lento. Trabalha glúteo e equilíbrio.' },
+          { name: 'Agachamento sumô',              sets: '3', reps: '15',    rest: '45s', img: 'imagem agachamento.png', videoUrl: '', tip: 'Pés bem afastados, pontas viradas pra fora. Desce profundo. Adutores + glúteos.' },
+          { name: 'Stiff com mochila/garrafa',     sets: '3', reps: '12',    rest: '60s', img: 'imagem agachamento.png', videoUrl: '', tip: 'Joelhos semi. Quadril pra trás. Sente o posterior alongando. Coluna neutra.' },
+          { name: 'Elevação pélvica (hip thrust)', sets: '4', reps: '15',    rest: '45s', img: 'imagem agachamento.png', videoUrl: '', tip: 'Costas no sofá, pés no chão. Suba o quadril e aperte o glúteo 1s no topo.' },
+          { name: 'Coice 4 apoios',                sets: '3', reps: '15 cada perna', rest: '30s', img: 'imagem agachamento.png', videoUrl: '', tip: 'Joelho em 90°. Suba até alinhar com o tronco. Foco em glúteo médio.' },
+          { name: 'Abdução deitada lateral',       sets: '3', reps: '15 cada perna', rest: '30s', img: 'imagem agachamento.png', videoUrl: '', tip: 'Deitada de lado. Sobe a perna de cima sem rotacionar. Glúteo médio queima.' },
+          { name: 'Panturrilha em pé',             sets: '4', reps: '20',    rest: '30s', img: 'imagem agachamento.png', videoUrl: '', tip: 'Em degrau ou no chão. Suba na ponta, contraia 1s, desça devagar.' }
         ]
       }
     }
