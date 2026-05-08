@@ -5042,8 +5042,8 @@
       <div class="lerr" id="loginErr" role="alert">E-mail ou senha incorretos. Tente novamente.</div>
       <div class="fg">
         <label class="flabel" for="lEmail">E-mail</label>
-        <input class="finput" id="lEmail" type="email" placeholder="exemplo: juh@email.com" autocomplete="email"/>
-        <div class="fhint">Use um e-mail válido com @</div>
+        <input class="finput" id="lEmail" type="text" placeholder="exemplo: juh@email.com" autocomplete="email"/>
+        <div class="fhint">Pode ser qualquer e-mail</div>
       </div>
       <div class="fg">
         <label class="flabel" for="lPass">Senha</label>
@@ -5053,7 +5053,7 @@
             <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
           </button>
         </div>
-        <div class="fhint">Mínimo 4 caracteres</div>
+        <div class="fhint">Qualquer senha</div>
       </div>
       <div class="forgot"><a href="#" onclick="doForgot();return false;">Esqueci minha senha</a></div>
       <button class="btn-prim" onclick="doLogin()">Entrar</button>
@@ -5826,25 +5826,15 @@ function doLogin() {
     const pw = document.getElementById('lPass').value || '';
     const err = document.getElementById('loginErr');
     if (err) err.classList.remove('show');
+    // Email e senha sao OBRIGATORIOS. Conteudo pode ser qualquer coisa.
     if (!em || !pw) {
-      if (err) err.classList.add('show');
-      return;
-    }
-    // Validacao basica de email
-    if (em.indexOf('@') < 0 || em.length < 5) {
       if (err) {
-        err.textContent = 'Digite um e-mail válido.';
+        err.textContent = 'Preencha e-mail e senha para continuar.';
         err.classList.add('show');
       }
       return;
     }
-    if (pw.length < 4) {
-      if (err) {
-        err.textContent = 'Senha precisa ter ao menos 4 caracteres.';
-        err.classList.add('show');
-      }
-      return;
-    }
+    // Aceita qualquer formato de email + qualquer senha
     // Blur para fechar teclado antes de esconder o login
     try { document.activeElement && document.activeElement.blur(); } catch(e) {}
     const loginPage = document.getElementById('loginPage');
@@ -5854,7 +5844,7 @@ function doLogin() {
     const avInit = document.getElementById('avatarInitials');
     if (avInit) avInit.textContent = em.substring(0, 2).toUpperCase();
     const avName = document.getElementById('avNameDisplay');
-    if (avName) avName.textContent = em.split('@')[0];
+    if (avName) avName.textContent = em.split('@')[0] || em;
     const avEmail = document.getElementById('avEmailDisplay');
     if (avEmail) avEmail.textContent = em;
     // Persiste login pra nao reiniciar app ao fechar/abrir
@@ -5873,32 +5863,43 @@ function doLogin() {
 }
 
 function doRegister() {
-  const nm = document.getElementById('rName').value;
-  const em = document.getElementById('rEmail').value;
-  const pw = document.getElementById('rPass').value;
-  const pw2 = document.getElementById('rPass2').value;
-  const err = document.getElementById('regErr');
-  const suc = document.getElementById('regSuc');
-  err.classList.remove('show');
-  suc.classList.remove('show');
-  if (!nm || !em || !pw || pw !== pw2) {
-    err.classList.add('show');
-  } else {
-    suc.classList.add('show');
+  try {
+    const nm = (document.getElementById('rName').value || '').trim();
+    const em = (document.getElementById('rEmail').value || '').trim();
+    const pw = (document.getElementById('rPass').value || '');
+    const err = document.getElementById('regErr');
+    const suc = document.getElementById('regSuc');
+    if (err) err.classList.remove('show');
+    if (suc) suc.classList.remove('show');
+    // Nome, email e senha sao OBRIGATORIOS (qualquer texto vale).
+    if (!nm || !em || !pw) {
+      if (err) {
+        err.textContent = 'Preencha nome, e-mail e senha para criar a conta.';
+        err.classList.add('show');
+      }
+      return;
+    }
+    if (suc) suc.classList.add('show');
     setTimeout(() => {
-      document.getElementById('loginPage').classList.add('hidden');
-      document.getElementById('app').classList.add('visible');
-      document.getElementById('avatarInitials').textContent = nm.substring(0, 2).toUpperCase();
-      document.getElementById('avNameDisplay').textContent = nm;
-      document.getElementById('avEmailDisplay').textContent = em;
-      try { localStorage.setItem('juh_logged_email', em); } catch(e) {}
-      try { localStorage.setItem('juh_logged_name', nm); } catch(e) {}
-      loadWatchHistory(em);
-      if (typeof renderChallenge === 'function') renderChallenge();
-      if (typeof renderHomeCards === 'function') renderHomeCards();
-      if (typeof renderNutrition === 'function') { try { renderNutrition(); } catch(e){} }
-    }, 800);
-  }
+      try {
+        const loginPage = document.getElementById('loginPage');
+        const appEl = document.getElementById('app');
+        if (loginPage) loginPage.classList.add('hidden');
+        if (appEl) appEl.classList.add('visible');
+        const avInit = document.getElementById('avatarInitials');
+        if (avInit) avInit.textContent = nm.substring(0, 2).toUpperCase();
+        const avName = document.getElementById('avNameDisplay');
+        if (avName) avName.textContent = nm;
+        const avEmail = document.getElementById('avEmailDisplay');
+        if (avEmail) avEmail.textContent = em;
+        try { localStorage.setItem('juh_logged_email', em); } catch(e) {}
+        try { localStorage.setItem('juh_logged_name', nm); } catch(e) {}
+        try { if (typeof loadWatchHistory === 'function') loadWatchHistory(em); } catch(e) { console.warn(e); }
+        try { if (typeof renderChallenge === 'function') renderChallenge(); } catch(e) { console.warn(e); }
+        try { if (typeof renderHomeCards === 'function') renderHomeCards(); } catch(e) { console.warn(e); }
+      } catch(e) { console.error('doRegister late error:', e); }
+    }, 600);
+  } catch(e) { console.error('doRegister error:', e); }
 }
 
 function doForgot() {
