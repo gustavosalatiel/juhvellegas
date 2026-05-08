@@ -366,18 +366,80 @@
     .mob-nav {
       display: none; position: fixed;
       top: var(--nav-h); left: 0; right: 0;
-      background: rgba(12,12,12,0.98);
-      backdrop-filter: blur(20px);
-      z-index: 999; border-bottom: 1px solid rgba(255,255,255,0.06);
-      flex-direction: column; padding: 8px 0;
+      background: linear-gradient(180deg, rgba(12,12,12,0.98) 0%, rgba(8,8,8,0.99) 100%);
+      backdrop-filter: blur(24px);
+      z-index: 999;
+      border-bottom: 1px solid rgba(184,208,0,0.18);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.55);
+      flex-direction: column;
+      padding: 14px 0 18px;
+      max-height: calc(100vh - var(--nav-h));
+      overflow-y: auto;
     }
-    .mob-nav.open { display: flex; }
+    .mob-nav.open { display: flex; animation: mnFadeIn .18s ease-out; }
+    @keyframes mnFadeIn {
+      from { opacity: 0; transform: translateY(-8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .mob-nav .mn-section {
+      font-size: 11px; font-weight: 700; letter-spacing: 1.2px;
+      text-transform: uppercase; color: rgba(255,255,255,0.42);
+      padding: 14px 24px 8px;
+    }
+    .mob-nav .mn-section:first-child { padding-top: 4px; }
+    .mob-nav .mn-divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.10) 30%, rgba(255,255,255,0.10) 70%, transparent);
+      margin: 8px 16px;
+      border: 0;
+    }
     .mob-nav a {
-      text-decoration: none; color: var(--text); font-size: 16px; font-weight: 600;
-      padding: 16px 24px; border-bottom: 1px solid rgba(255,255,255,0.04);
-      transition: color .2s, background .2s;
+      position: relative;
+      text-decoration: none;
+      color: rgba(255,255,255,0.88);
+      font-size: 15px; font-weight: 600;
+      padding: 13px 24px 13px 22px;
+      display: flex; align-items: center; gap: 14px;
+      border-left: 3px solid transparent;
+      transition: color .18s, background .18s, border-color .18s, padding .18s;
     }
-    .mob-nav a:hover, .mob-nav a.active { color: var(--primary); background: rgba(184,208,0,0.06); }
+    .mob-nav a .mn-ico {
+      width: 30px; height: 30px;
+      display: inline-flex; align-items: center; justify-content: center;
+      background: rgba(255,255,255,0.05);
+      border-radius: 9px;
+      font-size: 15px;
+      color: rgba(255,255,255,0.78);
+      transition: background .18s, color .18s, transform .18s;
+      flex-shrink: 0;
+    }
+    .mob-nav a .mn-label { flex: 1; }
+    .mob-nav a .mn-chev {
+      color: rgba(255,255,255,0.22);
+      font-size: 18px;
+      transition: color .18s, transform .18s;
+    }
+    .mob-nav a:hover {
+      color: #fff;
+      background: linear-gradient(90deg, rgba(184,208,0,0.10) 0%, rgba(184,208,0,0) 100%);
+      border-left-color: rgba(184,208,0,0.35);
+      padding-left: 26px;
+    }
+    .mob-nav a:hover .mn-ico {
+      background: rgba(184,208,0,0.18);
+      color: var(--primary);
+      transform: scale(1.06);
+    }
+    .mob-nav a:hover .mn-chev { color: rgba(184,208,0,0.7); transform: translateX(3px); }
+    .mob-nav a.active {
+      color: var(--primary);
+      background: linear-gradient(90deg, rgba(184,208,0,0.14) 0%, rgba(184,208,0,0) 100%);
+      border-left-color: var(--primary);
+    }
+    .mob-nav a.active .mn-ico { background: rgba(184,208,0,0.22); color: var(--primary); }
+    .mob-nav a.danger { color: #ff7b7b; }
+    .mob-nav a.danger:hover { background: linear-gradient(90deg, rgba(255,80,80,0.10), transparent); border-left-color: rgba(255,80,80,0.4); }
+    .mob-nav a.danger .mn-ico { background: rgba(255,80,80,0.10); color: #ff8080; }
 
     .nb-actions { display: flex; align-items: center; gap: 14px; flex-shrink: 0; }
     .icon-btn {
@@ -4418,6 +4480,94 @@
       opacity: 0.85;
     }
 
+    /* ════════════════════════════════════════════════════════
+       ONBOARDING QUIZ
+    ════════════════════════════════════════════════════════ */
+    .ob-quiz {
+      position: fixed; inset: 0; z-index: 99999;
+      background: linear-gradient(180deg, #0a0a0a 0%, #131313 100%);
+      display: flex; flex-direction: column;
+      padding: 24px;
+      overflow-y: auto;
+    }
+    .ob-progress-bar {
+      height: 4px; background: rgba(255,255,255,0.08); border-radius: 4px;
+      overflow: hidden; margin-bottom: 8px;
+    }
+    .ob-progress-fill {
+      height: 100%; background: linear-gradient(90deg, var(--primary), #d4f000);
+      width: 10%; transition: width .3s ease;
+    }
+    .ob-step-counter {
+      font-size: 13px; color: rgba(255,255,255,0.5); font-weight: 600;
+      letter-spacing: 1px; margin-bottom: 32px;
+    }
+    .ob-content { flex: 1; max-width: 520px; margin: 0 auto; width: 100%; }
+    .ob-question {
+      font-size: 26px; font-weight: 800; color: #fff;
+      line-height: 1.3; margin: 0 0 8px 0;
+    }
+    .ob-sub {
+      font-size: 15px; color: rgba(255,255,255,0.55);
+      margin: 0 0 28px 0; line-height: 1.5;
+    }
+    .ob-options { display: flex; flex-direction: column; gap: 12px; }
+    .ob-opt {
+      display: flex; flex-direction: column; align-items: flex-start;
+      padding: 16px 20px;
+      background: rgba(255,255,255,0.03);
+      border: 2px solid rgba(255,255,255,0.06);
+      border-radius: 14px;
+      cursor: pointer;
+      transition: all .18s;
+      text-align: left;
+    }
+    .ob-opt:hover {
+      background: rgba(184,208,0,0.06);
+      border-color: rgba(184,208,0,0.25);
+      transform: translateX(2px);
+    }
+    .ob-opt.selected {
+      background: rgba(184,208,0,0.12);
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(184,208,0,0.10);
+    }
+    .ob-opt-label { font-size: 16px; font-weight: 700; color: #fff; }
+    .ob-opt.selected .ob-opt-label { color: var(--primary); }
+    .ob-opt-sub { font-size: 13px; color: rgba(255,255,255,0.5); margin-top: 4px; }
+    .ob-num-input {
+      width: 100%; padding: 18px 20px;
+      background: rgba(255,255,255,0.04);
+      border: 2px solid rgba(255,255,255,0.08);
+      border-radius: 14px;
+      color: #fff; font-size: 22px; font-weight: 700;
+      outline: none; transition: border-color .18s;
+      font-family: 'Geist', 'Inter', system-ui, sans-serif;
+    }
+    .ob-num-input:focus { border-color: var(--primary); }
+    .ob-num-suffix { font-size: 14px; color: rgba(255,255,255,0.55); margin-top: 8px; }
+    .ob-actions {
+      display: flex; gap: 12px; margin-top: 24px;
+      max-width: 520px; margin-left: auto; margin-right: auto; width: 100%;
+    }
+    .ob-back, .ob-next {
+      flex: 1; padding: 16px;
+      border-radius: 12px; font-size: 15px; font-weight: 700;
+      cursor: pointer; transition: all .18s;
+      border: none;
+    }
+    .ob-back {
+      background: rgba(255,255,255,0.06); color: #fff;
+      border: 1px solid rgba(255,255,255,0.10);
+    }
+    .ob-back:hover { background: rgba(255,255,255,0.10); }
+    .ob-back:disabled { opacity: 0.3; cursor: not-allowed; }
+    .ob-next {
+      background: var(--primary); color: #0a0a0a;
+    }
+    .ob-next:disabled { opacity: 0.4; cursor: not-allowed; }
+    .ob-next:not(:disabled):hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(184,208,0,0.35); }
+
   </style>
 </head>
 <body>
@@ -4552,10 +4702,42 @@
 
   <!-- MOBILE NAV DRAWER -->
   <div class="mob-nav" id="mobNav">
-    <a href="#" class="active" onclick="setMobNav(this);showView('view-home');return false;">Início</a>
-    <a href="#" onclick="setMobNav(this);showView('view-nutrition');return false;">Nutrição</a>
-    <a href="#" onclick="setMobNav(this);showView('view-water');return false;">Água</a>
-    <a href="#" onclick="setMobNav(this);showToast('🎧 Suporte!');return false;">Suporte</a>
+    <div class="mn-section">Navegar</div>
+    <a href="#" class="active" onclick="setMobNav(this);showView('view-home');return false;">
+      <span class="mn-ico">🏠</span><span class="mn-label">Início</span><span class="mn-chev">›</span>
+    </a>
+    <a href="#" onclick="setMobNav(this);showView('view-nutrition');return false;">
+      <span class="mn-ico">🥗</span><span class="mn-label">Nutrição</span><span class="mn-chev">›</span>
+    </a>
+    <a href="#" onclick="setMobNav(this);showView('view-water');return false;">
+      <span class="mn-ico">💧</span><span class="mn-label">Hidratação</span><span class="mn-chev">›</span>
+    </a>
+    <a href="#" onclick="setMobNav(this);openDiary();return false;">
+      <span class="mn-ico">📔</span><span class="mn-label">Diário Alimentar</span><span class="mn-chev">›</span>
+    </a>
+
+    <div class="mn-section">Treinos</div>
+    <a href="#" onclick="setMobNav(this);onClickWorkoutCard('acad');return false;">
+      <span class="mn-ico">🏋️</span><span class="mn-label">Treino na Academia</span><span class="mn-chev">›</span>
+    </a>
+    <a href="#" onclick="setMobNav(this);onClickWorkoutCard('casa');return false;">
+      <span class="mn-ico">🤸</span><span class="mn-label">Treino em Casa</span><span class="mn-chev">›</span>
+    </a>
+    <a href="#" onclick="setMobNav(this);onClickWorkoutCard('cardio');return false;">
+      <span class="mn-ico">🏃</span><span class="mn-label">Cardio &amp; Aeróbico</span><span class="mn-chev">›</span>
+    </a>
+
+    <div class="mn-section">Conta</div>
+    <a href="#" onclick="setMobNav(this);openProfile();return false;">
+      <span class="mn-ico">👤</span><span class="mn-label">Meu Perfil</span><span class="mn-chev">›</span>
+    </a>
+    <a href="#" onclick="setMobNav(this);showToast('🎧 Suporte a caminho!');return false;">
+      <span class="mn-ico">💬</span><span class="mn-label">Suporte</span><span class="mn-chev">›</span>
+    </a>
+    <hr class="mn-divider">
+    <a href="#" class="danger" onclick="setMobNav(this);doLogout();return false;">
+      <span class="mn-ico">⎋</span><span class="mn-label">Sair da conta</span><span class="mn-chev">›</span>
+    </a>
   </div>
 
   <!-- NOTIFICATIONS -->
@@ -4657,11 +4839,26 @@
           Seu navegador não suporta vídeo HTML5.
         </video>
       </div>
-      <button class="welcome-cta" onclick="startChallenge()">
-        🚀 Começar agora
+      <button class="welcome-cta" onclick="openOnboardingQuiz()">
+        🚀 Começar minha jornada
       </button>
     </div>
   </section>
+
+  <!-- ═══ ONBOARDING QUIZ ═══ -->
+  <div id="onboardingQuiz" class="ob-quiz" style="display:none;">
+    <div class="ob-progress-bar"><div class="ob-progress-fill" id="obProgressFill"></div></div>
+    <div class="ob-step-counter"><span id="obStepNum">1</span> / 10</div>
+    <div class="ob-content">
+      <h1 class="ob-question" id="obQuestion"></h1>
+      <p class="ob-sub" id="obSub"></p>
+      <div class="ob-options" id="obOptions"></div>
+    </div>
+    <div class="ob-actions">
+      <button class="ob-back" id="obBack" onclick="obPrev()">‹ Voltar</button>
+      <button class="ob-next" id="obNext" onclick="obNext()">Continuar →</button>
+    </div>
+  </div>
 
   <!-- ═══ HERO ═══ -->
   <section class="hero" id="heroSection" aria-label="Destaques">
@@ -4728,7 +4925,6 @@
         <h1 class="htitle">A melhor versão<br>tá em <span class="hl">construção</span></h1>
         <p class="hsub">30 dias bastam pra criar o hábito. Tudo num lugar só, no seu ritmo. Comece hoje.</p>
         <div class="hactions">
-          <button class="hbtn" onclick="document.getElementById('challengeSection')?.scrollIntoView({behavior:'smooth',block:'start'});showView('view-home')">🏆 Ver desafio 30 dias</button>
           <button class="hbtn out" onclick="openProfile()">👤 Meu perfil</button>
         </div>
       </div>
@@ -4768,7 +4964,7 @@
                 <p class="hero-sub">5 refeições prontas, calculadas pra sua meta diária</p>
                 <div class="hero-chips" id="dietCardChips">
                   <span class="hero-chip">🍽 <b id="dietProgChip">0</b> de 5 refeições</span>
-                  <span class="hero-chip">🔥 <b>~1700</b> kcal</span>
+                  <span class="hero-chip">🔥 <b id="dietKcalChip">~1700</b> kcal</span>
                 </div>
               </div>
             </div>
@@ -5048,6 +5244,9 @@
 
   <!-- ═══ VIEW: NUTRIÇÃO (gerador de pratos) ═══ -->
   <div id="view-nutrition" class="view">
+    <div class="diary-back-bar">
+      <button class="diary-back" onclick="showView('view-home')">‹ Voltar</button>
+    </div>
     <div class="nutrition-header">
       <h1>🥗 Nutrição de Hoje</h1>
       <div class="kcal-tracker">
@@ -5065,6 +5264,9 @@
 
   <!-- ═══ VIEW: HIDRATAÇÃO ═══ -->
   <div id="view-water" class="view">
+    <div class="diary-back-bar">
+      <button class="diary-back" onclick="showView('view-home')">‹ Voltar</button>
+    </div>
     <div class="water-header">
       <h1>💧 Hidratação</h1>
       <p>Sua meta é calculada com base no seu peso</p>
@@ -5208,8 +5410,12 @@ function doLogin() {
   document.getElementById('avatarInitials').textContent = em.substring(0, 2).toUpperCase();
   document.getElementById('avNameDisplay').textContent = em.split('@')[0];
   document.getElementById('avEmailDisplay').textContent = em;
+  // Persiste login pra nao reiniciar app ao fechar/abrir
+  try { localStorage.setItem('juh_logged_email', em); } catch(e) {}
   loadWatchHistory(em);
   if (typeof renderChallenge === 'function') renderChallenge();
+  if (typeof renderHomeCards === 'function') renderHomeCards();
+  if (typeof renderNutrition === 'function') { try { renderNutrition(); } catch(e){} }
 }
 
 function doRegister() {
@@ -5231,8 +5437,12 @@ function doRegister() {
       document.getElementById('avatarInitials').textContent = nm.substring(0, 2).toUpperCase();
       document.getElementById('avNameDisplay').textContent = nm;
       document.getElementById('avEmailDisplay').textContent = em;
+      try { localStorage.setItem('juh_logged_email', em); } catch(e) {}
+      try { localStorage.setItem('juh_logged_name', nm); } catch(e) {}
       loadWatchHistory(em);
       if (typeof renderChallenge === 'function') renderChallenge();
+      if (typeof renderHomeCards === 'function') renderHomeCards();
+      if (typeof renderNutrition === 'function') { try { renderNutrition(); } catch(e){} }
     }, 800);
   }
 }
@@ -5245,6 +5455,9 @@ function doLogout() {
   closeMenus();
   currentUserEmail = '';
   watchHistory = [];
+  // Limpa persistencia de login
+  try { localStorage.removeItem('juh_logged_email'); } catch(e) {}
+  try { localStorage.removeItem('juh_logged_name'); } catch(e) {}
   const sec = document.getElementById('sec-continue');
   if (sec) sec.style.display = 'none';
   document.getElementById('app').classList.remove('visible');
@@ -5252,6 +5465,25 @@ function doLogout() {
   document.getElementById('lEmail').value = '';
   document.getElementById('lPass').value = '';
 }
+
+// Auto-login: se ja tinha logado antes, restaura sessao automaticamente
+function tryAutoLogin() {
+  let em = '';
+  try { em = localStorage.getItem('juh_logged_email') || ''; } catch(e) {}
+  if (!em) return false;
+  let nm = '';
+  try { nm = localStorage.getItem('juh_logged_name') || em.split('@')[0]; } catch(e) {}
+  document.getElementById('loginPage').classList.add('hidden');
+  document.getElementById('app').classList.add('visible');
+  document.getElementById('avatarInitials').textContent = em.substring(0, 2).toUpperCase();
+  document.getElementById('avNameDisplay').textContent = nm;
+  document.getElementById('avEmailDisplay').textContent = em;
+  loadWatchHistory(em);
+  if (typeof renderChallenge === 'function') renderChallenge();
+  if (typeof renderHomeCards === 'function') renderHomeCards();
+  return true;
+}
+document.addEventListener('DOMContentLoaded', function(){ tryAutoLogin(); });
 
 function toggleMobNav() {
   document.getElementById('hamburger').classList.toggle('open');
@@ -5673,12 +5905,18 @@ const CATALOG = {
     }
   },
 
-  // 🏃 Aeróbico — apenas imagem + descrição curta (cardio do dia)
+  // 🏃 Aeróbico — múltiplas opções de cardio
   cardio: {
     label: 'Aeróbico / Cardio', icon: '🏃',
-    // 🖼 TROCAR IMAGEM: substitua a URL abaixo pelo arquivo local do aeróbico de hoje
     img: 'corrida.png',
-    desc: 'Cardio do dia pra acelerar o metabolismo e queimar gordura. Duração sugerida: 20 a 45 minutos contínuos ou intervalados.'
+    desc: 'Cardio do dia pra acelerar o metabolismo e queimar gordura. Escolha uma das opções abaixo conforme seu humor e local. Duração ideal: 20 a 45 minutos.',
+    exercises: [
+      { name: 'Caminhada acelerada', sets: '1', reps: '30-45 min', rest: '—', img: 'corrida.png', desc: 'Ritmo confortável onde dá pra falar mas não cantar. Inclinação 4-6% se for esteira.' },
+      { name: 'Corrida leve / trote', sets: '1', reps: '20-30 min', rest: '—', img: 'corrida.png', desc: 'Velocidade onde você consegue falar frases curtas. Sem competir com ninguém.' },
+      { name: 'Bicicleta (bike) ergométrica', sets: '1', reps: '30-40 min', rest: '—', img: 'corrida.png', desc: 'Carga moderada. Mantenha 70-80 RPM. Hidrate.' },
+      { name: 'Esteira inclinada', sets: '1', reps: '25-35 min', rest: '—', img: 'corrida.png', desc: 'Inclinação 8-12%, velocidade 5-6 km/h. Excelente pra glúteo e queima.' },
+      { name: 'HIIT 20 min (intervalado)', sets: '8', reps: '30s forte / 30s leve', rest: '—', img: 'corrida.png', desc: 'Alterna 30s no máximo com 30s leves. Esteira, bike ou ar livre.' }
+    ]
   },
   secar: {
     label: 'Receitas pra Secar', icon: '🥗',
@@ -5915,6 +6153,10 @@ function showView(viewId) {
   // Challenge: render when home opens
   if (viewId === 'view-home' && typeof renderChallenge === 'function') {
     renderChallenge();
+  }
+  // Atualiza cards do home (kcal e agua) ao voltar pra home
+  if (viewId === 'view-home' && typeof renderHomeCards === 'function') {
+    try { renderHomeCards(); } catch(e) {}
   }
 }
 
@@ -6781,25 +7023,25 @@ if (document.readyState === 'loading') {
    Específico para mulheres adultas saudáveis
    ════════════════════════════════════════════ */
 const FOOD_IMG = {
-  tapioca: 'https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=300&h=300&fit=crop&q=75&auto=format',
-  pao_int: 'https://images.unsplash.com/photo-1568471173242-461f0a730452?w=300&h=300&fit=crop&q=75&auto=format',
-  iogurte: 'https://images.unsplash.com/photo-1488477181946-6428a0291777?w=300&h=300&fit=crop&q=75&auto=format',
-  ovo:     'https://images.unsplash.com/photo-1607004468138-e7e23ea26947?w=300&h=300&fit=crop&q=75&auto=format',
-  ovos:    'https://images.unsplash.com/photo-1525351484163-7529414344d8?w=300&h=300&fit=crop&q=75&auto=format',
-  frango:  'https://images.unsplash.com/photo-1532550907401-a500c9a57435?w=300&h=300&fit=crop&q=75&auto=format',
-  arroz:   'https://images.unsplash.com/photo-1516684732162-798a0062be99?w=300&h=300&fit=crop&q=75&auto=format',
-  peixe:   'https://images.unsplash.com/photo-1559054663-e9d9e6b9ee7d?w=300&h=300&fit=crop&q=75&auto=format',
-  bife:    'https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=300&h=300&fit=crop&q=75&auto=format',
-  batata:  'https://images.unsplash.com/photo-1518977676601-b53f82aba655?w=300&h=300&fit=crop&q=75&auto=format',
-  pdq:     'https://images.unsplash.com/photo-1617622141533-c8be8b0f0ad6?w=300&h=300&fit=crop&q=75&auto=format',
-  banana:  'https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=300&h=300&fit=crop&q=75&auto=format',
-  maca:    'https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?w=300&h=300&fit=crop&q=75&auto=format',
-  whey:    'https://images.unsplash.com/photo-1593095948071-474c5cc2989d?w=300&h=300&fit=crop&q=75&auto=format',
-  salada:  'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=300&h=300&fit=crop&q=75&auto=format',
-  omelete: 'https://images.unsplash.com/photo-1568625365131-079e026a927d?w=300&h=300&fit=crop&q=75&auto=format',
-  vitamina:'https://images.unsplash.com/photo-1610970881699-44a5587cabec?w=300&h=300&fit=crop&q=75&auto=format',
-  carne:   'https://images.unsplash.com/photo-1607116176026-0b15e1f8f3e7?w=300&h=300&fit=crop&q=75&auto=format',
-  sanduiche:'https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=300&h=300&fit=crop&q=75&auto=format'
+  tapioca: 'https://images.unsplash.com/photo-1488477181946-6428a0291777?w=400&q=70',
+  pao_int: 'https://images.unsplash.com/photo-1610832958506-aa56368176cf?w=400&q=70',
+  iogurte: 'https://images.unsplash.com/photo-1488477181946-6428a0291777?w=400&q=70',
+  ovo:     'https://images.unsplash.com/photo-1525351484163-7529414344d8?w=400&q=70',
+  ovos:    'https://images.unsplash.com/photo-1525351484163-7529414344d8?w=400&q=70',
+  frango:  'https://images.unsplash.com/photo-1532550907401-a500c9a57435?w=400&q=70',
+  arroz:   'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&q=70',
+  peixe:   'https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=400&q=70',
+  bife:    'https://images.unsplash.com/photo-1546964124-0cce460f38ef?w=400&q=70',
+  batata:  'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&q=70',
+  pdq:     'https://images.unsplash.com/photo-1539252554453-80ab65ce3586?w=400&q=70',
+  banana:  'https://images.unsplash.com/photo-1610832958506-aa56368176cf?w=400&q=70',
+  maca:    'https://images.unsplash.com/photo-1610832958506-aa56368176cf?w=400&q=70',
+  whey:    'https://images.unsplash.com/photo-1502741224143-90386d7f8c82?w=400&q=70',
+  salada:  'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&q=70',
+  omelete: 'https://images.unsplash.com/photo-1525351484163-7529414344d8?w=400&q=70',
+  vitamina:'https://images.unsplash.com/photo-1502741224143-90386d7f8c82?w=400&q=70',
+  carne:   'https://images.unsplash.com/photo-1546964124-0cce460f38ef?w=400&q=70',
+  sanduiche:'https://images.unsplash.com/photo-1539252554453-80ab65ce3586?w=400&q=70'
 };
 
 const DIET_PLANS = {
@@ -7133,11 +7375,47 @@ function dietRecommendPlan(answers) {
 
 function dietQuizDone() { return localStorage.getItem('juh_diet_quiz_' + nutCurrentEmail()) === '1'; }
 function dietGetPlan() { return localStorage.getItem('juh_diet_plan_' + nutCurrentEmail()) || ''; }
+function dietGetKcalTarget() {
+  const v = parseInt(localStorage.getItem('juh_diet_kcal_target_' + nutCurrentEmail()) || '0', 10);
+  if (v > 0) return v;
+  // Fallback: tenta inferir do plano salvo
+  try {
+    const planId = localStorage.getItem('juh_diet_plan_' + nutCurrentEmail());
+    if (planId && typeof DIET_PLANS !== 'undefined' && DIET_PLANS[planId] && DIET_PLANS[planId].kcal) {
+      // grava de volta pra acelerar proxima leitura
+      try { localStorage.setItem('juh_diet_kcal_target_' + nutCurrentEmail(), String(DIET_PLANS[planId].kcal)); } catch(e) {}
+      return DIET_PLANS[planId].kcal;
+    }
+    // Fallback: tenta inferir das respostas do quiz (peso × multiplicador por objetivo)
+    const ansRaw = localStorage.getItem('juh_diet_answers_' + nutCurrentEmail());
+    if (ansRaw) {
+      const a = JSON.parse(ansRaw);
+      const kg = parseFloat(a.weight || a.peso || a.kg || 0);
+      const goal = (a.goal || a.objetivo || '').toString().toLowerCase();
+      if (kg > 0) {
+        let mult = 30;
+        if (goal.indexOf('emagrec') >= 0 || goal.indexOf('perd') >= 0 || goal.indexOf('lose') >= 0) mult = 25;
+        else if (goal.indexOf('ganh') >= 0 || goal.indexOf('massa') >= 0 || goal.indexOf('gain') >= 0) mult = 35;
+        const calc = Math.round(kg * mult / 50) * 50; // arredonda para 50 mais próximo
+        if (calc > 800 && calc < 5000) {
+          try { localStorage.setItem('juh_diet_kcal_target_' + nutCurrentEmail(), String(calc)); } catch(e) {}
+          return calc;
+        }
+      }
+    }
+  } catch(e) {}
+  return 1700;
+}
+function dietSetKcalTarget(kcal) {
+  localStorage.setItem('juh_diet_kcal_target_' + nutCurrentEmail(), String(Math.max(0, kcal)));
+}
 function dietSavePlanFromQuiz(answers) {
   const planId = dietRecommendPlan(answers);
+  const plan = DIET_PLANS[planId];
   localStorage.setItem('juh_diet_plan_' + nutCurrentEmail(), planId);
   localStorage.setItem('juh_diet_quiz_' + nutCurrentEmail(), '1');
   localStorage.setItem('juh_diet_answers_' + nutCurrentEmail(), JSON.stringify(answers));
+  if (plan && plan.kcal) dietSetKcalTarget(plan.kcal);
   return planId;
 }
 function dietResetQuiz() {
@@ -7566,8 +7844,11 @@ function renderDietPlan(planId) {
       ? '<img src="' + meal.img + '" alt="' + meal.name.replace(/"/g, '&quot;') + '" loading="lazy" onerror="this.style.display=\'none\'"/>'
       : '';
     const variationCount = (DIET_PLANS[planId].meals[mt] || []).length;
-    html += '<div class="meal-card">';
+    const mealDoneKey = 'juh_meal_done_' + nutCurrentEmail() + '_' + (typeof challengeCurrentSlot === 'function' ? challengeCurrentSlot() : nutTodayKey()) + '_' + mt;
+    const isMealDone = localStorage.getItem(mealDoneKey) === '1';
+    html += '<div class="meal-card' + (isMealDone ? ' eaten' : '') + '" id="mealCard-' + mt + '">';
     html += '<div class="meal-card-header">';
+    html += '<input type="checkbox" class="task-checkbox" id="mealCheck-' + mt + '" ' + (isMealDone ? 'checked' : '') + ' onchange="toggleMealDone(\'' + mt + '\')" style="margin-right:8px;"/>';
     html += '<span class="meal-emoji">' + lbl.emoji + '</span>';
     html += '<h3>' + lbl.name + '</h3>';
     html += '<span class="meal-kcal">' + meal.kcal + ' kcal</span>';
@@ -7681,10 +7962,11 @@ function renderNutrition() {
   const cur  = document.getElementById('nutKcalCurrent');
   const tgt  = document.getElementById('nutKcalTarget');
   const bar  = document.getElementById('nutKcalBar');
+  const targetKcal = (typeof dietGetKcalTarget === 'function') ? dietGetKcalTarget() : NUTRITION_TARGET_KCAL;
   if (cur) cur.textContent = confirmedKcal;
-  if (tgt) tgt.textContent = NUTRITION_TARGET_KCAL.toLocaleString('pt-BR');
+  if (tgt) tgt.textContent = targetKcal.toLocaleString('pt-BR');
   if (bar) {
-    const pct = Math.min(100, Math.round((confirmedKcal / NUTRITION_TARGET_KCAL) * 100));
+    const pct = Math.min(100, Math.round((confirmedKcal / targetKcal) * 100));
     bar.style.width = pct + '%';
   }
   // Atualiza estado do finalize section
@@ -7705,6 +7987,31 @@ function confirmMeal(mt) {
   if (typeof showToast === 'function') showToast('✅ Refeição registrada!');
   renderNutrition();
   if (typeof renderChallenge === 'function') renderChallenge();
+  if (typeof renderHomeCards === 'function') renderHomeCards();
+}
+function toggleMealDone(mt) {
+  const email = nutCurrentEmail();
+  const slot = (typeof challengeCurrentSlot === 'function') ? challengeCurrentSlot() : nutTodayKey();
+  const mealDoneKey = 'juh_meal_done_' + email + '_' + slot + '_' + mt;
+  const isCurrentlyDone = localStorage.getItem(mealDoneKey) === '1';
+  if (!isCurrentlyDone) {
+    localStorage.setItem(mealDoneKey, '1');
+  } else {
+    localStorage.removeItem(mealDoneKey);
+  }
+  // Contar refeições marcadas (lunch, breakfast, snack_morning, snack_afternoon, dinner)
+  const mealTypes = ['breakfast','snack_morning','lunch','snack_afternoon','dinner'];
+  let doneMeals = 0;
+  for (let i = 0; i < mealTypes.length; i++) {
+    if (localStorage.getItem('juh_meal_done_' + email + '_' + slot + '_' + mealTypes[i]) === '1') {
+      doneMeals++;
+    }
+  }
+  // Se todas as 5 refeições estão marcadas, marcar a dieta como feita
+  if (doneMeals === 5) {
+    if (typeof chSetDietDone === 'function') chSetDietDone(slot, true);
+  }
+  if (typeof renderNutrition === 'function') renderNutrition();
   if (typeof renderHomeCards === 'function') renderHomeCards();
 }
 function resortMeal(mt) {
@@ -7977,7 +8284,252 @@ document.addEventListener('visibilitychange', function() {
   }
 });
 
+/* ════════════════════════════════════════════
+   🎯 ONBOARDING QUIZ
+   ════════════════════════════════════════ */
+const ONBOARDING_QUESTIONS = [
+  {
+    id: 'goal',
+    question: 'Qual seu objetivo principal?',
+    sub: 'Esse é o norte do seu plano completo.',
+    type: 'choice',
+    options: [
+      { value: 'emagrecer', label: '🔥 Emagrecer e secar', sub: 'Quero perder peso e gordura' },
+      { value: 'tonificar', label: '✨ Tonificar e definir', sub: 'Quero corpo firme e desenhado' },
+      { value: 'ganhar',    label: '💪 Ganhar massa muscular', sub: 'Quero ficar mais forte e maior' },
+      { value: 'manter',    label: '⚖️ Manter o corpo atual', sub: 'Só quero saúde e disposição' }
+    ]
+  },
+  {
+    id: 'weight',
+    question: 'Qual seu peso atual?',
+    sub: 'Vou usar pra calcular sua meta de água e calorias.',
+    type: 'number',
+    placeholder: 'Ex: 65',
+    suffix: 'kg',
+    min: 30, max: 250
+  },
+  {
+    id: 'height',
+    question: 'Qual sua altura?',
+    sub: 'Pra ajustar suas metas com precisão.',
+    type: 'number',
+    placeholder: 'Ex: 165',
+    suffix: 'cm',
+    min: 100, max: 230
+  },
+  {
+    id: 'age',
+    question: 'Quantos anos você tem?',
+    sub: 'O metabolismo varia bastante com a idade.',
+    type: 'number',
+    placeholder: 'Ex: 28',
+    suffix: 'anos',
+    min: 14, max: 100
+  },
+  {
+    id: 'activity',
+    question: 'Como você descreveria sua rotina hoje?',
+    sub: 'Sem maquiar — vou ajustar tudo a partir daqui.',
+    type: 'choice',
+    options: [
+      { value: 'sedentary', label: '🛋️ Sedentária', sub: 'Quase sem atividade física' },
+      { value: 'light',     label: '🚶 Leve', sub: 'Caminho às vezes, mas pouco' },
+      { value: 'moderate',  label: '🏃 Moderada', sub: 'Treino 2-3x por semana' },
+      { value: 'active',    label: '🔥 Bem ativa', sub: 'Treino quase todo dia' }
+    ]
+  },
+  {
+    id: 'experience',
+    question: 'Qual sua experiência com treino?',
+    sub: 'Pra calibrar a intensidade dos exercícios.',
+    type: 'choice',
+    options: [
+      { value: 'beginner', label: '🌱 Iniciante', sub: 'Nunca treinei ou parei há muito tempo' },
+      { value: 'returning', label: '🔄 Voltando', sub: 'Já treinei mas parei recentemente' },
+      { value: 'intermediate', label: '🏋️ Intermediária', sub: 'Treino há mais de 6 meses' },
+      { value: 'advanced', label: '⚡ Avançada', sub: 'Treino há mais de 2 anos' }
+    ]
+  },
+  {
+    id: 'place',
+    question: 'Onde prefere treinar?',
+    sub: 'Vou priorizar exercícios pra esse local.',
+    type: 'choice',
+    options: [
+      { value: 'home',  label: '🏠 Em casa', sub: 'Sem equipamentos ou poucos' },
+      { value: 'gym',   label: '🏋️ Academia', sub: 'Tenho acesso a equipamentos' },
+      { value: 'both',  label: '🔀 Os dois', sub: 'Adapto conforme o dia' }
+    ]
+  },
+  {
+    id: 'time',
+    question: 'Quanto tempo por dia consegue dedicar?',
+    sub: 'Treino + cardio + dieta — tempo realista.',
+    type: 'choice',
+    options: [
+      { value: '30',  label: '30 minutos', sub: 'Bem corrido, mas dá' },
+      { value: '45',  label: '45 minutos', sub: 'Meu padrão' },
+      { value: '60',  label: '1 hora', sub: 'Tenho um espaço bom' },
+      { value: '90',  label: '1h30 ou mais', sub: 'Posso dedicar bastante' }
+    ]
+  },
+  {
+    id: 'appetite',
+    question: 'Como é sua fome no dia a dia?',
+    sub: 'Vou montar refeições que te saciam.',
+    type: 'choice',
+    options: [
+      { value: 'low',    label: '🥄 Pouca fome', sub: 'Como pouco, sem vontade' },
+      { value: 'normal', label: '🍽️ Normal', sub: '3 refeições e dou conta' },
+      { value: 'high',   label: '🍔 Bastante fome', sub: 'Sinto fome o tempo todo' },
+      { value: 'cravings', label: '🍫 Muita vontade de doce', sub: 'Doce é meu fraco' }
+    ]
+  },
+  {
+    id: 'restriction',
+    question: 'Tem alguma restrição alimentar?',
+    sub: 'Vou adaptar a dieta a partir disso.',
+    type: 'choice',
+    options: [
+      { value: 'none',         label: '✅ Nenhuma', sub: 'Como de tudo' },
+      { value: 'vegetarian',   label: '🥗 Vegetariana', sub: 'Sem carne' },
+      { value: 'lactose',      label: '🥛 Sem lactose', sub: 'Não tolero leite' },
+      { value: 'gluten',       label: '🌾 Sem glúten', sub: 'Sensível ou celíaca' },
+      { value: 'metabolic',    label: '⚕️ Diabetes/PCOS/Tireoide', sub: 'Quero dieta mais controlada' }
+    ]
+  }
+];
 
+function obEmail() {
+  return (typeof currentUserEmail !== 'undefined' && currentUserEmail) ? currentUserEmail : 'guest';
+}
+function obDone() { return localStorage.getItem('juh_onboarding_done_' + obEmail()) === '1'; }
+function obSaveAnswers(answers) {
+  localStorage.setItem('juh_onboarding_answers_' + obEmail(), JSON.stringify(answers));
+  localStorage.setItem('juh_onboarding_done_' + obEmail(), '1');
+}
+function obGetAnswers() {
+  try { return JSON.parse(localStorage.getItem('juh_onboarding_answers_' + obEmail()) || '{}'); }
+  catch(e) { return {}; }
+}
+
+let _obStep = 0;
+let _obAnswers = {};
+
+function openOnboardingQuiz() {
+  _obStep = 0; _obAnswers = obGetAnswers() || {};
+  document.getElementById('onboardingQuiz').style.display = 'flex';
+  obRender();
+}
+function closeOnboardingQuiz() {
+  document.getElementById('onboardingQuiz').style.display = 'none';
+}
+function obRender() {
+  const q = ONBOARDING_QUESTIONS[_obStep];
+  if (!q) return obFinish();
+  document.getElementById('obStepNum').textContent = (_obStep + 1);
+  document.getElementById('obProgressFill').style.width = (((_obStep + 1) / ONBOARDING_QUESTIONS.length) * 100) + '%';
+  document.getElementById('obQuestion').textContent = q.question;
+  document.getElementById('obSub').textContent = q.sub || '';
+  const wrap = document.getElementById('obOptions');
+  wrap.innerHTML = '';
+  if (q.type === 'choice') {
+    q.options.forEach(function(opt) {
+      const div = document.createElement('div');
+      div.className = 'ob-opt' + (_obAnswers[q.id] === opt.value ? ' selected' : '');
+      div.innerHTML = '<div class="ob-opt-label">' + opt.label + '</div>' +
+                      (opt.sub ? '<div class="ob-opt-sub">' + opt.sub + '</div>' : '');
+      div.onclick = function() { obSelect(q.id, opt.value); };
+      wrap.appendChild(div);
+    });
+  } else if (q.type === 'number') {
+    const inp = document.createElement('input');
+    inp.type = 'number';
+    inp.className = 'ob-num-input';
+    inp.id = 'obNumInput';
+    inp.placeholder = q.placeholder || '';
+    inp.min = q.min || 0; inp.max = q.max || 999;
+    inp.value = _obAnswers[q.id] || '';
+    inp.oninput = function() { _obAnswers[q.id] = parseInt(inp.value, 10) || 0; obUpdateNextBtn(); };
+    wrap.appendChild(inp);
+    if (q.suffix) {
+      const s = document.createElement('div');
+      s.className = 'ob-num-suffix';
+      s.textContent = q.suffix;
+      wrap.appendChild(s);
+    }
+    setTimeout(function(){ inp.focus(); }, 100);
+  }
+  document.getElementById('obBack').disabled = (_obStep === 0);
+  document.getElementById('obNext').textContent = (_obStep === ONBOARDING_QUESTIONS.length - 1) ? 'Finalizar 🚀' : 'Continuar →';
+  obUpdateNextBtn();
+}
+function obSelect(id, value) {
+  _obAnswers[id] = value;
+  obRender();
+  obUpdateNextBtn();
+}
+function obUpdateNextBtn() {
+  const q = ONBOARDING_QUESTIONS[_obStep];
+  const v = _obAnswers[q.id];
+  let valid = false;
+  if (q.type === 'choice') valid = !!v;
+  else if (q.type === 'number') valid = (typeof v === 'number' && v >= (q.min || 0) && v <= (q.max || 999));
+  document.getElementById('obNext').disabled = !valid;
+}
+function obPrev() {
+  if (_obStep > 0) { _obStep--; obRender(); }
+}
+function obNext() {
+  if (_obStep < ONBOARDING_QUESTIONS.length - 1) {
+    _obStep++; obRender();
+  } else {
+    obFinish();
+  }
+}
+function obCalculateKcal(a) {
+  const w = parseFloat(a.weight || 0);
+  if (!w) return 1500;
+  let mult = 30;
+  if (a.goal === 'emagrecer') mult = 25;
+  else if (a.goal === 'tonificar') mult = 28;
+  else if (a.goal === 'manter') mult = 32;
+  else if (a.goal === 'ganhar') mult = 38;
+  if (a.activity === 'sedentary') mult -= 2;
+  else if (a.activity === 'active') mult += 2;
+  const age = parseInt(a.age || 30, 10);
+  if (age > 50) mult -= 2;
+  else if (age > 40) mult -= 1;
+  return Math.round(w * mult / 50) * 50;
+}
+function obRecommendDietPlan(a) {
+  if (a.goal === 'emagrecer') {
+    if (a.appetite === 'low') return 'intensa';
+    if (a.appetite === 'high' || a.appetite === 'cravings') return 'suave';
+    return 'equilibrada';
+  }
+  if (a.goal === 'ganhar') return 'intensa';
+  return 'equilibrada';
+}
+function obFinish() {
+  obSaveAnswers(_obAnswers);
+  if (_obAnswers.weight && typeof waterSaveWeight === 'function') waterSaveWeight(_obAnswers.weight);
+  const kcal = obCalculateKcal(_obAnswers);
+  if (typeof dietSetKcalTarget === 'function') dietSetKcalTarget(kcal);
+  const planId = obRecommendDietPlan(_obAnswers);
+  try {
+    localStorage.setItem('juh_diet_plan_' + nutCurrentEmail(), planId);
+    localStorage.setItem('juh_diet_quiz_' + nutCurrentEmail(), '1');
+    localStorage.setItem('juh_diet_answers_' + nutCurrentEmail(), JSON.stringify(_obAnswers));
+  } catch(e) {}
+  try { localStorage.setItem('juh_workout_level_' + obEmail(), _obAnswers.experience || 'beginner'); } catch(e) {}
+  try { localStorage.setItem('juh_workout_place_' + obEmail(), _obAnswers.place || 'both'); } catch(e) {}
+  closeOnboardingQuiz();
+  if (typeof startChallenge === 'function') startChallenge();
+  if (typeof showToast === 'function') showToast('🎉 Tudo pronto! Bora começar.');
+  if (typeof renderHomeCards === 'function') renderHomeCards();
+}
 
 /* ════════════════════════════════════════════
    🏆 DESAFIO 30 DIAS — Tracker + detalhe do dia
@@ -8034,6 +8586,44 @@ function chCurrentDay() {
 function chSetCurrentDay(n) {
   localStorage.setItem('juh_challenge_current_' + chEmail(), String(Math.max(0, n)));
 }
+function chGetMaxDay() {
+  return parseInt(localStorage.getItem('juh_challenge_maxday_' + chEmail()) || '1', 10);
+}
+function chSetMaxDay(n) {
+  const cur = chGetMaxDay();
+  if (n > cur) localStorage.setItem('juh_challenge_maxday_' + chEmail(), String(n));
+}
+function chPrevDay() {
+  const current = chCurrentDay();
+  if (current > 1) {
+    chSetCurrentDay(current - 1);
+    if (typeof renderChallenge === 'function') renderChallenge();
+    if (typeof renderHomeCards === 'function') renderHomeCards();
+  }
+}
+function chNextDay() {
+  const current = chCurrentDay();
+  const maxDay = chGetMaxDay();
+  if (current < maxDay) {
+    chSetCurrentDay(current + 1);
+    if (typeof renderChallenge === 'function') renderChallenge();
+    if (typeof renderHomeCards === 'function') renderHomeCards();
+  }
+}
+
+/* Progressão semanal de duração de cardio */
+function cardioDurationFor(day) {
+  if (day >= 1 && day <= 7) return 20;
+  if (day >= 8 && day <= 14) return 30;
+  if (day >= 15 && day <= 21) return 40;
+  return 45; // dia 22+
+}
+function cardioWeekLabel(day) {
+  if (day >= 1 && day <= 7) return 'Semana 1';
+  if (day >= 8 && day <= 14) return 'Semana 2';
+  if (day >= 15 && day <= 21) return 'Semana 3';
+  return 'Semana 4';
+}
 
 /* ════════════════════════════════════════════════════════
    📅 CICLO DE 30 DIAS — A → B → C → CARDIO → DESCANSO
@@ -8041,8 +8631,22 @@ function chSetCurrentDay(n) {
    ════════════════════════════════════════════════════════ */
 function getDayType(day) {
   if (!day || day < 1 || day > CHALLENGE_DAYS) return null;
-  const types = ['A', 'B', 'C', 'cardio', 'rest'];
-  return types[(day - 1) % 5];
+  // Ciclo de treino A-B-C (cardio é DIÁRIO, não substitui treino)
+  // Domingo continua sendo "rest" leve mas com cardio
+  const startStr = (typeof chGetStart === 'function') ? chGetStart() : '';
+  if (startStr) {
+    const start = new Date(startStr + 'T00:00:00');
+    if (!isNaN(start.getTime())) {
+      const target = new Date(start);
+      target.setDate(start.getDate() + (day - 1));
+      const dow = target.getDay();
+      if (dow === 0) return 'rest'; // Domingo = descanso (mas com cardio leve)
+      const cycle = ['A','B','C','A','B','C']; // seg..sab
+      return cycle[dow - 1];
+    }
+  }
+  const types = ['A', 'B', 'C', 'A', 'B', 'C', 'rest'];
+  return types[(day - 1) % 7];
 }
 function getDayTagShort(day) {
   const t = getDayType(day);
@@ -8055,12 +8659,10 @@ function getBlockMessage(catKey, day) {
   const t = getDayType(day);
   if (!t) return '';
   if (catKey === 'casa' || catKey === 'acad') {
-    if (t === 'cardio') return 'OBS: HOJE É APENAS CARDIO';
-    if (t === 'rest')   return 'OBS: HOJE É DIA DE DESCANSO';
+    if (t === 'rest')   return 'OBS: HOJE É DIA DE DESCANSO (apenas cardio leve)';
   }
   if (catKey === 'cardio') {
-    if (t === 'A' || t === 'B' || t === 'C') return 'OBS: HOJE É DIA DE MUSCULAÇÃO';
-    if (t === 'rest') return 'OBS: HOJE É DIA DE DESCANSO';
+    if (t === 'rest') return 'OBS: HOJE É DIA DE DESCANSO (cardio leve)';
   }
   return '';
 }
@@ -8068,10 +8670,10 @@ function isCardBlocked(catKey, day) {
   const t = getDayType(day);
   if (!t) return false;
   if (catKey === 'casa' || catKey === 'acad') {
-    return (t === 'cardio' || t === 'rest');
+    return (t === 'rest');
   }
   if (catKey === 'cardio') {
-    return (t === 'A' || t === 'B' || t === 'C' || t === 'rest');
+    return false; // Cardio nunca é bloqueado
   }
   return false;
 }
@@ -8118,13 +8720,13 @@ function startChallenge() {
   if (typeof window !== 'undefined') window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-/* Avançar pro próximo dia (só com 3/3 tarefas concluídas) */
+/* Avançar pro próximo dia (só com 4/4 tarefas concluídas) */
 function chAdvanceDay() {
   const n = chCurrentDay();
   if (n < 1) return;
   const t = chDayTasks(n);
   if (!t.complete) {
-    if (typeof showToast === 'function') showToast('🚫 Complete as 3 tarefas antes de avançar');
+    if (typeof showToast === 'function') showToast('🚫 Complete as 4 tarefas antes de avançar');
     return;
   }
   // Garantir que está em chDone
@@ -8133,10 +8735,13 @@ function chAdvanceDay() {
   // Avançar
   if (n >= CHALLENGE_DAYS) {
     chSetCurrentDay(CHALLENGE_DAYS + 1);
+    chSetMaxDay(CHALLENGE_DAYS);
     if (typeof showToast === 'function') showToast('🏆🎉 PARABÉNS! Você completou os 30 dias!');
   } else {
-    chSetCurrentDay(n + 1);
-    if (typeof showToast === 'function') showToast('🎉 Dia ' + n + ' completo! Vem o Dia ' + (n+1));
+    const nextDay = n + 1;
+    chSetCurrentDay(nextDay);
+    chSetMaxDay(nextDay);
+    if (typeof showToast === 'function') showToast('🎉 Dia ' + n + ' completo! Vem o Dia ' + nextDay);
   }
   closeDayDetail();
   renderChallenge();
@@ -8183,8 +8788,8 @@ function renderChallenge() {
       '<div class="challenge-start">' +
         '<div class="challenge-start-icon">🏆</div>' +
         '<h3>Desafio 30 Dias</h3>' +
-        '<p>30 dias de dieta, água e treino pra criar um hábito. Cada dia você marca 3 tarefas e avança no checklist. Bora?</p>' +
-        '<button class="btn-prim" onclick="startChallenge()">🚀 Começar agora</button>' +
+        '<p>30 dias de dieta, água e treino pra criar um hábito. Cada dia você marca 4 tarefas e avança no checklist. Bora?</p>' +
+        '<button class="btn-prim" onclick="openOnboardingQuiz()">🚀 Começar minha jornada</button>' +
       '</div>';
     return;
   }
@@ -8281,14 +8886,31 @@ function chSetWaterDone(date, val) {
   if (val) localStorage.setItem('juh_water_done_' + chEmail() + '_' + date, '1');
   else localStorage.removeItem('juh_water_done_' + chEmail() + '_' + date);
 }
+function chGetCardioDone(date) {
+  return localStorage.getItem('juh_challenge_cardio_' + chEmail() + '_' + date) === '1';
+}
+function chSetCardioDone(date, val) {
+  if (val) localStorage.setItem('juh_challenge_cardio_' + chEmail() + '_' + date, '1');
+  else localStorage.removeItem('juh_challenge_cardio_' + chEmail() + '_' + date);
+}
+function chToggleTaskCardio(n) {
+  const t = chDayTasks(n);
+  if (!t.date) return;
+  const next = !t.cardio;
+  chSetCardioDone(t.date, next);
+  if (typeof showToast === 'function') showToast(next ? '🏃 Cardio marcado!' : 'Cardio desmarcado');
+  renderDayDetail(n);
+  renderChallenge();
+}
 function chDayTasks(n) {
-  if (chCurrentDay() < 1) return { date: '', diet: false, water: false, workout: false, complete: false, count: 0 };
+  if (chCurrentDay() < 1) return { date: '', diet: false, water: false, workout: false, cardio: false, complete: false, count: 0 };
   const slot    = 'day' + n;
   const diet    = chDietDoneOn(slot);
   const water   = chWaterDoneOn(slot);
   const workout = chGetWorkoutDone(slot);
-  const count   = (diet?1:0) + (water?1:0) + (workout?1:0);
-  return { date: slot, diet: diet, water: water, workout: workout, complete: count >= 3, count: count };
+  const cardio  = chGetCardioDone(slot);
+  const count   = (diet?1:0) + (water?1:0) + (workout?1:0) + (cardio?1:0);
+  return { date: slot, diet: diet, water: water, workout: workout, cardio: cardio, complete: count >= 4, count: count };
 }
 function chSyncCompletedDays() {
   const cur = chCurrentDay();
@@ -8350,11 +8972,11 @@ function renderDayDetail(n) {
     return;
   }
 
-  const pct = Math.round((tasks.count / 3) * 100);
+  const pct = Math.round((tasks.count / 4) * 100);
   html +=
     '<div class="ds-progress-wrap">' +
-      '<div class="ds-progress-text">' + tasks.count + '/3</div>' +
-      '<div class="ds-progress-bar-bg"><div class="ds-progress-bar-fill' + (tasks.count >= 3 ? ' full' : '') + '" style="width:' + pct + '%"></div></div>' +
+      '<div class="ds-progress-text">' + tasks.count + '/4</div>' +
+      '<div class="ds-progress-bar-bg"><div class="ds-progress-bar-fill' + (tasks.count >= 4 ? ' full' : '') + '" style="width:' + pct + '%"></div></div>' +
     '</div>';
 
   html +=
@@ -8383,7 +9005,35 @@ function renderDayDetail(n) {
           '<div class="task-detail">' + (tasks.workout ? 'Treino concluído ✓' : 'Toque para marcar quando fizer') + '</div>' +
         '</div>' +
       '</div>' +
+      '<div class="task-row' + (tasks.cardio ? ' done' : '') + '" onclick="event.stopPropagation();chToggleTaskCardio(' + n + ')">' +
+        '<div class="task-checkbox"></div>' +
+        '<div class="task-icon">🏃</div>' +
+        '<div class="task-body">' +
+          '<div class="task-name">Fazer cardio</div>' +
+          '<div class="task-detail">' + (tasks.cardio ? 'Cardio concluído ✓' : cardioDurationFor(n) + ' min · toque para marcar') + '</div>' +
+        '</div>' +
+      '</div>' +
     '</div>';
+
+  // Botões de navegação + Próximo Dia
+  const maxDay = chGetMaxDay();
+  html += '<div style="display:flex;gap:8px;margin-top:16px;">';
+
+  // Botão Anterior (sempre disponível se day > 1)
+  if (n > 1) {
+    html += '<button class="btn-out" style="flex:1;min-height:44px;border:1px solid rgba(255,255,255,0.12)" onclick="renderDayDetail(' + (n-1) + ')">‹ Anterior</button>';
+  } else {
+    html += '<button class="btn-out" style="flex:1;min-height:44px;border:1px solid rgba(255,255,255,0.12);opacity:0.3;cursor:not-allowed" disabled>‹ Anterior</button>';
+  }
+
+  // Botão Próximo (só se não for o último dia e não exceder maxDay)
+  if (n < CHALLENGE_DAYS && n < maxDay) {
+    html += '<button class="btn-out" style="flex:1;min-height:44px;border:1px solid rgba(255,255,255,0.12)" onclick="renderDayDetail(' + (n+1) + ')">Próximo ›</button>';
+  } else {
+    html += '<button class="btn-out" style="flex:1;min-height:44px;border:1px solid rgba(255,255,255,0.12);opacity:0.3;cursor:not-allowed" disabled>Próximo ›</button>';
+  }
+
+  html += '</div>';
 
   // Próximo Dia button no sheet — só aparece pro dia atual
   if (isCurrent) {
@@ -8392,9 +9042,9 @@ function renderDayDetail(n) {
     } else if (isDone) {
       html += '<button class="btn-prim" style="width:100%;min-height:50px;margin-top:8px" onclick="chAdvanceDay()">Próximo Dia →</button>';
     } else {
-      html += '<button class="btn-prim" style="width:100%;min-height:50px;margin-top:8px;opacity:0.45;cursor:not-allowed" disabled>Próximo Dia → (faltam ' + (3 - tasks.count) + ' tarefa' + (3-tasks.count===1?'':'s') + ')</button>';
+      html += '<button class="btn-prim" style="width:100%;min-height:50px;margin-top:8px;opacity:0.45;cursor:not-allowed" disabled>Próximo Dia → (faltam ' + (4 - tasks.count) + ' tarefa' + (4-tasks.count===1?'':'s') + ')</button>';
     }
-    html += '<div class="ds-tip">Termine as 3 tarefas pra liberar o próximo dia</div>';
+    html += '<div class="ds-tip">Termine as 4 tarefas pra liberar o próximo dia</div>';
   } else if (isPast) {
     html += '<div class="ds-tip" style="color:var(--success);font-style:normal;font-weight:700">' +
               'Dia ' + n + ' já concluído. Você está agora no Dia ' + cur + '.' +
@@ -8442,19 +9092,28 @@ function renderHomeCards() {
     if (el) el.textContent = dayLbl;
   });
 
-  // Tags dos 3 cards de treino — "DIA N · TREINO A/B/C/CARDIO/DESCANSO"
+  // Tags dos 3 cards de treino — "DIA N · TREINO A/B/C/DESCANSO"
   const fullTag = (cur >= 1 && cur <= CHALLENGE_DAYS) ? getDayTagShort(cur) : 'HOJE';
-  ['treinoCasaTag','treinoAcadTag','cardioTag'].forEach(function(id){
+  ['treinoCasaTag','treinoAcadTag'].forEach(function(id){
     const el = document.getElementById(id);
     if (el) el.textContent = fullTag;
   });
+  // Tag de cardio mostra duração
+  const cardioTag = document.getElementById('cardioTag');
+  if (cardioTag) {
+    if (cur >= 1 && cur <= CHALLENGE_DAYS) {
+      cardioTag.textContent = 'DIA ' + cur + ' · ' + cardioDurationFor(cur) + ' MIN';
+    } else {
+      cardioTag.textContent = 'HOJE';
+    }
+  }
 
   // Atualiza overlay X vermelho conforme tipo do dia
   if (typeof applyDayBlocks === 'function') applyDayBlocks();
 
   const slot = (cur >= 1 && cur <= CHALLENGE_DAYS) ? ('day' + cur) : new Date().toISOString().split('T')[0];
 
-  // Card dieta: progresso de refeições
+  // Card dieta: progresso de refeições + kcal target
   const dietProg = document.getElementById('dietProgChip');
   if (dietProg) {
     let confirmed = 0;
@@ -8466,6 +9125,12 @@ function renderHomeCards() {
       }
     }
     dietProg.textContent = confirmed;
+  }
+  // Atualiza o kcal target no banner da dieta
+  const dietKcalChip = document.getElementById('dietKcalChip');
+  if (dietKcalChip && typeof dietGetKcalTarget === 'function') {
+    const targetKcal = dietGetKcalTarget();
+    dietKcalChip.textContent = '~' + targetKcal;
   }
 
   // Card água: progresso L, meta dinâmica e copos (250ml = 1 copo)
