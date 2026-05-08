@@ -9681,10 +9681,10 @@ function renderChallenge() {
     grid += '<div class="ch-viewing-old">' +
               '<div class="cvo-icon">📍</div>' +
               '<div class="cvo-text">' +
-                '<div class="cvo-title">Você parou aqui no seu desafio</div>' +
-                '<div class="cvo-sub">Visualizando Dia <b>' + today + '</b> · Continue do Dia <b>' + maxDay + '</b></div>' +
+                '<div class="cvo-title">Você parou no Dia ' + maxDay + ' do seu desafio</div>' +
+                '<div class="cvo-sub">Você está visualizando o <b>Dia ' + today + '</b> · Aqui não é o seu dia atual</div>' +
               '</div>' +
-              '<button class="cvo-btn" onclick="jumpToCurrentDay()">Continuar Dia ' + maxDay + ' →</button>' +
+              '<button class="cvo-btn" onclick="jumpToCurrentDay()">↩ Voltar pra onde eu parei (Dia ' + maxDay + ')</button>' +
             '</div>';
   }
 
@@ -9837,9 +9837,9 @@ function renderDayDetail(n) {
   if (viewingOldDay) {
     html += '<div class="ds-old-banner">' +
               '<div class="ds-old-icon">📍</div>' +
-              '<div class="ds-old-title">Você parou aqui no seu desafio</div>' +
-              '<div class="ds-old-msg">Você está visualizando o <b>Dia ' + n + '</b>.<br/>Continue de onde parou no <b>Dia ' + maxDay + '</b>.</div>' +
-              '<button class="ds-jump-btn" onclick="jumpToCurrentDay()">✓ Continuar Dia ' + maxDay + '</button>' +
+              '<div class="ds-old-title">Você parou no Dia ' + maxDay + ' do seu desafio</div>' +
+              '<div class="ds-old-msg">Você está visualizando o <b>Dia ' + n + '</b>.<br/>Aqui não é o seu dia atual — toque abaixo pra voltar.</div>' +
+              '<button class="ds-jump-btn" onclick="jumpToCurrentDay()">↩ Voltar pra onde eu parei (Dia ' + maxDay + ')</button>' +
             '</div>';
   }
 
