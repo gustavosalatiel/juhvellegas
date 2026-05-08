@@ -1075,6 +1075,98 @@
       font-size: 13px; color: rgba(255,255,255,0.58); line-height: 1.65;
       margin-bottom: 28px; font-family: 'Geist', system-ui, sans-serif;
     }
+
+    /* ════════════════════════════════════════════════════════
+       🏃 CARDIO — Banner semanal e lista de exercícios
+       ════════════════════════════════════════════════════════ */
+    .cardio-week-banner {
+      background: linear-gradient(135deg, rgba(184,208,0,0.18) 0%, rgba(184,208,0,0.04) 100%);
+      border: 1px solid rgba(184,208,0,0.32);
+      border-radius: 16px;
+      padding: 20px 22px;
+      margin-bottom: 22px;
+      position: relative;
+      overflow: hidden;
+    }
+    .cardio-week-banner::before {
+      content: '🏃';
+      position: absolute;
+      right: -8px; top: -8px;
+      font-size: 96px;
+      opacity: 0.08;
+    }
+    .cwb-label {
+      font-size: 11px; font-weight: 800;
+      color: var(--primary);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .cwb-duration {
+      font-size: 44px; font-weight: 900;
+      color: #fff;
+      line-height: 1;
+      letter-spacing: -1.5px;
+      font-family: 'Montserrat', sans-serif;
+    }
+    .cwb-duration span {
+      font-size: 16px; font-weight: 600;
+      color: rgba(255,255,255,0.55);
+      margin-left: 6px;
+      letter-spacing: 0;
+    }
+    .cwb-sub {
+      font-size: 13px; color: rgba(255,255,255,0.65);
+      margin-top: 10px; line-height: 1.5;
+    }
+    .cardio-list-title {
+      font-size: 14px; font-weight: 800;
+      color: rgba(255,255,255,0.55);
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      margin: 26px 0 14px;
+      font-family: 'Montserrat', sans-serif;
+    }
+    .cardio-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
+    .cardio-ex-card {
+      display: flex; gap: 14px;
+      padding: 16px 18px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 14px;
+      transition: all .18s;
+    }
+    .cardio-ex-card:hover {
+      background: rgba(184,208,0,0.06);
+      border-color: rgba(184,208,0,0.25);
+      transform: translateX(2px);
+    }
+    .cardio-ex-num {
+      flex-shrink: 0;
+      width: 38px; height: 38px;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(184,208,0,0.15);
+      border: 1px solid rgba(184,208,0,0.30);
+      border-radius: 10px;
+      color: var(--primary);
+      font-weight: 900; font-size: 15px;
+      font-variant-numeric: tabular-nums;
+    }
+    .cardio-ex-body { flex: 1; }
+    .cardio-ex-name {
+      font-size: 15px; font-weight: 700; color: #fff;
+      margin-bottom: 4px;
+    }
+    .cardio-ex-meta {
+      font-size: 12px; color: var(--primary);
+      font-weight: 600;
+      margin-bottom: 6px;
+      display: flex; gap: 4px;
+    }
+    .cardio-ex-tip {
+      font-size: 13px; color: rgba(255,255,255,0.62);
+      line-height: 1.5;
+    }
     .playlist-hd {
       font-size: 16px; font-weight: 800; margin-bottom: 14px;
       font-family: 'Montserrat', sans-serif;
@@ -1534,14 +1626,34 @@
       padding: calc(var(--nav-h) + 16px) 0 100px;
     }
     .diary-wrap { max-width: 720px; margin: 0 auto; padding: 0 20px; }
-    .diary-back-bar { padding: 0 20px 16px; max-width: 720px; margin: 0 auto; }
+    .diary-back-bar { padding: 0 20px 18px; max-width: 720px; margin: 0 auto; }
     .diary-back {
-      background: var(--surface); border: 1px solid var(--border);
-      color: var(--text); padding: 9px 14px; border-radius: 999px;
-      font-size: 13px; font-weight: 600; cursor: pointer;
-      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(184,208,0,0.08);
+      border: 1.5px solid rgba(184,208,0,0.30);
+      color: var(--primary);
+      padding: 11px 18px;
+      border-radius: 999px;
+      font-size: 14px; font-weight: 700;
+      cursor: pointer;
+      display: inline-flex; align-items: center; gap: 8px;
+      transition: all .18s;
+      box-shadow: 0 2px 12px rgba(184,208,0,0.10);
+      letter-spacing: 0.2px;
     }
-    .diary-back:hover { background: rgba(255,255,255,0.08); border-color: var(--primary); color: var(--primary); }
+    .diary-back::before {
+      content: '←';
+      font-size: 18px;
+      font-weight: 900;
+      line-height: 1;
+      transition: transform .18s;
+    }
+    .diary-back:hover {
+      background: rgba(184,208,0,0.18);
+      border-color: var(--primary);
+      transform: translateX(-2px);
+      box-shadow: 0 4px 16px rgba(184,208,0,0.25);
+    }
+    .diary-back:hover::before { transform: translateX(-2px); }
 
     .diary-hd { margin-bottom: 18px; display:flex; align-items:flex-end; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
     .diary-title { font-family: 'Montserrat', sans-serif; font-size: 28px; font-weight: 900; letter-spacing: -0.5px; }
@@ -5079,10 +5191,6 @@
               <div class="hero-bottom">
                 <h2 class="hero-title">Plano <span class="hl">alimentar</span></h2>
                 <p class="hero-sub">5 refeições prontas, calculadas pra sua meta diária</p>
-                <div class="hero-chips" id="dietCardChips">
-                  <span class="hero-chip">🍽 <b id="dietProgChip">0</b> de 5 refeições</span>
-                  <span class="hero-chip">🔥 <b id="dietKcalChip">~1700</b> kcal</span>
-                </div>
               </div>
             </div>
           </div>
@@ -5104,10 +5212,6 @@
               <div class="hero-bottom">
                 <h2 class="hero-title">Beba <span class="hl">sua água</span></h2>
                 <p class="hero-sub">Calculada pelo seu peso, lembretes ao longo do dia</p>
-                <div class="hero-chips" id="waterCardChips">
-                  <span class="hero-chip">💧 <b id="waterProgChip">0L</b> de <span id="waterTargetChip">2L</span></span>
-                  <span class="hero-chip">🥛 <b id="waterCupsChip">0</b> de <span id="waterCupsTotalChip">8</span> copos</span>
-                </div>
               </div>
             </div>
           </div>
@@ -5131,10 +5235,6 @@
               <div class="hero-bottom">
                 <h2 class="hero-title">Treino <span class="hl">em casa</span></h2>
                 <p class="hero-sub">Sem equipamentos, sem academia, sem desculpas</p>
-                <div class="hero-chips">
-                  <span class="hero-chip">⏱ <b>20–45</b> min</span>
-                  <span class="hero-chip">🏠 sem equipamento</span>
-                </div>
               </div>
             </div>
           </div>
@@ -5158,10 +5258,6 @@
               <div class="hero-bottom">
                 <h2 class="hero-title">Treino <span class="hl">na academia</span></h2>
                 <p class="hero-sub">Sua ficha do dia, todos os exercícios prontos</p>
-                <div class="hero-chips">
-                  <span class="hero-chip">⏱ <b>20–45</b> min</span>
-                  <span class="hero-chip">💪 ficha completa</span>
-                </div>
               </div>
             </div>
           </div>
@@ -5185,10 +5281,6 @@
               <div class="hero-bottom">
                 <h2 class="hero-title">Aeróbico <span class="hl">& cardio</span></h2>
                 <p class="hero-sub">Queime calorias, melhore o fôlego e acelere o metabolismo</p>
-                <div class="hero-chips">
-                  <span class="hero-chip">⏱ <b>20–45</b> min</span>
-                  <span class="hero-chip">🔥 alta queima</span>
-                </div>
               </div>
             </div>
           </div>
@@ -5211,10 +5303,6 @@
               <div class="hero-bottom">
                 <h2 class="hero-title">Diário <span class="hl">alimentar</span></h2>
                 <p class="hero-sub">Tire uma foto do prato e a IA calcula calorias e macros</p>
-                <div class="hero-chips">
-                  <span class="hero-chip">🔥 <b id="dpCalories">0</b> kcal hoje</span>
-                  <span class="hero-chip">🍽 <b id="dpMeals">0</b> refeições</span>
-                </div>
               </div>
             </div>
           </div>
@@ -5233,7 +5321,7 @@
   <div id="view-diary" class="view">
     <div class="diary-page">
       <div class="diary-back-bar">
-        <button class="diary-back" onclick="diaryBackToList()">‹ Voltar</button>
+        <button class="diary-back" onclick="diaryBackToList()">Voltar</button>
       </div>
 
       <!-- Sub-view: HOME do diário (lista de refeições + totais) -->
@@ -5362,7 +5450,7 @@
   <!-- ═══ VIEW: NUTRIÇÃO (gerador de pratos) ═══ -->
   <div id="view-nutrition" class="view">
     <div class="diary-back-bar">
-      <button class="diary-back" onclick="showView('view-home')">‹ Voltar</button>
+      <button class="diary-back" onclick="showView('view-home')">Voltar pro início</button>
     </div>
     <div class="nutrition-header">
       <h1>🥗 Nutrição de Hoje</h1>
@@ -5382,7 +5470,7 @@
   <!-- ═══ VIEW: HIDRATAÇÃO ═══ -->
   <div id="view-water" class="view">
     <div class="diary-back-bar">
-      <button class="diary-back" onclick="showView('view-home')">‹ Voltar</button>
+      <button class="diary-back" onclick="showView('view-home')">Voltar pro início</button>
     </div>
     <div class="water-header">
       <h1>💧 Hidratação</h1>
@@ -5924,47 +6012,54 @@ const CATALOG = {
   casa: {
     label: 'Treino em Casa', icon: '🏠',
     img: 'abdominal.png',
-    desc: 'Treino completo pra fazer em casa, sem equipamentos. Foco em corpo todo com exercícios funcionais — duração estimada: 20 a 45 minutos.',
+    desc: 'Rotina periodizada pra fazer em casa com pouco ou nenhum equipamento. Use uma cadeira firme, garrafas pet com água (1-2L) ou mochila com livros como sobrecarga. Aqueça 5 min antes (polichinelo + mobilidade).',
     splits: {
       A: {
-        title: 'Treino A — Membros Superiores',
-        focus: 'Peito, ombro, tríceps e core',
-        duration: '30-35 min',
+        title: 'Treino A — Pernas & Glúteos',
+        focus: 'Inferiores: foco em glúteo, quadríceps e posterior',
+        duration: '40-50 min',
         exercises: [
-          { name: 'Flexão de braço',           sets: '4', reps: '10-15', rest: '60s', img: 'abdominal.png', videoUrl: '', tip: 'Mantenha o corpo reto da cabeça aos pés. Cotovelos a ~45° do tronco.' },
-          { name: 'Flexão diamante',           sets: '3', reps: '8-10',  rest: '60s', img: 'abdominal.png', videoUrl: '', tip: 'Mãos juntas formando um losango. Foco no tríceps.' },
-          { name: 'Flexão inclinada (apoio)',  sets: '3', reps: '12',    rest: '60s', img: 'abdominal.png', videoUrl: '', tip: 'Apoie as mãos numa cadeira ou sofá pra reduzir a carga.' },
-          { name: 'Mergulho na cadeira',       sets: '3', reps: '12',    rest: '45s', img: 'abdominal.png', videoUrl: '', tip: 'Cotovelos pra trás, não pros lados. Desça até 90°.' },
-          { name: 'Prancha alta com toque ombro', sets: '3', reps: '20 toques', rest: '30s', img: 'abdominal.png', videoUrl: '', tip: 'Quadril estável, sem balançar. Toque o ombro oposto.' },
-          { name: 'Tríceps no banco/cadeira',  sets: '3', reps: '12',    rest: '45s', img: 'abdominal.png', videoUrl: '', tip: 'Pernas estendidas pra dificultar, dobradas pra facilitar.' }
+          { name: 'Aquecimento dinâmico',          sets: '1', reps: '5 min', rest: '0s', img: 'imagem agachamento.png', videoUrl: '', tip: 'Polichinelo + agachamento sem peso + circundução de quadril. Solta a articulação.' },
+          { name: 'Agachamento livre',             sets: '4', reps: '15',    rest: '60s', img: 'imagem agachamento.png', videoUrl: '', tip: 'Pés na largura do quadril. Desça até a coxa paralela ao chão. Joelhos na linha dos pés.' },
+          { name: 'Afundo búlgaro (cadeira atrás)', sets: '3', reps: '10 cada perna', rest: '60s', img: 'imagem agachamento.png', videoUrl: '', tip: 'Pé de trás apoiado numa cadeira. Desça lento. Trabalha glúteo e equilíbrio.' },
+          { name: 'Agachamento sumô',              sets: '3', reps: '15',    rest: '45s', img: 'imagem agachamento.png', videoUrl: '', tip: 'Pés bem afastados, pontas viradas pra fora. Desce profundo. Adutores + glúteos.' },
+          { name: 'Stiff com mochila/garrafa',     sets: '3', reps: '12',    rest: '60s', img: 'imagem agachamento.png', videoUrl: '', tip: 'Joelhos semi. Quadril pra trás. Sente o posterior alongando. Coluna neutra.' },
+          { name: 'Elevação pélvica (hip thrust)', sets: '4', reps: '15',    rest: '45s', img: 'imagem agachamento.png', videoUrl: '', tip: 'Costas no sofá, pés no chão. Suba o quadril e aperte o glúteo 1s no topo.' },
+          { name: 'Coice 4 apoios',                sets: '3', reps: '15 cada perna', rest: '30s', img: 'imagem agachamento.png', videoUrl: '', tip: 'Joelho em 90°. Suba até alinhar com o tronco. Foco em glúteo médio.' },
+          { name: 'Abdução deitada lateral',       sets: '3', reps: '15 cada perna', rest: '30s', img: 'imagem agachamento.png', videoUrl: '', tip: 'Deitada de lado. Sobe a perna de cima sem rotacionar. Glúteo médio queima.' },
+          { name: 'Panturrilha em pé',             sets: '4', reps: '20',    rest: '30s', img: 'imagem agachamento.png', videoUrl: '', tip: 'Em degrau ou no chão. Suba na ponta, contraia 1s, desça devagar.' }
         ]
       },
       B: {
-        title: 'Treino B — Glúteos & Pernas',
-        focus: 'Glúteos, quadríceps, posteriores e panturrilha',
-        duration: '30-40 min',
+        title: 'Treino B — Peito, Ombro & Tríceps (Push)',
+        focus: 'Empurrar: superiores anteriores e core',
+        duration: '35-45 min',
         exercises: [
-          { name: 'Agachamento livre',          sets: '4', reps: '15',    rest: '45s', img: 'imagem agachamento.png', videoUrl: '', tip: 'Joelhos seguem a linha dos pés. Desça até a coxa paralela ao chão.' },
-          { name: 'Afundo (alternado)',         sets: '3', reps: '12 c/perna', rest: '45s', img: 'imagem agachamento.png', videoUrl: '', tip: 'Tronco ereto, joelho de trás quase tocando o chão.' },
-          { name: 'Agachamento sumô',           sets: '3', reps: '15',    rest: '45s', img: 'imagem agachamento.png', videoUrl: '', tip: 'Pés afastados, pontas viradas pra fora. Foco em adutores e glúteos.' },
-          { name: 'Elevação pélvica (ponte)',   sets: '4', reps: '15',    rest: '45s', img: 'imagem agachamento.png', videoUrl: '', tip: 'Aperte o glúteo no topo. Segure 1s e desça com controle.' },
-          { name: 'Coice 4 apoios',             sets: '3', reps: '15 c/perna', rest: '30s', img: 'imagem agachamento.png', videoUrl: '', tip: 'Mantenha o joelho em 90°. Eleve até alinhar com o tronco.' },
-          { name: 'Cadeira na parede (estática)', sets: '3', reps: '40s',   rest: '45s', img: 'imagem agachamento.png', videoUrl: '', tip: 'Costas totalmente apoiadas, joelhos em 90°. Resista ao tempo.' },
-          { name: 'Panturrilha em pé',          sets: '4', reps: '20',    rest: '30s', img: 'imagem agachamento.png', videoUrl: '', tip: 'Suba na ponta dos pés, contraia 1s, desça devagar.' }
+          { name: 'Aquecimento upper',             sets: '1', reps: '5 min', rest: '0s', img: 'abdominal.png', videoUrl: '', tip: 'Circundução de braços + flexão na parede + alongamento de peitoral.' },
+          { name: 'Flexão tradicional',            sets: '4', reps: '10-15', rest: '60s', img: 'abdominal.png', videoUrl: '', tip: 'Corpo reto da cabeça aos pés. Cotovelos a ~45° do tronco. Se difícil, joelhos no chão.' },
+          { name: 'Flexão inclinada (mãos no sofá)', sets: '3', reps: '12',  rest: '45s', img: 'abdominal.png', videoUrl: '', tip: 'Mais leve. Foco no peito superior e ombro anterior.' },
+          { name: 'Flexão diamante (tríceps)',     sets: '3', reps: '8-12',  rest: '60s', img: 'abdominal.png', videoUrl: '', tip: 'Polegares e indicadores juntos formando um diamante. Tríceps queima forte.' },
+          { name: 'Desenvolvimento com garrafas',  sets: '4', reps: '12',    rest: '60s', img: 'abdominal.png', videoUrl: '', tip: 'Garrafas de 1-2L (ou halteres). Sentada ou em pé. Não trave o cotovelo no topo.' },
+          { name: 'Elevação lateral',              sets: '3', reps: '15',    rest: '45s', img: 'abdominal.png', videoUrl: '', tip: 'Suba até a linha do ombro, mindinho ligeiramente acima. Movimento controlado.' },
+          { name: 'Mergulho na cadeira',           sets: '3', reps: '12',    rest: '45s', img: 'abdominal.png', videoUrl: '', tip: 'Mãos na cadeira, costas. Desça até cotovelo em 90°. Pernas estendidas pra dificultar.' },
+          { name: 'Tríceps testa com garrafa',     sets: '3', reps: '12',    rest: '45s', img: 'abdominal.png', videoUrl: '', tip: 'Deitada. Cotovelos fixos apontando pra cima. Só o antebraço se move.' },
+          { name: 'Prancha frontal',               sets: '3', reps: '40-60s', rest: '45s', img: 'abdominal.png', videoUrl: '', tip: 'Linha reta. Quadril nem alto nem baixo. Contraia o abdômen.' }
         ]
       },
       C: {
-        title: 'Treino C — Core & HIIT',
-        focus: 'Abdômen, core e queima alta',
-        duration: '25-30 min',
+        title: 'Treino C — Costas, Bíceps & Posterior (Pull)',
+        focus: 'Puxar: dorsais, bíceps e core',
+        duration: '35-45 min',
         exercises: [
-          { name: 'Prancha frontal',            sets: '3', reps: '40s',   rest: '30s', img: 'abdominal.png', videoUrl: '', tip: 'Linha reta da cabeça aos pés. Não deixe o quadril cair.' },
-          { name: 'Mountain climber',           sets: '4', reps: '30s',   rest: '30s', img: 'abdominal.png', videoUrl: '', tip: 'Ritmo rápido. Joelhos vindo até o peito.' },
-          { name: 'Burpee',                     sets: '3', reps: '10',    rest: '60s', img: 'abdominal.png', videoUrl: '', tip: 'Movimento completo: agache, prancha, flexão (opcional), salto.' },
-          { name: 'Jumping jack (polichinelo)', sets: '3', reps: '40s',   rest: '30s', img: 'abdominal.png', videoUrl: '', tip: 'Mantenha o ritmo. Foco em respirar.' },
-          { name: 'Abdominal supra',            sets: '4', reps: '20',    rest: '30s', img: 'abdominal.png', videoUrl: '', tip: 'Eleve só os ombros do chão. Não puxe o pescoço.' },
-          { name: 'Russian twist',              sets: '3', reps: '20',    rest: '30s', img: 'abdominal.png', videoUrl: '', tip: 'Tronco inclinado pra trás, gire o tronco lado a lado.' },
-          { name: 'Bicicleta no chão',          sets: '3', reps: '30s',   rest: '30s', img: 'abdominal.png', videoUrl: '', tip: 'Cotovelo encontra o joelho oposto. Controle, sem pressa.' }
+          { name: 'Aquecimento posterior',         sets: '1', reps: '5 min', rest: '0s', img: 'abdominal.png', videoUrl: '', tip: 'Circundução + retração de escápula + gato-camelo (mobilidade lombar).' },
+          { name: 'Remada serrote (mochila)',      sets: '4', reps: '12 cada lado', rest: '60s', img: 'abdominal.png', videoUrl: '', tip: 'Apoio uma mão na cadeira. Puxa a mochila/garrafa até a costela. Costas neutras.' },
+          { name: 'Remada na toalha (porta)',      sets: '3', reps: '12',    rest: '60s', img: 'abdominal.png', videoUrl: '', tip: 'Toalha numa maçaneta firme. Inclina o corpo, puxa o tronco até as mãos. Aperte as escápulas.' },
+          { name: 'Superman (lombar + glúteo)',    sets: '4', reps: '15',    rest: '45s', img: 'abdominal.png', videoUrl: '', tip: 'Deitada de bruços. Eleve braços e pernas ao mesmo tempo. Aperte o glúteo.' },
+          { name: 'Bird dog',                      sets: '3', reps: '12 cada lado', rest: '45s', img: 'abdominal.png', videoUrl: '', tip: '4 apoios. Estende braço direito + perna esquerda. Mantém o quadril estável.' },
+          { name: 'Crucifixo invertido c/garrafas', sets: '3', reps: '15',   rest: '45s', img: 'abdominal.png', videoUrl: '', tip: 'Tronco inclinado a 45°. Abre os braços apertando a parte superior das costas.' },
+          { name: 'Rosca direta com garrafas',     sets: '4', reps: '12',    rest: '45s', img: 'abdominal.png', videoUrl: '', tip: 'Cotovelos colados ao tronco. Sem balanço. Só o antebraço sobe.' },
+          { name: 'Rosca martelo',                 sets: '3', reps: '12',    rest: '45s', img: 'abdominal.png', videoUrl: '', tip: 'Punho neutro o tempo todo. Trabalha braquiorradial e dá grossura ao braço.' },
+          { name: 'Prancha lateral',               sets: '3', reps: '30-40s cada lado', rest: '30s', img: 'abdominal.png', videoUrl: '', tip: 'Quadril alto. Linha reta dos pés à cabeça. Corpo não pode cair.' }
         ]
       }
     }
@@ -6289,10 +6384,11 @@ function showWorkoutDayView(catKey) {
   /* Verifica se já tá marcado como concluído no checklist do desafio */
   const day = (typeof chCurrentDay === 'function') ? chCurrentDay() : 0;
   const slot = day >= 1 ? ('day' + day) : '';
-  const alreadyDone = (slot && typeof chGetWorkoutDone === 'function') ? chGetWorkoutDone(slot) : false;
+  const isCardio = (catKey === 'cardio');
+  const getDoneFn = isCardio ? chGetCardioDone : chGetWorkoutDone;
+  const alreadyDone = (slot && typeof getDoneFn === 'function') ? getDoneFn(slot) : false;
 
   /* Texto do botão muda por categoria (cardio/treino) */
-  const isCardio = (catKey === 'cardio');
   const finishLabel = alreadyDone
     ? (isCardio ? '✓ Cardio finalizado — desmarcar' : '✓ Treino finalizado — desmarcar')
     : (isCardio ? '🏁 Finalizei meu cardio' : '🏁 Finalizei meu treino');
@@ -6301,6 +6397,35 @@ function showWorkoutDayView(catKey) {
   const finishBtnHtml = (day >= 1)
     ? `<button class="btn-prim split-finish-btn${alreadyDone ? ' done' : ''}" id="splitFinishBtn" onclick="finishTodayWorkout('${catKey}')">${finishLabel}</button>`
     : '';
+
+  /* Para cardio: monta um treino com duração da semana + lista de opções de exercício */
+  let cardioRoutineHtml = '';
+  if (isCardio && cat.exercises && cat.exercises.length) {
+    const dur = (typeof cardioDurationFor === 'function' && day >= 1) ? cardioDurationFor(day) : 20;
+    const wkLbl = (typeof cardioWeekLabel === 'function' && day >= 1) ? cardioWeekLabel(day) : 'Semana 1';
+    const rows = cat.exercises.map(function(ex, i) {
+      const num = String(i+1).padStart(2,'0');
+      const tipText = ex.desc || ex.tip || '';
+      return '<div class="cardio-ex-card">' +
+               '<div class="cardio-ex-num">' + num + '</div>' +
+               '<div class="cardio-ex-body">' +
+                 '<div class="cardio-ex-name">' + ex.name + '</div>' +
+                 '<div class="cardio-ex-meta"><span>⏱ ' + dur + ' min</span>' +
+                 (ex.intensity ? '<span> · ' + ex.intensity + '</span>' : '') + '</div>' +
+                 (tipText ? '<div class="cardio-ex-tip">' + tipText + '</div>' : '') +
+               '</div>' +
+             '</div>';
+    }).join('');
+    cardioRoutineHtml = `
+      <div class="cardio-week-banner">
+        <div class="cwb-label">${wkLbl}</div>
+        <div class="cwb-duration">${dur} <span>minutos</span></div>
+        <div class="cwb-sub">Escolha 1 das opções abaixo (ou alterne) e mantenha por ${dur} min hoje</div>
+      </div>
+      <h2 class="cardio-list-title">Opções de cardio do dia</h2>
+      <div class="cardio-list">${rows}</div>
+    `;
+  }
 
   document.getElementById('course-page').innerHTML = `
     <div class="course-back-bar">
@@ -6312,8 +6437,9 @@ function showWorkoutDayView(catKey) {
     </div>
     <div class="course-body">
       <div class="course-badge-pill">${cat.icon} ${cat.label}</div>
-      <h1 class="course-ttl">Treino de Hoje</h1>
+      <h1 class="course-ttl">${isCardio ? 'Cardio de Hoje' : 'Treino de Hoje'}</h1>
       <p class="course-dsc">${cat.desc || ''}</p>
+      ${cardioRoutineHtml}
       ${finishBtnHtml}
     </div>
   `;
@@ -6586,13 +6712,17 @@ function finishTodayWorkout(catKey) {
     return;
   }
   const slot = 'day' + day;
-  const already = (typeof chGetWorkoutDone === 'function') ? chGetWorkoutDone(slot) : false;
+  const isCardio = (catKey === 'cardio');
+  // Cardio e treino são tarefas SEPARADAS no checklist diário
+  const getDone = isCardio ? chGetCardioDone : chGetWorkoutDone;
+  const setDone = isCardio ? chSetCardioDone : chSetWorkoutDone;
+  const already = (typeof getDone === 'function') ? getDone(slot) : false;
   if (already) {
-    chSetWorkoutDone(slot, false);
-    if (typeof showToast === 'function') showToast('Treino desmarcado');
+    setDone(slot, false);
+    if (typeof showToast === 'function') showToast(isCardio ? 'Cardio desmarcado' : 'Treino desmarcado');
   } else {
-    chSetWorkoutDone(slot, true);
-    if (typeof showToast === 'function') showToast('💪 Treino finalizado! Bom trabalho.');
+    setDone(slot, true);
+    if (typeof showToast === 'function') showToast(isCardio ? '🏃 Cardio finalizado! Boa.' : '💪 Treino finalizado! Bom trabalho.');
   }
   if (typeof chSyncCompletedDays === 'function') chSyncCompletedDays();
   if (typeof renderChallenge === 'function') renderChallenge();
@@ -6600,8 +6730,7 @@ function finishTodayWorkout(catKey) {
   // Atualiza o botão na própria tela (sem re-renderizar tudo)
   const btn = document.getElementById('splitFinishBtn');
   if (btn) {
-    const nowDone = chGetWorkoutDone(slot);
-    const isCardio = (catKey === 'cardio');
+    const nowDone = getDone(slot);
     btn.classList.toggle('done', nowDone);
     btn.textContent = nowDone
       ? (isCardio ? '✓ Cardio finalizado — desmarcar' : '✓ Treino finalizado — desmarcar')
@@ -7632,9 +7761,8 @@ function openMealLeque(planId, mealType) {
   const fallbackEmoji = mealFallbackEmoji[mealType] || '🍽';
 
   opts.innerHTML = variations.map(function(meal, idx) {
-    const thumb = meal.img
-      ? '<img src="' + meal.img + '" alt="" loading="lazy" onerror="this.parentNode.innerHTML=\'' + fallbackEmoji + '\'"/>'
-      : fallbackEmoji;
+    // Imagens removidas a pedido — apenas emoji de fallback
+    const thumb = fallbackEmoji;
     const isCurrent = idx === currentIdx;
     return '<div class="meal-leque-item' + (isCurrent ? ' is-current' : '') + '" onclick="applyMealLeque(' + idx + ')">' +
              '<div class="meal-leque-thumb">' + thumb + '</div>' +
@@ -7957,9 +8085,8 @@ function renderDietPlan(planId) {
     const meal = dietPlanMealForDay(planId, mt, dayN);
     if (!meal) continue;
     totalKcal += meal.kcal;
-    const thumb = meal.img
-      ? '<img src="' + meal.img + '" alt="' + meal.name.replace(/"/g, '&quot;') + '" loading="lazy" onerror="this.style.display=\'none\'"/>'
-      : '';
+    // Imagens removidas a pedido — usa apenas emoji de fallback
+    const thumb = '';
     const variationCount = (DIET_PLANS[planId].meals[mt] || []).length;
     const mealDoneKey = 'juh_meal_done_' + nutCurrentEmail() + '_' + (typeof challengeCurrentSlot === 'function' ? challengeCurrentSlot() : nutTodayKey()) + '_' + mt;
     const isMealDone = localStorage.getItem(mealDoneKey) === '1';
@@ -8039,12 +8166,8 @@ function renderNutrition() {
     const KIND_PILL = { protein: 'PROTEÍNA', carb: 'CARBO', veg: 'FIBRA', fat: 'GORDURA BOA' };
     const itemsHtml = items.map(function(it) {
       const swap = '<button class="btn-swap k-' + it.kind + '" onclick="openItemSwap(\'' + mt + '\',\'' + it.kind + '\')" aria-label="Trocar ' + (KIND_LABEL[it.kind] || 'item') + '">🔄</button>';
-      const thumb = it.item.img
-        ? '<div class="meal-item-thumb">' +
-            '<div class="meal-item-thumb-fb">' + it.item.emoji + '</div>' +
-            '<img src="' + it.item.img + '" alt="' + it.item.name.replace(/"/g, '&quot;') + '" loading="lazy" onerror="this.style.display=\'none\'"/>' +
-          '</div>'
-        : '<div class="meal-item-thumb"><div class="meal-item-thumb-fb">' + it.item.emoji + '</div></div>';
+      // Imagens removidas a pedido — apenas emoji
+      const thumb = '<div class="meal-item-thumb"><div class="meal-item-thumb-fb">' + it.item.emoji + '</div></div>';
       const pill = '<span class="meal-item-kind k-' + it.kind + '">' + (KIND_PILL[it.kind] || '') + '</span>';
       return '<div class="meal-item' + (it.kind === 'protein' ? ' meal-item-protein' : '') + '">' +
                thumb +
