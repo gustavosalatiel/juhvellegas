@@ -3616,6 +3616,33 @@
     .ds-jump-btn:active {
       transform: translateY(0);
     }
+    /* Botao de confirmar navegacao pra um dia escolhido */
+    .ds-confirm-btn {
+      width: 100%;
+      margin-top: 14px;
+      padding: 16px 18px;
+      background: linear-gradient(135deg, var(--primary), #d4f000);
+      color: #0a0a0a;
+      border: none;
+      border-radius: 12px;
+      font-size: 14.5px; font-weight: 900;
+      cursor: pointer;
+      transition: all .18s;
+      letter-spacing: 0.3px;
+      font-family: 'Montserrat', sans-serif;
+      box-shadow: 0 4px 18px rgba(184,208,0,0.35);
+      animation: dsConfirmPulse 2.4s ease-in-out infinite;
+    }
+    @keyframes dsConfirmPulse {
+      0%, 100% { box-shadow: 0 4px 18px rgba(184,208,0,0.35); }
+      50%      { box-shadow: 0 6px 28px rgba(184,208,0,0.55); }
+    }
+    .ds-confirm-btn:hover {
+      transform: translateY(-2px);
+      animation: none;
+      box-shadow: 0 8px 28px rgba(184,208,0,0.55);
+    }
+    .ds-confirm-btn:active { transform: translateY(0); }
     .ds-day-of {
       font-family: 'Geist', sans-serif; font-size: 13px;
       color: var(--text-2); text-transform: uppercase;
@@ -9357,6 +9384,21 @@ function navigateToDay(n, opts) {
   if (typeof renderNutrition === 'function') { try { renderNutrition(); } catch(e){} }
   if (typeof renderWater === 'function') { try { renderWater(); } catch(e){} }
 }
+// Confirma navegacao pra um dia escolhido — muda chCurrentDay E atualiza tudo
+function confirmGoToDay(n) {
+  if (n < 1 || n > CHALLENGE_DAYS) return;
+  const maxDay = (typeof chGetMaxDay === 'function') ? chGetMaxDay() : 1;
+  if (n > maxDay) return;
+  chSetCurrentDay(n);
+  if (typeof showToast === 'function') showToast('✓ Agora você está no Dia ' + n);
+  if (typeof renderChallenge === 'function') renderChallenge();
+  if (typeof renderHomeCards === 'function') renderHomeCards();
+  if (typeof renderDayDetail === 'function') renderDayDetail(n);
+  if (typeof renderDiaryHome === 'function') { try { renderDiaryHome(); } catch(e){} }
+  if (typeof renderNutrition === 'function') { try { renderNutrition(); } catch(e){} }
+  if (typeof renderWater === 'function') { try { renderWater(); } catch(e){} }
+}
+
 // Pula direto pro dia atual (maxDay) — atalho pra quem voltou pra ver dias passados
 function jumpToCurrentDay() {
   const maxDay = (typeof chGetMaxDay === 'function') ? chGetMaxDay() : 1;
@@ -9864,22 +9906,27 @@ function renderDayDetail(n) {
   // Botões de navegação + Próximo Dia (maxDay ja foi declarado acima nesta funcao)
   html += '<div style="display:flex;gap:8px;margin-top:16px;">';
 
-  // Botão Anterior (sempre disponível se day > 1)
-  // Tambem ATUALIZA chCurrentDay pra que diario, dieta e cards mostrem dados desse dia
+  // Botão Anterior/Próximo apenas NAVEGAM visualmente o modal — nao mudam chCurrentDay
   if (n > 1) {
-    html += '<button class="btn-out" style="flex:1;min-height:44px;border:1px solid rgba(255,255,255,0.12)" onclick="navigateToDay(' + (n-1) + ')">‹ Anterior</button>';
+    html += '<button class="btn-out" style="flex:1;min-height:44px;border:1px solid rgba(255,255,255,0.12)" onclick="renderDayDetail(' + (n-1) + ')">‹ Anterior</button>';
   } else {
     html += '<button class="btn-out" style="flex:1;min-height:44px;border:1px solid rgba(255,255,255,0.12);opacity:0.3;cursor:not-allowed" disabled>‹ Anterior</button>';
   }
-
-  // Botão Próximo (só se não for o último dia e não exceder maxDay)
   if (n < CHALLENGE_DAYS && n < maxDay) {
-    html += '<button class="btn-out" style="flex:1;min-height:44px;border:1px solid rgba(255,255,255,0.12)" onclick="navigateToDay(' + (n+1) + ')">Próximo ›</button>';
+    html += '<button class="btn-out" style="flex:1;min-height:44px;border:1px solid rgba(255,255,255,0.12)" onclick="renderDayDetail(' + (n+1) + ')">Próximo ›</button>';
   } else {
     html += '<button class="btn-out" style="flex:1;min-height:44px;border:1px solid rgba(255,255,255,0.12);opacity:0.3;cursor:not-allowed" disabled>Próximo ›</button>';
   }
 
   html += '</div>';
+
+  // BOTAO DE CONFIRMAR — so aparece se o dia visualizado for diferente do atual
+  // Permite a usuaria realmente "ir pra esse dia" (chCurrentDay muda)
+  if (n !== cur && n <= maxDay) {
+    html += '<button class="ds-confirm-btn" onclick="confirmGoToDay(' + n + ')">' +
+              '✓ Sim, quero ir pro Dia ' + n + ' e ver tudo que fiz' +
+            '</button>';
+  }
 
   // Próximo Dia button no sheet — só aparece pro dia atual
   if (isCurrent) {
