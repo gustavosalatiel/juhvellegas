@@ -7619,7 +7619,26 @@ function dietRecommendPlan(answers) {
   return 'equilibrada';
 }
 
-function dietQuizDone() { return localStorage.getItem('juh_diet_quiz_' + nutCurrentEmail()) === '1'; }
+function dietQuizDone() {
+  // Considera quiz feito se: (a) flag direta do diet quiz OU (b) onboarding completo
+  if (localStorage.getItem('juh_diet_quiz_' + nutCurrentEmail()) === '1') return true;
+  if (typeof obDone === 'function' && obDone()) {
+    // Lazy-migra: se onboarding foi feito mas o flag de diet quiz nao foi setado,
+    // garante que o plano esteja salvo a partir das respostas do onboarding.
+    try {
+      const ans = JSON.parse(localStorage.getItem('juh_onboarding_answers_' + nutCurrentEmail()) || '{}');
+      let planId = localStorage.getItem('juh_diet_plan_' + nutCurrentEmail());
+      if (!planId && typeof obRecommendDietPlan === 'function') {
+        planId = obRecommendDietPlan(ans);
+        localStorage.setItem('juh_diet_plan_' + nutCurrentEmail(), planId);
+      }
+      localStorage.setItem('juh_diet_quiz_' + nutCurrentEmail(), '1');
+      localStorage.setItem('juh_diet_answers_' + nutCurrentEmail(), JSON.stringify(ans));
+    } catch(e) {}
+    return true;
+  }
+  return false;
+}
 function dietGetPlan() { return localStorage.getItem('juh_diet_plan_' + nutCurrentEmail()) || ''; }
 function dietGetKcalTarget() {
   const v = parseInt(localStorage.getItem('juh_diet_kcal_target_' + nutCurrentEmail()) || '0', 10);
@@ -7665,11 +7684,22 @@ function dietSavePlanFromQuiz(answers) {
   return planId;
 }
 function dietResetQuiz() {
-  if (!confirm('Refazer o quiz? Sua dieta atual vai mudar pra nova recomendação.')) return;
+  if (!confirm('Refazer o quiz completo? Vamos recalcular tudo: dieta, água e treinos.')) return;
+  // Limpa flags antigos do diet quiz
   localStorage.removeItem('juh_diet_quiz_' + nutCurrentEmail());
   localStorage.removeItem('juh_diet_plan_' + nutCurrentEmail());
   localStorage.removeItem('juh_diet_answers_' + nutCurrentEmail());
+  localStorage.removeItem('juh_diet_kcal_target_' + nutCurrentEmail());
+  // Tambem limpa flag do onboarding pra abrir o quiz completo de novo
+  try {
+    localStorage.removeItem('juh_onboarding_done_' + (typeof obEmail === 'function' ? obEmail() : nutCurrentEmail()));
+  } catch(e) {}
   _quizStarted = false; _quizStep = 0; _quizAnswers = {};
+  // Abre o quiz de onboarding completo (10 perguntas)
+  if (typeof openOnboardingQuiz === 'function') {
+    openOnboardingQuiz();
+    return;
+  }
   if (typeof renderNutrition === 'function') renderNutrition();
 }
 
@@ -9207,12 +9237,13 @@ function renderChallenge() {
       '<div class="advance-panel">' +
         '<div class="advance-status">' +
           '<span class="advance-status-pill' + (ready ? ' full' : '') + '">DIA ' + today + '</span>' +
-          '<div class="advance-mini-tasks" title="Dieta · Água · Treino">' +
+          '<div class="advance-mini-tasks" title="Dieta · Água · Treino · Cardio">' +
             '<div class="advance-mini-task' + (t.diet ? ' done' : '') + '" title="Dieta">🥗</div>' +
             '<div class="advance-mini-task' + (t.water ? ' done' : '') + '" title="Água">💧</div>' +
             '<div class="advance-mini-task' + (t.workout ? ' done' : '') + '" title="Treino">💪</div>' +
+            '<div class="advance-mini-task' + (t.cardio ? ' done' : '') + '" title="Cardio">🏃</div>' +
           '</div>' +
-          '<span style="margin-left:auto;font-family:Montserrat,sans-serif;font-weight:800;font-size:13px;color:' + (ready ? 'var(--primary)' : 'var(--muted)') + '">' + t.count + '/3</span>' +
+          '<span style="margin-left:auto;font-family:Montserrat,sans-serif;font-weight:800;font-size:13px;color:' + (ready ? 'var(--primary)' : 'var(--muted)') + '">' + t.count + '/4</span>' +
         '</div>' +
         '<button class="btn-prim advance-btn" onclick="chAdvanceDay()" ' + btnDisabled + '>' +
           '<span>' + nextLabel + '</span>' +
