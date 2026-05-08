@@ -5026,7 +5026,7 @@
     <div class="search-box">
       <div class="search-inp-wrap">
         <svg width="20" height="20" fill="none" stroke="#666" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-        <input class="search-inp" id="searchInp" type="text" placeholder="Buscar cursos, aulas, treinos..." oninput="doSearch(this.value)" aria-label="Buscar conteúdos"/>
+        <input class="search-inp" id="searchInp" type="text" placeholder="Buscar (dieta, água, treino, cardio…)" oninput="doSearch(this.value)" aria-label="Buscar conteúdos"/>
         <button class="search-close" onclick="toggleSearch()" aria-label="Fechar busca">✕</button>
       </div>
       <div class="search-res" id="searchRes"><p class="search-hint">Digite para buscar conteúdos...</p></div>
@@ -5147,8 +5147,8 @@
         <h1 class="htitle">Disciplina<br>vence <span class="hl">desculpa</span></h1>
         <p class="hsub">Cada repetição é um voto pra mulher que você quer ser. Sem academia, sem desculpas. Resultado vem.</p>
         <div class="hactions">
-          <button class="hbtn" onclick="showWorkoutDayView('casa')">🏠 Treinar agora</button>
-          <button class="hbtn out" onclick="showView('view-water')">💧 Beber água</button>
+          <button class="hbtn" onclick="onClickWorkoutCard('casa')">🏠 Treinar em casa</button>
+          <button class="hbtn out" onclick="onClickWorkoutCard('acad')">🏋️ Treinar na academia</button>
         </div>
       </div>
       <div class="hphone">
@@ -5173,8 +5173,8 @@
         <h1 class="htitle">Foco no<br>seu <span class="hl">progresso</span></h1>
         <p class="hsub">Pequenos passos consistentes mudam tudo. Sua ficha de hoje tá pronta — só faltava você.</p>
         <div class="hactions">
-          <button class="hbtn" onclick="showWorkoutDayView('acad')">💪 Ver minha ficha</button>
-          <button class="hbtn out" onclick="showView('view-nutrition')">🥗 Ver minha dieta</button>
+          <button class="hbtn" onclick="onClickWorkoutCard('acad')">🏋️ Treinar na academia</button>
+          <button class="hbtn out" onclick="onClickWorkoutCard('casa')">🏠 Treinar em casa</button>
         </div>
       </div>
     </div>
@@ -9373,13 +9373,13 @@ function renderChallenge() {
       '<div class="advance-panel">' +
         '<div class="advance-status">' +
           '<span class="advance-status-pill' + (ready ? ' full' : '') + '">DIA ' + today + '</span>' +
-          '<div class="advance-mini-tasks" title="Dieta · Água · Treino · Cardio">' +
+          '<div class="advance-mini-tasks" title="' + (t.isRest ? 'Dieta · Água · Cardio (descanso)' : 'Dieta · Água · Treino · Cardio') + '">' +
             '<div class="advance-mini-task' + (t.diet ? ' done' : '') + '" title="Dieta">🥗</div>' +
             '<div class="advance-mini-task' + (t.water ? ' done' : '') + '" title="Água">💧</div>' +
-            '<div class="advance-mini-task' + (t.workout ? ' done' : '') + '" title="Treino">💪</div>' +
-            '<div class="advance-mini-task' + (t.cardio ? ' done' : '') + '" title="Cardio">🏃</div>' +
+            (t.isRest ? '' : '<div class="advance-mini-task' + (t.workout ? ' done' : '') + '" title="Treino">💪</div>') +
+            '<div class="advance-mini-task' + (t.cardio ? ' done' : '') + '" title="Cardio' + (t.isRest ? ' leve' : '') + '">🏃</div>' +
           '</div>' +
-          '<span style="margin-left:auto;font-family:Montserrat,sans-serif;font-weight:800;font-size:13px;color:' + (ready ? 'var(--primary)' : 'var(--muted)') + '">' + t.count + '/4</span>' +
+          '<span style="margin-left:auto;font-family:Montserrat,sans-serif;font-weight:800;font-size:13px;color:' + (ready ? 'var(--primary)' : 'var(--muted)') + '">' + t.count + '/' + (t.total || 4) + '</span>' +
         '</div>' +
         '<button class="btn-prim advance-btn" onclick="chAdvanceDay()" ' + btnDisabled + '>' +
           '<span>' + nextLabel + '</span>' +
@@ -9394,7 +9394,7 @@ function renderChallenge() {
       '</div>';
   }
 
-  const tip = '<div class="challenge-tip">💡 Termine a <b>dieta</b>, <b>água</b> e <b>treino</b> do dia. Quando os 3 ficarem verdes, libera o próximo dia!</div>';
+  const tip = '<div class="challenge-tip">💡 Termine <b>dieta</b>, <b>água</b>, <b>treino</b> e <b>cardio</b> do dia. Quando todas ficarem verdes, libera o próximo dia! (Em dia de descanso o treino é dispensado.)</div>';
   root.innerHTML = head + tip + grid + advance;
 }
 
@@ -9436,14 +9436,22 @@ function chToggleTaskCardio(n) {
   renderChallenge();
 }
 function chDayTasks(n) {
-  if (chCurrentDay() < 1) return { date: '', diet: false, water: false, workout: false, cardio: false, complete: false, count: 0 };
+  if (chCurrentDay() < 1) return { date: '', diet: false, water: false, workout: false, cardio: false, complete: false, count: 0, total: 4, isRest: false };
   const slot    = 'day' + n;
   const diet    = chDietDoneOn(slot);
   const water   = chWaterDoneOn(slot);
   const workout = chGetWorkoutDone(slot);
   const cardio  = chGetCardioDone(slot);
-  const count   = (diet?1:0) + (water?1:0) + (workout?1:0) + (cardio?1:0);
-  return { date: slot, diet: diet, water: water, workout: workout, cardio: cardio, complete: count >= 4, count: count };
+  // Em dia de descanso (rest), o treino de musculacao NAO conta
+  const dayType = (typeof getDayType === 'function') ? getDayType(n) : null;
+  const isRest = (dayType === 'rest');
+  const total = isRest ? 3 : 4;
+  let count = (diet?1:0) + (water?1:0) + (cardio?1:0);
+  if (!isRest) count += (workout?1:0);
+  return {
+    date: slot, diet: diet, water: water, workout: workout, cardio: cardio,
+    complete: count >= total, count: count, total: total, isRest: isRest
+  };
 }
 function chSyncCompletedDays() {
   const cur = chCurrentDay();
@@ -9505,14 +9513,15 @@ function renderDayDetail(n) {
     return;
   }
 
-  const pct = Math.round((tasks.count / 4) * 100);
+  const totalTasks = tasks.total || 4;
+  const pct = Math.round((tasks.count / totalTasks) * 100);
   html +=
     '<div class="ds-progress-wrap">' +
-      '<div class="ds-progress-text">' + tasks.count + '/4</div>' +
-      '<div class="ds-progress-bar-bg"><div class="ds-progress-bar-fill' + (tasks.count >= 4 ? ' full' : '') + '" style="width:' + pct + '%"></div></div>' +
+      '<div class="ds-progress-text">' + tasks.count + '/' + totalTasks + (tasks.isRest ? ' · DIA DE DESCANSO' : '') + '</div>' +
+      '<div class="ds-progress-bar-bg"><div class="ds-progress-bar-fill' + (tasks.count >= totalTasks ? ' full' : '') + '" style="width:' + pct + '%"></div></div>' +
     '</div>';
 
-  html +=
+  let tasksHtml =
     '<div class="ds-tasks">' +
       '<div class="task-row' + (tasks.diet ? ' done' : '') + '" onclick="closeDayDetail();showView(\'view-nutrition\')">' +
         '<div class="task-checkbox"></div>' +
@@ -9529,7 +9538,10 @@ function renderDayDetail(n) {
           '<div class="task-name">Bater meta de água</div>' +
           '<div class="task-detail">' + (tasks.water ? 'Você bebeu sua meta ✓' : 'Beba toda sua meta de água do dia') + '</div>' +
         '</div>' +
-      '</div>' +
+      '</div>';
+  // Treino: NAO aparece em dia de descanso
+  if (!tasks.isRest) {
+    tasksHtml +=
       '<div class="task-row' + (tasks.workout ? ' done' : '') + '" onclick="event.stopPropagation();chToggleTaskWorkout(' + n + ')">' +
         '<div class="task-checkbox"></div>' +
         '<div class="task-icon">💪</div>' +
@@ -9537,16 +9549,19 @@ function renderDayDetail(n) {
           '<div class="task-name">Fazer o treino</div>' +
           '<div class="task-detail">' + (tasks.workout ? 'Treino concluído ✓' : 'Toque para marcar quando fizer') + '</div>' +
         '</div>' +
-      '</div>' +
+      '</div>';
+  }
+  tasksHtml +=
       '<div class="task-row' + (tasks.cardio ? ' done' : '') + '" onclick="event.stopPropagation();chToggleTaskCardio(' + n + ')">' +
         '<div class="task-checkbox"></div>' +
         '<div class="task-icon">🏃</div>' +
         '<div class="task-body">' +
-          '<div class="task-name">Fazer cardio</div>' +
+          '<div class="task-name">Fazer cardio' + (tasks.isRest ? ' (leve)' : '') + '</div>' +
           '<div class="task-detail">' + (tasks.cardio ? 'Cardio concluído ✓' : cardioDurationFor(n) + ' min · toque para marcar') + '</div>' +
         '</div>' +
       '</div>' +
     '</div>';
+  html += tasksHtml;
 
   // Botões de navegação + Próximo Dia
   const maxDay = chGetMaxDay();
@@ -9575,9 +9590,10 @@ function renderDayDetail(n) {
     } else if (isDone) {
       html += '<button class="btn-prim" style="width:100%;min-height:50px;margin-top:8px" onclick="chAdvanceDay()">Próximo Dia →</button>';
     } else {
-      html += '<button class="btn-prim" style="width:100%;min-height:50px;margin-top:8px;opacity:0.45;cursor:not-allowed" disabled>Próximo Dia → (faltam ' + (4 - tasks.count) + ' tarefa' + (4-tasks.count===1?'':'s') + ')</button>';
+      const faltam = totalTasks - tasks.count;
+      html += '<button class="btn-prim" style="width:100%;min-height:50px;margin-top:8px;opacity:0.45;cursor:not-allowed" disabled>Próximo Dia → (faltam ' + faltam + ' tarefa' + (faltam===1?'':'s') + ')</button>';
     }
-    html += '<div class="ds-tip">Termine as 4 tarefas pra liberar o próximo dia</div>';
+    html += '<div class="ds-tip">Termine as ' + totalTasks + ' tarefas pra liberar o próximo dia' + (tasks.isRest ? ' (hoje é dia de descanso — sem treino de musculação)' : '') + '</div>';
   } else if (isPast) {
     html += '<div class="ds-tip" style="color:var(--success);font-style:normal;font-weight:700">' +
               'Dia ' + n + ' já concluído. Você está agora no Dia ' + cur + '.' +
