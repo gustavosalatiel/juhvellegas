@@ -4490,9 +4490,32 @@
       padding: 24px;
       overflow-y: auto;
     }
+    .ob-intro {
+      display: flex; align-items: flex-start; gap: 12px;
+      padding: 14px 16px;
+      background: linear-gradient(90deg, rgba(184,208,0,0.10), rgba(184,208,0,0.04));
+      border: 1px solid rgba(184,208,0,0.22);
+      border-radius: 12px;
+      margin-bottom: 18px;
+      max-width: 520px; width: 100%;
+      margin-left: auto; margin-right: auto;
+      animation: obIntroPulse .35s ease-out;
+    }
+    @keyframes obIntroPulse {
+      from { opacity: 0; transform: translateY(-6px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .ob-intro-ico { font-size: 18px; line-height: 1.4; flex-shrink: 0; }
+    .ob-intro-text {
+      font-size: 13.5px; line-height: 1.5;
+      color: rgba(255,255,255,0.88);
+    }
+    .ob-intro-text b { color: var(--primary); font-weight: 700; }
     .ob-progress-bar {
       height: 4px; background: rgba(255,255,255,0.08); border-radius: 4px;
       overflow: hidden; margin-bottom: 8px;
+      max-width: 520px; width: 100%;
+      margin-left: auto; margin-right: auto;
     }
     .ob-progress-fill {
       height: 100%; background: linear-gradient(90deg, var(--primary), #d4f000);
@@ -4847,6 +4870,10 @@
 
   <!-- ═══ ONBOARDING QUIZ ═══ -->
   <div id="onboardingQuiz" class="ob-quiz" style="display:none;">
+    <div class="ob-intro">
+      <span class="ob-intro-ico">⚠️</span>
+      <span class="ob-intro-text"><b>Responda com atenção</b> — é através das suas respostas que vamos montar um plano completo pro seu objetivo.</span>
+    </div>
     <div class="ob-progress-bar"><div class="ob-progress-fill" id="obProgressFill"></div></div>
     <div class="ob-step-counter"><span id="obStepNum">1</span> / 10</div>
     <div class="ob-content">
