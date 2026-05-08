@@ -9861,8 +9861,7 @@ function renderDayDetail(n) {
     '</div>';
   html += tasksHtml;
 
-  // Botões de navegação + Próximo Dia
-  const maxDay = chGetMaxDay();
+  // Botões de navegação + Próximo Dia (maxDay ja foi declarado acima nesta funcao)
   html += '<div style="display:flex;gap:8px;margin-top:16px;">';
 
   // Botão Anterior (sempre disponível se day > 1)
