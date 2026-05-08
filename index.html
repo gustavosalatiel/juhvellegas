@@ -9689,8 +9689,12 @@ function renderChallenge() {
   }
 
   // Painel de avanço — abaixo da grade (CTA principal)
+  // Quando a usuaria esta visualizando um dia anterior (today < maxDay),
+  // NAO mostra o botao "Liberar Dia X+1" — so o atalho de voltar pra onde parou
+  // (ja renderizado dentro de ch-viewing-old acima do advance).
   let advance = '';
-  if (today >= 1 && today <= CHALLENGE_DAYS) {
+  const isViewingPast = today < maxDay;
+  if (today >= 1 && today <= CHALLENGE_DAYS && !isViewingPast) {
     const t = chDayTasks(today);
     const ready = t.complete;
     const isFinal = today >= CHALLENGE_DAYS;
