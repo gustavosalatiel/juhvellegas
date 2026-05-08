@@ -3555,6 +3555,60 @@
       line-height: 1; letter-spacing: -1px;
       text-shadow: 0 0 24px rgba(184,208,0,0.3);
     }
+    /* Banner mostrado quando a usuaria volta pra um dia anterior */
+    .ds-old-banner {
+      display: flex; flex-direction: column; align-items: center; gap: 14px;
+      padding: 22px 18px;
+      background: linear-gradient(135deg, rgba(184,208,0,0.20) 0%, rgba(184,208,0,0.06) 100%);
+      border: 2px solid rgba(184,208,0,0.45);
+      border-radius: 16px;
+      margin-bottom: 22px;
+      animation: dsOldFade .3s ease-out;
+      box-shadow: 0 8px 32px rgba(184,208,0,0.18);
+      text-align: center;
+    }
+    @keyframes dsOldFade {
+      from { opacity: 0; transform: translateY(-6px) scale(0.98); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .ds-old-icon {
+      font-size: 32px; line-height: 1;
+      filter: drop-shadow(0 2px 8px rgba(184,208,0,0.4));
+    }
+    .ds-old-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 16px; font-weight: 900;
+      color: var(--primary);
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+    }
+    .ds-old-msg {
+      font-size: 14.5px; line-height: 1.55;
+      color: rgba(255,255,255,0.92);
+      font-family: 'Geist', system-ui, sans-serif;
+    }
+    .ds-old-msg b { color: var(--primary); font-weight: 800; font-size: 16px; }
+    .ds-jump-btn {
+      width: 100%;
+      padding: 16px 18px;
+      background: var(--primary);
+      color: #0a0a0a;
+      border: none;
+      border-radius: 12px;
+      font-size: 15px; font-weight: 900;
+      cursor: pointer;
+      transition: all .18s;
+      letter-spacing: 0.3px;
+      font-family: 'Montserrat', sans-serif;
+      box-shadow: 0 4px 16px rgba(184,208,0,0.35);
+    }
+    .ds-jump-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 24px rgba(184,208,0,0.50);
+    }
+    .ds-jump-btn:active {
+      transform: translateY(0);
+    }
     .ds-day-of {
       font-family: 'Geist', sans-serif; font-size: 13px;
       color: var(--text-2); text-transform: uppercase;
@@ -3662,6 +3716,68 @@
       filter: drop-shadow(0 1px 2px rgba(0,0,0,0.6));
     }
     .day-card.locked::after { display: none !important; }
+
+    /* Marcador "Você parou aqui" no grid (maxDay quando viewing day < maxDay) */
+    .day-card.is-max {
+      box-shadow: 0 0 0 2px rgba(184,208,0,0.45), 0 0 18px rgba(184,208,0,0.30);
+      position: relative;
+    }
+    .day-card-marker {
+      position: absolute; top: -8px; right: -6px;
+      font-size: 16px;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+      animation: maxBounce 1.6s ease-in-out infinite;
+    }
+    @keyframes maxBounce {
+      0%, 100% { transform: translateY(0); }
+      50%      { transform: translateY(-3px); }
+    }
+    /* Banner "Você parou aqui no seu desafio" abaixo do grid */
+    .ch-viewing-old {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      grid-template-areas: "icon text" "btn btn";
+      align-items: center; gap: 12px 14px;
+      padding: 16px 18px; margin-top: 16px;
+      background: linear-gradient(135deg, rgba(184,208,0,0.18) 0%, rgba(184,208,0,0.04) 100%);
+      border: 2px solid rgba(184,208,0,0.40);
+      border-radius: 14px;
+      box-shadow: 0 6px 24px rgba(184,208,0,0.15);
+    }
+    .cvo-icon {
+      grid-area: icon;
+      font-size: 28px; line-height: 1;
+      filter: drop-shadow(0 2px 6px rgba(184,208,0,0.5));
+    }
+    .cvo-text { grid-area: text; }
+    .cvo-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 14px; font-weight: 800;
+      color: var(--primary);
+      letter-spacing: 0.2px;
+      margin-bottom: 3px;
+    }
+    .cvo-sub {
+      font-size: 12.5px; color: rgba(255,255,255,0.78);
+      font-family: 'Geist', system-ui, sans-serif;
+    }
+    .cvo-sub b { color: var(--primary); font-weight: 700; }
+    .cvo-btn {
+      grid-area: btn;
+      width: 100%;
+      background: var(--primary); color: #0a0a0a;
+      border: none; padding: 12px 16px;
+      border-radius: 10px;
+      font-size: 14px; font-weight: 900;
+      cursor: pointer; transition: all .18s;
+      font-family: 'Montserrat', sans-serif;
+      letter-spacing: 0.3px;
+      box-shadow: 0 4px 14px rgba(184,208,0,0.30);
+    }
+    .cvo-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 22px rgba(184,208,0,0.45);
+    }
 
     /* Task list dentro do detalhe do dia */
     .ds-tasks { display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; }
@@ -9180,9 +9296,11 @@ function chPrevDay() {
   }
 }
 
-// Navega pra um dia especifico (usado nos botoes Anterior/Proximo do detalhe)
+// Navega pra um dia especifico (usado nos botoes Anterior/Proximo do detalhe).
 // Atualiza chCurrentDay pra que diario, dieta e tudo reflitam esse dia.
-function navigateToDay(n) {
+// Em vez de JS popup, usa banner in-page no topo do modal pra confirmar.
+function navigateToDay(n, opts) {
+  opts = opts || {};
   if (n < 1 || n > CHALLENGE_DAYS) return;
   const maxDay = (typeof chGetMaxDay === 'function') ? chGetMaxDay() : 1;
   if (n > maxDay) return; // nao pula pra dias futuros
@@ -9190,6 +9308,18 @@ function navigateToDay(n) {
   if (typeof renderChallenge === 'function') renderChallenge();
   if (typeof renderHomeCards === 'function') renderHomeCards();
   if (typeof renderDayDetail === 'function') renderDayDetail(n);
+  if (typeof renderDiaryHome === 'function') { try { renderDiaryHome(); } catch(e){} }
+  if (typeof renderNutrition === 'function') { try { renderNutrition(); } catch(e){} }
+  if (typeof renderWater === 'function') { try { renderWater(); } catch(e){} }
+}
+// Pula direto pro dia atual (maxDay) — atalho pra quem voltou pra ver dias passados
+function jumpToCurrentDay() {
+  const maxDay = (typeof chGetMaxDay === 'function') ? chGetMaxDay() : 1;
+  chSetCurrentDay(maxDay);
+  if (typeof showToast === 'function') showToast('Voltei pro Dia ' + maxDay);
+  if (typeof renderChallenge === 'function') renderChallenge();
+  if (typeof renderHomeCards === 'function') renderHomeCards();
+  if (typeof renderDayDetail === 'function') renderDayDetail(maxDay);
   if (typeof renderDiaryHome === 'function') { try { renderDiaryHome(); } catch(e){} }
   if (typeof renderNutrition === 'function') { try { renderNutrition(); } catch(e){} }
   if (typeof renderWater === 'function') { try { renderWater(); } catch(e){} }
@@ -9437,18 +9567,39 @@ function renderChallenge() {
       '</div>' +
     '</div>';
 
+  const maxDay = (typeof chGetMaxDay === 'function') ? chGetMaxDay() : today;
   let grid = '<div class="challenge-grid">';
   for (let n = 1; n <= CHALLENGE_DAYS; n++) {
     const cls = ['day-card'];
     const isDone = done.indexOf(n) >= 0;
-    const isFuture = n > today;
+    // Dia bloqueado = ainda nao alcancado (depois do maxDay).
+    // NAO usa "today" pra bloquear, pois usuaria pode estar visualizando um dia anterior.
+    const isLocked = n > maxDay;
+    const isMax = (n === maxDay && n !== today);
     if (isDone) cls.push('done');
     if (n === today) cls.push('today');
-    if (isFuture && today >= 1) cls.push('locked');
-    const onclick = isFuture ? "onclick=\"showToast('🔒 Esse dia ainda não chegou')\"" : 'onclick="openDayDetail(' + n + ')"';
-    grid += '<div class="' + cls.join(' ') + '" ' + onclick + ' role="button" tabindex="0" aria-label="Dia ' + n + (isDone ? ' concluído' : isFuture ? ' bloqueado' : '') + '">' + n + '</div>';
+    if (isLocked) cls.push('locked');
+    if (isMax) cls.push('is-max');
+    const onclick = isLocked ? "onclick=\"showToast('🔒 Esse dia ainda não chegou')\"" : 'onclick="openDayDetail(' + n + ')"';
+    const tooltip = isMax ? 'Você parou aqui' : '';
+    grid += '<div class="' + cls.join(' ') + '" ' + onclick + ' role="button" tabindex="0" aria-label="Dia ' + n + (isDone ? ' concluído' : isLocked ? ' bloqueado' : '') + (isMax ? ' (você parou aqui)' : '') + '"' + (tooltip ? ' title="' + tooltip + '"' : '') + '>' +
+              n +
+              (isMax ? '<span class="day-card-marker">📍</span>' : '') +
+            '</div>';
   }
   grid += '</div>';
+
+  // Banner mostrando dia atual de visualizacao + atalho pra dia parado
+  if (today < maxDay) {
+    grid += '<div class="ch-viewing-old">' +
+              '<div class="cvo-icon">📍</div>' +
+              '<div class="cvo-text">' +
+                '<div class="cvo-title">Você parou aqui no seu desafio</div>' +
+                '<div class="cvo-sub">Visualizando Dia <b>' + today + '</b> · Continue do Dia <b>' + maxDay + '</b></div>' +
+              '</div>' +
+              '<button class="cvo-btn" onclick="jumpToCurrentDay()">Continuar Dia ' + maxDay + ' →</button>' +
+            '</div>';
+  }
 
   // Painel de avanço — abaixo da grade (CTA principal)
   let advance = '';
@@ -9581,16 +9732,29 @@ function renderDayDetail(n) {
   const cur = chCurrentDay();
   if (cur < 1) { body.innerHTML = ''; return; }
   const tasks = chDayTasks(n);
+  const maxDay = (typeof chGetMaxDay === 'function') ? chGetMaxDay() : cur;
   const isFuture = n > cur;
   const isPast = n < cur;
   const isCurrent = n === cur;
   const isDone = tasks.complete;
+  // Indica se a usuaria esta visualizando um dia anterior ao seu maxDay (dia que parou)
+  const viewingOldDay = n < maxDay;
 
   let html =
     '<div class="ds-header">' +
-      '<div class="ds-day-num' + (isDone ? ' done' : '') + '">DIA ' + n + (isDone ? ' ✓' : '') + '</div>' +
+      '<div class="ds-day-num' + (isDone ? ' done' : '') + '">DIA ' + n + (isDone ? ' ✓' : '') + (n === maxDay ? ' · VOCÊ PAROU AQUI' : '') + '</div>' +
       '<div class="ds-day-of">de ' + CHALLENGE_DAYS + '</div>' +
     '</div>';
+
+  // Banner avisando quando esta vendo dia anterior + atalho pra voltar
+  if (viewingOldDay) {
+    html += '<div class="ds-old-banner">' +
+              '<div class="ds-old-icon">📍</div>' +
+              '<div class="ds-old-title">Você parou aqui no seu desafio</div>' +
+              '<div class="ds-old-msg">Você está visualizando o <b>Dia ' + n + '</b>.<br/>Continue de onde parou no <b>Dia ' + maxDay + '</b>.</div>' +
+              '<button class="ds-jump-btn" onclick="jumpToCurrentDay()">✓ Continuar Dia ' + maxDay + '</button>' +
+            '</div>';
+  }
 
   if (isFuture) {
     html +=
