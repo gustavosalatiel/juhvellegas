@@ -4569,6 +4569,96 @@
     }
     .ob-num-input:focus { border-color: var(--primary); }
     .ob-num-suffix { font-size: 14px; color: rgba(255,255,255,0.55); margin-top: 8px; }
+
+    /* Régua deslizante (peso e altura) */
+    .ob-ruler { display: flex; flex-direction: column; align-items: center; width: 100%; padding: 8px 0 4px; }
+    .ob-ruler-display { display: flex; align-items: baseline; gap: 6px; margin-bottom: 24px; user-select: none; }
+    .ob-ruler-value {
+      font-size: 72px; font-weight: 900;
+      color: var(--primary);
+      line-height: 1; letter-spacing: -2px;
+      font-variant-numeric: tabular-nums;
+      text-shadow: 0 4px 24px rgba(184,208,0,0.25);
+    }
+    .ob-ruler-unit { font-size: 22px; font-weight: 700; color: rgba(255,255,255,0.55); }
+    .ob-ruler-track {
+      position: relative; width: 100%; height: 80px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.04));
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 14px;
+      overflow: hidden;
+      cursor: ew-resize;
+      touch-action: pan-x;
+    }
+    .ob-ruler-track::before, .ob-ruler-track::after {
+      content: ''; position: absolute; top: 0; bottom: 0; width: 40px; pointer-events: none; z-index: 2;
+    }
+    .ob-ruler-track::before { left: 0; background: linear-gradient(90deg, #131313 0%, transparent 100%); }
+    .ob-ruler-track::after  { right: 0; background: linear-gradient(270deg, #131313 0%, transparent 100%); }
+    .ob-ruler-pointer {
+      position: absolute; top: 6px; left: 50%;
+      transform: translateX(-50%);
+      width: 3px; height: calc(100% - 12px);
+      background: linear-gradient(180deg, var(--primary), #d4f000);
+      border-radius: 2px;
+      pointer-events: none; z-index: 3;
+      box-shadow: 0 0 12px rgba(184,208,0,0.65);
+    }
+    .ob-ruler-pointer::before {
+      content: '▼';
+      position: absolute; top: -14px; left: 50%;
+      transform: translateX(-50%);
+      color: var(--primary);
+      font-size: 12px;
+      text-shadow: 0 2px 8px rgba(184,208,0,0.5);
+    }
+    .ob-ruler-strip {
+      position: absolute; top: 0; left: 0;
+      height: 100%; display: flex; align-items: flex-end;
+      will-change: transform;
+    }
+    .ob-ruler-tick {
+      position: relative; width: 8px; height: 100%;
+      flex-shrink: 0; display: flex; flex-direction: column;
+      align-items: center; justify-content: flex-end;
+    }
+    .ob-ruler-tick::after {
+      content: ''; width: 1px;
+      background: rgba(255,255,255,0.18);
+      height: 16px; margin-bottom: 22px;
+    }
+    .ob-ruler-tick.major::after { height: 28px; width: 2px; background: rgba(255,255,255,0.50); }
+    .ob-ruler-tick-label {
+      position: absolute; bottom: 4px;
+      font-size: 11px; font-weight: 700;
+      color: rgba(255,255,255,0.55);
+      letter-spacing: 0.4px; pointer-events: none;
+    }
+    .ob-ruler-hint {
+      font-size: 12px; color: rgba(255,255,255,0.42);
+      margin-top: 14px; letter-spacing: 0.3px; text-align: center;
+    }
+    .ob-ruler-quick { display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap; justify-content: center; }
+    .ob-ruler-quick button {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: rgba(255,255,255,0.75);
+      padding: 6px 12px; border-radius: 999px;
+      font-size: 12px; font-weight: 600;
+      cursor: pointer; transition: all .15s;
+      font-family: inherit;
+    }
+    .ob-ruler-quick button:hover {
+      background: rgba(184,208,0,0.10);
+      border-color: rgba(184,208,0,0.28);
+      color: var(--primary);
+    }
+    .ob-ruler-quick button.active {
+      background: rgba(184,208,0,0.18);
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
     .ob-actions {
       display: flex; gap: 12px; margin-top: 24px;
       max-width: 520px; margin-left: auto; margin-right: auto; width: 100%;
@@ -8331,19 +8421,17 @@ const ONBOARDING_QUESTIONS = [
     id: 'weight',
     question: 'Qual seu peso atual?',
     sub: 'Vou usar pra calcular sua meta de água e calorias.',
-    type: 'number',
-    placeholder: 'Ex: 65',
+    type: 'ruler',
     suffix: 'kg',
-    min: 30, max: 250
+    min: 30, max: 200, step: 1, default: 65
   },
   {
     id: 'height',
     question: 'Qual sua altura?',
     sub: 'Pra ajustar suas metas com precisão.',
-    type: 'number',
-    placeholder: 'Ex: 165',
+    type: 'ruler',
     suffix: 'cm',
-    min: 100, max: 230
+    min: 130, max: 210, step: 1, default: 165
   },
   {
     id: 'age',
@@ -8487,11 +8575,138 @@ function obRender() {
       wrap.appendChild(s);
     }
     setTimeout(function(){ inp.focus(); }, 100);
+  } else if (q.type === 'ruler') {
+    obRenderRuler(wrap, q);
   }
   document.getElementById('obBack').disabled = (_obStep === 0);
   document.getElementById('obNext').textContent = (_obStep === ONBOARDING_QUESTIONS.length - 1) ? 'Finalizar 🚀' : 'Continuar →';
   obUpdateNextBtn();
 }
+function obRenderRuler(wrap, q) {
+  const min = q.min || 0;
+  const max = q.max || 100;
+  const step = q.step || 1;
+  const def = q.default || Math.round((min + max) / 2);
+  let val = parseInt(_obAnswers[q.id], 10);
+  if (!val || val < min || val > max) val = def;
+  _obAnswers[q.id] = val;
+
+  // Container
+  const container = document.createElement('div');
+  container.className = 'ob-ruler';
+  // Display
+  const disp = document.createElement('div');
+  disp.className = 'ob-ruler-display';
+  disp.innerHTML = '<span class="ob-ruler-value" id="obRulerValue">' + val + '</span>' +
+                   (q.suffix ? '<span class="ob-ruler-unit">' + q.suffix + '</span>' : '');
+  container.appendChild(disp);
+  // Track
+  const track = document.createElement('div');
+  track.className = 'ob-ruler-track';
+  const strip = document.createElement('div');
+  strip.className = 'ob-ruler-strip';
+  strip.id = 'obRulerStrip';
+  // Gera ticks
+  const TICK_W = 8; // px largura por tick (= step)
+  for (let v = min; v <= max; v += step) {
+    const tick = document.createElement('div');
+    tick.className = 'ob-ruler-tick' + (v % 5 === 0 ? ' major' : '');
+    if (v % 10 === 0) {
+      const lbl = document.createElement('span');
+      lbl.className = 'ob-ruler-tick-label';
+      lbl.textContent = v;
+      tick.appendChild(lbl);
+    }
+    strip.appendChild(tick);
+  }
+  track.appendChild(strip);
+  // Pointer central
+  const pointer = document.createElement('div');
+  pointer.className = 'ob-ruler-pointer';
+  track.appendChild(pointer);
+  container.appendChild(track);
+  // Hint
+  const hint = document.createElement('div');
+  hint.className = 'ob-ruler-hint';
+  hint.textContent = 'Arraste a régua pra ajustar';
+  container.appendChild(hint);
+  // Quick presets
+  const quick = document.createElement('div');
+  quick.className = 'ob-ruler-quick';
+  let presets = [];
+  if (q.id === 'weight')      presets = [50, 60, 70, 80, 90];
+  else if (q.id === 'height') presets = [150, 160, 165, 170, 175, 180];
+  else                        presets = [Math.round((min+max)/4), Math.round((min+max)/2), Math.round(3*(min+max)/4)];
+  presets.forEach(function(p) {
+    if (p < min || p > max) return;
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.textContent = p + (q.suffix || '');
+    if (p === val) btn.classList.add('active');
+    btn.onclick = function() { setRulerValue(p); };
+    quick.appendChild(btn);
+  });
+  container.appendChild(quick);
+  wrap.appendChild(container);
+
+  // ───── Lógica de drag ─────
+  function calcStripOffset() {
+    // posiciona o tick correspondente ao valor central no pointer
+    const trackW = track.offsetWidth;
+    const ticksTotal = (max - min) / step + 1;
+    const stripW = ticksTotal * TICK_W;
+    strip.style.width = stripW + 'px';
+    const idx = (val - min) / step;
+    const offsetX = (trackW / 2) - (idx * TICK_W) - (TICK_W / 2);
+    strip.style.transform = 'translateX(' + offsetX + 'px)';
+  }
+  function setRulerValue(newVal) {
+    newVal = Math.round(newVal / step) * step;
+    if (newVal < min) newVal = min;
+    if (newVal > max) newVal = max;
+    val = newVal;
+    _obAnswers[q.id] = val;
+    const valEl = document.getElementById('obRulerValue');
+    if (valEl) valEl.textContent = val;
+    // atualiza preset ativo
+    Array.prototype.forEach.call(quick.querySelectorAll('button'), function(b) {
+      b.classList.toggle('active', parseInt(b.textContent, 10) === val);
+    });
+    calcStripOffset();
+    if (typeof obUpdateNextBtn === 'function') obUpdateNextBtn();
+  }
+  // Drag mouse + touch
+  let isDragging = false, startX = 0, startVal = val;
+  function onPointerDown(e) {
+    isDragging = true;
+    startX = (e.touches ? e.touches[0].clientX : e.clientX);
+    startVal = val;
+    track.style.cursor = 'grabbing';
+  }
+  function onPointerMove(e) {
+    if (!isDragging) return;
+    e.preventDefault();
+    const x = (e.touches ? e.touches[0].clientX : e.clientX);
+    const dx = x - startX;
+    const deltaSteps = Math.round(-dx / TICK_W);
+    setRulerValue(startVal + deltaSteps * step);
+  }
+  function onPointerUp() {
+    isDragging = false;
+    track.style.cursor = 'ew-resize';
+  }
+  track.addEventListener('mousedown', onPointerDown);
+  track.addEventListener('touchstart', onPointerDown, { passive: true });
+  document.addEventListener('mousemove', onPointerMove);
+  document.addEventListener('touchmove', onPointerMove, { passive: false });
+  document.addEventListener('mouseup', onPointerUp);
+  document.addEventListener('touchend', onPointerUp);
+
+  // Posiciona na primeira render — pequeno delay para track ter offsetWidth
+  setTimeout(calcStripOffset, 30);
+  window.addEventListener('resize', calcStripOffset);
+}
+
 function obSelect(id, value) {
   _obAnswers[id] = value;
   obRender();
@@ -8503,6 +8718,7 @@ function obUpdateNextBtn() {
   let valid = false;
   if (q.type === 'choice') valid = !!v;
   else if (q.type === 'number') valid = (typeof v === 'number' && v >= (q.min || 0) && v <= (q.max || 999));
+  else if (q.type === 'ruler') valid = (typeof v === 'number' && v >= (q.min || 0) && v <= (q.max || 999));
   document.getElementById('obNext').disabled = !valid;
 }
 function obPrev() {
