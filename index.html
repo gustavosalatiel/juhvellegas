@@ -1048,18 +1048,36 @@
       background: linear-gradient(0deg, var(--bg) 0%, rgba(12,12,12,.1) 60%, transparent 100%);
     }
     .course-back-bar {
-      padding: 14px 16px 10px;
+      padding: 14px 20px 14px;
       background: var(--bg);
     }
     .course-back {
       display: inline-flex; align-items: center; gap: 8px;
-      background: rgba(255,255,255,0.08); backdrop-filter: blur(8px);
-      border: 1px solid rgba(255,255,255,0.14); border-radius: 24px;
-      padding: 10px 20px; color: #fff; font-size: 13px; font-weight: 700;
-      cursor: pointer; font-family: 'Montserrat', sans-serif; transition: background .2s;
+      background: rgba(184,208,0,0.10);
+      border: 1.5px solid rgba(184,208,0,0.32);
+      border-radius: 999px;
+      padding: 11px 18px;
+      color: var(--primary);
+      font-size: 14px; font-weight: 700;
+      cursor: pointer;
+      font-family: 'Montserrat', sans-serif;
+      transition: all .18s;
       text-decoration: none;
+      box-shadow: 0 2px 12px rgba(184,208,0,0.10);
+      letter-spacing: 0.2px;
     }
-    .course-back:hover { background: rgba(184,208,0,0.18); color: var(--primary); }
+    .course-back::before {
+      content: '←';
+      font-size: 18px; font-weight: 900; line-height: 1;
+      transition: transform .18s;
+    }
+    .course-back:hover {
+      background: rgba(184,208,0,0.18);
+      border-color: var(--primary);
+      transform: translateX(-2px);
+      box-shadow: 0 4px 16px rgba(184,208,0,0.25);
+    }
+    .course-back:hover::before { transform: translateX(-2px); }
     .course-body { padding: 4px 20px 0; position: relative; }
     .course-badge-pill {
       display: inline-block; background: linear-gradient(135deg,#b8d000,#96aa00);
@@ -1213,13 +1231,28 @@
     }
     .ex-back {
       display: inline-flex; align-items: center; gap: 8px;
-      background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.14);
-      color: #fff; font-size: 13px; font-weight: 700;
-      cursor: pointer; margin-bottom: 16px; border-radius: 22px;
-      padding: 9px 18px;
-      font-family: 'Montserrat', sans-serif; transition: background .2s;
+      background: rgba(184,208,0,0.10);
+      border: 1.5px solid rgba(184,208,0,0.32);
+      color: var(--primary);
+      font-size: 14px; font-weight: 700;
+      cursor: pointer; margin-bottom: 16px; border-radius: 999px;
+      padding: 11px 18px;
+      font-family: 'Montserrat', sans-serif; transition: all .18s;
+      box-shadow: 0 2px 12px rgba(184,208,0,0.10);
+      letter-spacing: 0.2px;
     }
-    .ex-back:hover { background: rgba(184,208,0,0.18); color: var(--primary); }
+    .ex-back::before {
+      content: '←';
+      font-size: 18px; font-weight: 900; line-height: 1;
+      transition: transform .18s;
+    }
+    .ex-back:hover {
+      background: rgba(184,208,0,0.18);
+      border-color: var(--primary);
+      transform: translateX(-2px);
+      box-shadow: 0 4px 16px rgba(184,208,0,0.25);
+    }
+    .ex-back:hover::before { transform: translateX(-2px); }
     .ex-badge {
       display: inline-block; background: linear-gradient(135deg,#b8d000,#96aa00);
       color: #000; font-size: 9px; font-weight: 800; padding: 3px 10px;
@@ -4218,14 +4251,28 @@
       display: flex; align-items: center; gap: 8px; margin-bottom: 14px;
     }
     .split-back {
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.1);
-      color: #fff;
-      padding: 8px 14px; border-radius: 999px;
-      font-size: 13px; font-weight: 700; cursor: pointer;
-      transition: background .2s;
+      background: rgba(184,208,0,0.10);
+      border: 1.5px solid rgba(184,208,0,0.32);
+      color: var(--primary);
+      padding: 11px 18px; border-radius: 999px;
+      font-size: 14px; font-weight: 700; cursor: pointer;
+      transition: all .18s;
+      display: inline-flex; align-items: center; gap: 8px;
+      box-shadow: 0 2px 12px rgba(184,208,0,0.10);
+      letter-spacing: 0.2px;
     }
-    .split-back:hover { background: rgba(255,255,255,0.12); }
+    .split-back::before {
+      content: '←';
+      font-size: 18px; font-weight: 900; line-height: 1;
+      transition: transform .18s;
+    }
+    .split-back:hover {
+      background: rgba(184,208,0,0.18);
+      border-color: var(--primary);
+      transform: translateX(-2px);
+      box-shadow: 0 4px 16px rgba(184,208,0,0.25);
+    }
+    .split-back:hover::before { transform: translateX(-2px); }
     .split-hd {
       margin-bottom: 16px;
     }
@@ -6429,7 +6476,7 @@ function showWorkoutDayView(catKey) {
 
   document.getElementById('course-page').innerHTML = `
     <div class="course-back-bar">
-      <button class="course-back" onclick="showView('view-home')">‹ Voltar</button>
+      <button class="course-back" onclick="showView('view-home')">Voltar pro início</button>
     </div>
     <div class="course-hero">
       <img src="${cat.img}" alt="${cat.label}" loading="lazy"/>
@@ -6522,7 +6569,7 @@ function showSplitView(catKey) {
   const html = ''
     + '<div class="split-page">'
     +   '<div class="split-back-bar">'
-    +     '<button class="split-back" onclick="showView(\'view-home\')">‹ Voltar</button>'
+    +     '<button class="split-back" onclick="showView(\'view-home\')">Voltar pro início</button>'
     +   '</div>'
     +   '<div class="split-hd">'
     +     '<span class="split-badge">' + cat.icon + ' ' + escapeHtml(cat.label) + '</span>'
@@ -6717,6 +6764,7 @@ function finishTodayWorkout(catKey) {
   const getDone = isCardio ? chGetCardioDone : chGetWorkoutDone;
   const setDone = isCardio ? chSetCardioDone : chSetWorkoutDone;
   const already = (typeof getDone === 'function') ? getDone(slot) : false;
+  const isFinishing = !already;
   if (already) {
     setDone(slot, false);
     if (typeof showToast === 'function') showToast(isCardio ? 'Cardio desmarcado' : 'Treino desmarcado');
@@ -6735,6 +6783,15 @@ function finishTodayWorkout(catKey) {
     btn.textContent = nowDone
       ? (isCardio ? '✓ Cardio finalizado — desmarcar' : '✓ Treino finalizado — desmarcar')
       : (isCardio ? '🏁 Finalizei meu cardio' : '🏁 Finalizei meu treino');
+  }
+  // Ao finalizar (e nao desmarcar), volta automaticamente pra home apos curto delay
+  // pra dar tempo do toast ser visto
+  if (isFinishing) {
+    setTimeout(function() {
+      if (typeof showView === 'function') showView('view-home');
+      if (typeof renderHomeCards === 'function') renderHomeCards();
+      if (typeof renderChallenge === 'function') renderChallenge();
+    }, 900);
   }
 }
 
@@ -6775,7 +6832,7 @@ function showLevelView(catKey, levelKey) {
 
   document.getElementById('course-page').innerHTML = `
     <div class="course-back-bar">
-      <button class="course-back" onclick="showView('view-home')">‹ Voltar</button>
+      <button class="course-back" onclick="showView('view-home')">Voltar pro início</button>
     </div>
     <div class="course-hero">
       <img src="${lvl.img}" alt="${lvl.label}" loading="lazy"/>
@@ -6818,7 +6875,7 @@ function showWorkoutView(catKey, levelKey, wIdx) {
 
   document.getElementById('exercise-page').innerHTML = `
     <div class="ex-page-hd">
-      <div class="ex-back" onclick="showLevelView('${catKey}','${levelKey}')">‹ Voltar</div>
+      <div class="ex-back" onclick="showLevelView('${catKey}','${levelKey}')">Voltar</div>
       <div class="ex-badge">${cat.icon} ${levelLabel}</div>
       <div class="ex-hd-title">${wk.title}</div>
     </div>
@@ -7038,9 +7095,14 @@ async function diaryClearAll() {
 async function diarySaveResult() {
   if (!diaryState.currentResult || !diaryState.currentImage) return;
   const r = diaryState.currentResult;
+  // Slot do desafio (day1, day2…) ou data real se desafio nao iniciou
+  const challengeSlot = (typeof challengeCurrentSlot === 'function')
+    ? challengeCurrentSlot()
+    : new Date().toISOString().split('T')[0];
   const meal = {
     id: 'meal_' + Date.now(),
     timestamp: Date.now(),
+    challengeSlot: challengeSlot,
     user: currentUserEmail || 'guest',
     image: diaryState.currentImage.dataUrl,
     name: r.dish_name || 'Refeição',
@@ -7085,9 +7147,21 @@ async function renderDiaryHome() {
   let meals = [];
   try { meals = await diaryGetAllMeals(); } catch {}
 
+  // Slot ATUAL do desafio. Se desafio rolando, filtra por slot ('day1', 'day2'...).
+  // Caso contrário, filtra por data real (startOfDay).
+  const currentSlot = (typeof challengeCurrentSlot === 'function')
+    ? challengeCurrentSlot()
+    : null;
   const startOfDay = new Date(); startOfDay.setHours(0,0,0,0);
   const todayMeals = meals
-    .filter(m => m.timestamp >= startOfDay.getTime() && (m.user === currentUserEmail || !currentUserEmail))
+    .filter(m => {
+      const userMatch = (m.user === currentUserEmail || !currentUserEmail);
+      if (!userMatch) return false;
+      // Se a refeicao tem challengeSlot salvo, filtra por slot atual.
+      // Senao (refeicoes antigas pre-fix), filtra por data real do dia.
+      if (currentSlot && m.challengeSlot) return m.challengeSlot === currentSlot;
+      return m.timestamp >= startOfDay.getTime();
+    })
     .sort((a,b) => b.timestamp - a.timestamp);
 
   const totals = todayMeals.reduce((acc, m) => {
@@ -8673,16 +8747,16 @@ const ONBOARDING_QUESTIONS = [
     ]
   },
   {
-    id: 'restriction',
-    question: 'Tem alguma restrição alimentar?',
-    sub: 'Vou adaptar a dieta a partir disso.',
+    id: 'obstacle',
+    question: 'Qual seu maior obstáculo hoje?',
+    sub: 'Vou personalizar lembretes e estratégias pra te ajudar nisso.',
     type: 'choice',
     options: [
-      { value: 'none',         label: '✅ Nenhuma', sub: 'Como de tudo' },
-      { value: 'vegetarian',   label: '🥗 Vegetariana', sub: 'Sem carne' },
-      { value: 'lactose',      label: '🥛 Sem lactose', sub: 'Não tolero leite' },
-      { value: 'gluten',       label: '🌾 Sem glúten', sub: 'Sensível ou celíaca' },
-      { value: 'metabolic',    label: '⚕️ Diabetes/PCOS/Tireoide', sub: 'Quero dieta mais controlada' }
+      { value: 'time',        label: '⏰ Falta de tempo', sub: 'Rotina corrida, dia voa' },
+      { value: 'cravings',    label: '🍫 Vontade de doce/fome', sub: 'Compulsão é meu maior inimigo' },
+      { value: 'motivation',  label: '🔋 Motivação / constância', sub: 'Começo bem mas não mantenho' },
+      { value: 'anxiety',     label: '😰 Ansiedade / estresse', sub: 'Como pra aliviar a cabeça' },
+      { value: 'energy',      label: '😴 Cansaço / sem energia', sub: 'Acordo já cansada' }
     ]
   }
 ];
