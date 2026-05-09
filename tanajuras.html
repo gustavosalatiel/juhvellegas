@@ -3072,6 +3072,9 @@
     }
     .diet-card:hover { transform: scale(1.02); box-shadow: 0 14px 36px rgba(0,0,0,0.6); }
     .diet-card img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    /* Card de IA usa imagem quadrada — mostra completa, sem cortar */
+    #diaryPromo { aspect-ratio: 1 / 1; max-height: 460px; }
+    #diaryPromo img { object-fit: contain; background: linear-gradient(135deg,#0f0f0f 0%,#1a1a1a 100%); }
     .diet-card-ov {
       position: absolute; inset: 0;
       background: linear-gradient(0deg,
